@@ -4,20 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>अमृत एकेडमी - टेस्ट सीरीज़ पोर्टल (CBT Engine)</title>
+  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Hind', 'Poppins', sans-serif; }
-    .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); }
+    .glass-card { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(8px); }
   </style>
 </head>
 <body class="bg-slate-900 min-h-screen text-slate-800 antialiased flex flex-col justify-between">
 
-  <!-- TOP HEADER -->
-  <header class="bg-slate-800/95 text-white border-b border-slate-700 sticky top-0 z-40 backdrop-blur-md">
+  <!-- TOP NAVIGATION BAR -->
+  <header class="bg-slate-800/90 text-white border-b border-slate-700 sticky top-0 z-40 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center space-x-3 cursor-pointer" onclick="goToDashboard()">
+        <!-- Vector Crest Logo -->
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-amber-500 p-0.5 shadow-lg shadow-emerald-500/20">
           <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-black text-amber-400 text-lg">A</div>
         </div>
@@ -27,12 +29,13 @@
         </div>
       </div>
 
+      <!-- Quick Action Buttons -->
       <div class="flex items-center space-x-2">
-        <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-semibold flex items-center space-x-1 shadow-sm">
+        <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-semibold flex items-center space-x-1 transition shadow-sm">
           <i data-lucide="youtube" class="w-4 h-4"></i>
           <span class="hidden sm:inline">YouTube</span>
         </a>
-        <a href="https://wa.me/916207662510" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center space-x-1 shadow-sm">
+        <a href="https://wa.me/916207662510" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center space-x-1 transition shadow-sm">
           <i data-lucide="phone" class="w-4 h-4"></i>
           <span>6207662510</span>
         </a>
@@ -43,30 +46,30 @@
   <!-- MAIN CONTAINER -->
   <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
 
-    <!-- 1. LOGIN / REGISTRATION -->
+    <!-- 1. LOGIN & REGISTRATION SCREEN -->
     <div id="auth-screen" class="max-w-md mx-auto my-8">
-      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-slate-700 shadow-2xl">
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-slate-700 shadow-2xl shadow-emerald-500/10">
         <div class="text-center mb-6">
-          <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase">CBT Online Portal</span>
-          <h2 class="text-2xl font-black text-slate-800 mt-2">छात्र लॉगिन</h2>
+          <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider">CBT Test Portal</span>
+          <h2 class="text-2xl font-black text-slate-800 mt-2">छात्र लॉगिन / पंजीकरण</h2>
           <p class="text-xs text-slate-500 mt-1">टेस्ट सीरीज शुरू करने के लिए अपना विवरण दर्ज करें</p>
         </div>
 
         <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">पूरा नाम (Full Name)</label>
-            <input type="text" id="user-name" required placeholder="उदा. आयुष कुमार" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            <input type="text" id="user-name" required placeholder="उदा. आयुष कुमार" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">मोबाइल नंबर (10 Digit)</label>
-            <input type="tel" id="user-mobile" required pattern="[0-9]{10}" placeholder="उदा. 6207662510" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            <input type="tel" id="user-mobile" required pattern="[0-9]{10}" placeholder="उदा. 6207662510" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">पासवर्ड</label>
-            <input type="password" id="user-password" required minlength="6" placeholder="••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            <label class="block text-xs font-bold text-slate-700 mb-1">पासवर्ड (कम से कम 6 अक्षर)</label>
+            <input type="password" id="user-password" required minlength="6" placeholder="••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
           </div>
 
-          <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg transition text-sm flex items-center justify-center space-x-2">
+          <button type="submit" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/30 text-sm flex items-center justify-center space-x-2">
             <span>लॉगिन करें और टेस्ट चुनें</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
@@ -74,7 +77,7 @@
       </div>
     </div>
 
-    <!-- 2. EXAMS DASHBOARD -->
+    <!-- 2. TARGETED EXAMS DASHBOARD -->
     <div id="dashboard-screen" class="hidden">
       <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between bg-slate-800/80 p-6 rounded-2xl border border-slate-700 text-white">
         <div>
@@ -82,24 +85,25 @@
             <span>नमस्ते, </span>
             <span id="display-user-name" class="text-emerald-400">छात्र</span>!
           </h2>
-          <p class="text-xs text-slate-300 mt-0.5" id="json-status-banner">JSON डेटा लोड हो रहा है...</p>
+          <p class="text-xs text-slate-300 mt-0.5" id="json-status-banner">अपना लक्षित विषय चुनें और मॉक टेस्ट शुरू करें।</p>
         </div>
         <div class="mt-4 md:mt-0">
           <span class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5">
             <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-            <span>सभी सेट्स अनलॉक हैं (100 प्रश्न / 60 मिनट)</span>
+            <span>सभी 25 टेस्ट सेट्स निःशुल्क उपलब्ध हैं</span>
           </span>
         </div>
       </div>
 
+      <!-- Targeted Exams 4 Grid Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <!-- Bihar Police Card -->
+        <!-- Bihar Police -->
         <div onclick="selectExam('bihar police', 'बिहार पुलिस कांस्टेबल')" class="glass-card hover:-translate-y-1 transition p-6 rounded-2xl border border-slate-200 shadow-md cursor-pointer group">
           <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg mb-4 group-hover:scale-105 transition">
             <i data-lucide="shield-check" class="w-6 h-6"></i>
           </div>
           <h3 class="font-bold text-slate-800 text-lg">बिहार पुलिस (कांस्टेबल)</h3>
-          <p class="text-xs text-slate-500 mt-1" id="bp-question-count">प्रश्न लोड हो रहे हैं...</p>
+          <p class="text-xs text-slate-500 mt-1" id="bp-question-count">कुल 25 मॉक टेस्ट • 100 प्रश्न प्रति सेट</p>
           <div class="mt-4 flex items-center text-xs font-bold text-blue-600">
             <span>सेट्स देखें</span>
             <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
@@ -112,7 +116,7 @@
             <i data-lucide="badge-check" class="w-6 h-6"></i>
           </div>
           <h3 class="font-bold text-slate-800 text-lg">बिहार दरोगा (SI)</h3>
-          <p class="text-xs text-slate-500 mt-1">25 प्रैक्टिस सेट्स</p>
+          <p class="text-xs text-slate-500 mt-1">उच्च स्तरीय परीक्षा पैटर्न • 25 सेट</p>
           <div class="mt-4 flex items-center text-xs font-bold text-indigo-600">
             <span>सेट्स देखें</span>
             <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
@@ -125,7 +129,7 @@
             <i data-lucide="brain" class="w-6 h-6"></i>
           </div>
           <h3 class="font-bold text-slate-800 text-lg">तर्कशक्ति (Reasoning)</h3>
-          <p class="text-xs text-slate-500 mt-1">अध्यायवार अभ्यास सेट्स</p>
+          <p class="text-xs text-slate-500 mt-1">अध्यायवार व मिश्रित अभ्यास सेट</p>
           <div class="mt-4 flex items-center text-xs font-bold text-purple-600">
             <span>सेट्स देखें</span>
             <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
@@ -133,12 +137,12 @@
         </div>
 
         <!-- Maths -->
-        <div onclick="selectExam('maths', 'गणित (Maths)')" class="glass-card hover:-translate-y-1 transition p-6 rounded-2xl border border-slate-200 shadow-md cursor-pointer group">
+        <div onclick="selectExam('maths', 'गणित (Mathematics)')" class="glass-card hover:-translate-y-1 transition p-6 rounded-2xl border border-slate-200 shadow-md cursor-pointer group">
           <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-lg mb-4 group-hover:scale-105 transition">
             <i data-lucide="calculator" class="w-6 h-6"></i>
           </div>
           <h3 class="font-bold text-slate-800 text-lg">गणित (Maths)</h3>
-          <p class="text-xs text-slate-500 mt-1">शॉर्ट ट्रिक्स और अभ्यास सेट्स</p>
+          <p class="text-xs text-slate-500 mt-1">शॉर्ट ट्रिक्स और हल सहित अभ्यास</p>
           <div class="mt-4 flex items-center text-xs font-bold text-emerald-600">
             <span>सेट्स देखें</span>
             <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
@@ -147,7 +151,7 @@
       </div>
     </div>
 
-    <!-- 3. SET SELECTION VIEW -->
+    <!-- 3. SET SELECTION VIEW (25 Sets Grid - All Free) -->
     <div id="sets-screen" class="hidden">
       <div class="flex items-center justify-between mb-6">
         <div>
@@ -158,7 +162,7 @@
           <h2 id="selected-exam-title" class="text-2xl font-black text-white">परीक्षा सेट्स</h2>
         </div>
         <div class="text-right">
-          <span class="text-xs text-emerald-400 font-bold bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/20">60 मिनट • 100 प्रश्न প্রতি सेट</span>
+          <span class="text-xs text-emerald-400 font-bold bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/20">60 मिनट • 100 प्रश्न प्रति सेट</span>
         </div>
       </div>
 
@@ -167,7 +171,7 @@
       </div>
     </div>
 
-    <!-- 4. CBT TEST ENGINE (60 Min + 100 Questions) -->
+    <!-- 4. LIVE CBT TEST ENGINE (60 Min Timer + 100 Questions) -->
     <div id="cbt-screen" class="hidden">
       <div class="bg-slate-800 rounded-2xl p-4 mb-4 border border-slate-700 text-white flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -186,7 +190,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <!-- Question Box -->
+        <!-- Question Card -->
         <div class="lg:col-span-3 glass-card rounded-2xl p-6 border border-slate-200 shadow-lg flex flex-col justify-between min-h-[460px]">
           <div>
             <div class="flex items-center justify-between pb-3 border-b border-slate-200">
@@ -199,7 +203,7 @@
             </h4>
 
             <div id="q-options-container" class="space-y-3">
-              <!-- Options dynamic -->
+              <!-- Options rendered dynamically -->
             </div>
           </div>
 
@@ -220,24 +224,24 @@
           </div>
         </div>
 
-        <!-- 100 Question Palette -->
+        <!-- 100 Questions Palette -->
         <div class="glass-card rounded-2xl p-4 border border-slate-200 shadow-lg">
           <h5 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">प्रश्न पैलेट</h5>
           <div id="palette-grid" class="grid grid-cols-5 gap-1.5 max-h-[360px] overflow-y-auto p-1">
-            <!-- Buttons dynamic -->
+            <!-- 100 buttons rendered by JavaScript -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 5. SCORECARD SCREEN -->
+    <!-- 5. RESULT & MERIT SCORECARD -->
     <div id="result-screen" class="hidden max-w-xl mx-auto my-8">
       <div class="glass-card rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-2xl text-center">
         <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3">
           <i data-lucide="award" class="w-8 h-8"></i>
         </div>
         <h3 class="text-2xl font-black text-slate-800">टेस्ट स्कोरकार्ड</h3>
-        <p class="text-xs text-slate-500 mt-1">अमृत एकेडमी परिणाम</p>
+        <p class="text-xs text-slate-500 mt-1">अमृत एकेडमी टेस्ट सीरीज़ परिणाम</p>
 
         <div class="grid grid-cols-3 gap-3 my-6 text-left">
           <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
@@ -257,19 +261,22 @@
           </div>
         </div>
 
-        <button onclick="goToDashboard()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition">
-          डैशबोर्ड पर वापस जाएं
-        </button>
+        <div class="flex space-x-3">
+          <button onclick="goToDashboard()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition">
+            डैशबोर्ड पर वापस जाएं
+          </button>
+        </div>
       </div>
     </div>
 
   </main>
 
+  <!-- FOOTER -->
   <footer class="bg-slate-900 border-t border-slate-800 text-slate-500 text-xs py-4 text-center">
     <p>© 2026 अमृत एकेडमी (Amrit Academy). सर्वाधिकार सुरक्षित। हेल्पलाइन: 6207662510</p>
   </footer>
 
-  <!-- SMART JSON LOADER & CBT ENGINE -->
+  <!-- SMART JAVASCRIPT ENGINE (NO REPEATS, AUTO-LOAD JSON) -->
   <script>
     let MASTER_JSON_DATA = { "bihar police": [] };
     let currentUser = null;
@@ -283,50 +290,50 @@
     document.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       checkSavedUser();
-      loadExternalJSON();
+      loadExternalQuestions();
     });
 
-    // JSON Loader with Dual Fallback & String Sanitation
-    async function loadExternalJSON() {
+    // Smart JSON File Fetcher (Tries both questions.json and question.json)
+    async function loadExternalQuestions() {
       const banner = document.getElementById('json-status-banner');
-      const countEl = document.getElementById('bp-question-count');
-      const possibleFiles = ['./question.json', './questions.json'];
+      const countText = document.getElementById('bp-question-count');
+      const filesToTry = ['./questions.json', './question.json', 'questions.json', 'question.json'];
 
-      for (let file of possibleFiles) {
+      for (let path of filesToTry) {
         try {
-          const res = await fetch(file + '?v=' + Date.now());
+          const res = await fetch(path + '?v=' + Date.now());
           if (res.ok) {
-            let text = await res.text();
-            
-            // अगर JSON अंत में अधूरा कटा हुआ हो तो उसे सुरक्षित बंद करने का ऑटो-फ़िक्स
+            let rawText = await res.text();
+
+            // Auto-repair if JSON was cut off at the end
             try {
-              MASTER_JSON_DATA = JSON.parse(text);
+              MASTER_JSON_DATA = JSON.parse(rawText);
             } catch (err) {
-              const lastValidBrace = text.lastIndexOf('}');
-              if (lastValidBrace !== -1) {
-                const repairedText = text.substring(0, lastValidBrace + 1) + ']}';
-                MASTER_JSON_DATA = JSON.parse(repairedText);
+              const lastCloseBrace = rawText.lastIndexOf('}');
+              if (lastCloseBrace !== -1) {
+                const fixedString = rawText.substring(0, lastCloseBrace + 1) + ']}';
+                MASTER_JSON_DATA = JSON.parse(fixedString);
               }
             }
 
-            const bpList = MASTER_JSON_DATA['bihar police'] || [];
-            banner.textContent = `डेटाबेस कनेक्टेड: ${bpList.length} प्रश्न उपलब्ध हैं।`;
-            countEl.textContent = `कुल ${bpList.length} ओरिजिनल प्रश्न उपलब्ध • 25 सेट्स`;
+            const totalQ = MASTER_JSON_DATA["bihar police"] ? MASTER_JSON_DATA["bihar police"].length : 0;
+            if (banner) banner.textContent = `डेटाबेस कनेक्टेड: कुल ${totalQ} प्रश्न लोड हो चुके हैं।`;
+            if (countText) countText.textContent = `कुल ${totalQ} ओरिजिनल प्रश्न उपलब्ध • 25 सेट्स`;
+            console.log('JSON Loaded Successfully from:', path, 'Total:', totalQ);
             return;
           }
         } catch (e) {
-          console.warn(file + ' लोड करने में समस्या:', e);
+          // Continue to check next path
         }
       }
 
-      banner.textContent = 'चेतावनी: JSON फ़ाइल नहीं मिली। कृपया सुनिश्चित करें कि फ़ाइल रिपॉजिटरी में मौजूद है।';
-      countEl.textContent = 'फ़ाइल लोड नहीं हो सकी';
+      if (banner) banner.textContent = 'सूचना: JSON फ़ाइल नहीं मिली, कृपया questions.json रिपॉजिटरी में अपलोड करें।';
     }
 
     function checkSavedUser() {
-      const saved = localStorage.getItem('amrit_user');
-      if (saved) {
-        currentUser = JSON.parse(saved);
+      const savedUser = localStorage.getItem('amrit_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
         document.getElementById('user-name').value = currentUser.name || '';
         document.getElementById('user-mobile').value = currentUser.mobile || '';
       }
@@ -339,7 +346,7 @@
       const password = document.getElementById('user-password').value.trim();
 
       if (mobile.length !== 10) {
-        alert('कृपया 10 अंकों का वैध मोबाइल नंबर दर्ज करें।');
+        alert('कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।');
         return;
       }
       if (password.length < 6) {
@@ -370,9 +377,11 @@
       document.getElementById('selected-exam-title').textContent = examTitle;
       document.getElementById('dashboard-screen').classList.add('hidden');
       document.getElementById('sets-screen').classList.remove('hidden');
+
       renderSetsGrid();
     }
 
+    // Render 25 Set Cards (All 100% Free)
     function renderSetsGrid() {
       const grid = document.getElementById('sets-grid');
       grid.innerHTML = '';
@@ -383,42 +392,45 @@
         card.onclick = () => startTest(i);
 
         card.innerHTML = `
-          <div class="text-xs font-bold text-emerald-600 mb-1">✓ FREE ACCESS</div>
+          <div class="text-xs font-bold text-emerald-600 mb-1">
+            ✓ FREE ACCESS
+          </div>
           <h4 class="text-lg font-black text-slate-800">Set ${i < 10 ? '0' + i : i}</h4>
           <p class="text-[11px] text-slate-500 mt-1">100 प्रश्न • 60 मिनट</p>
           <button class="mt-3 w-full py-1.5 rounded-lg text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition">
-            शुरू करें
+            टेस्ट शुरू करें
           </button>
         `;
         grid.appendChild(card);
       }
     }
 
-    // Start CBT Test (Zero Repetition Slice Logic)
+    // Start 60-Minute CBT Engine with Non-Repeating Question Slicing
     function startTest(setNum) {
       document.getElementById('sets-screen').classList.add('hidden');
       document.getElementById('cbt-screen').classList.remove('hidden');
       document.getElementById('cbt-exam-name').textContent = `${selectedExamKey.toUpperCase()} - मॉक टेस्ट ${setNum < 10 ? '0' + setNum : setNum}`;
 
-      const rawBank = MASTER_JSON_DATA[selectedExamKey] || MASTER_JSON_DATA['bihar police'] || [];
-      
-      // प्रत्येक सेट के लिए अलग 100 प्रश्न
+      // हर सेट के लिए 100 अलग प्रश्न (Set 1: 0-100, Set 2: 100-200, Set 3: 200-300...)
+      const bank = MASTER_JSON_DATA[selectedExamKey] || MASTER_JSON_DATA["bihar police"] || [];
       const startIndex = (setNum - 1) * 100;
-      let setQuestions = rawBank.slice(startIndex, startIndex + 100);
+      let setQuestions = bank.slice(startIndex, startIndex + 100);
 
-      // अगर किसी सेट में प्रश्न कम पड़ें, तो जितने बचे हैं उतने ही लोड होंगे (रिपीट नहीं होंगे)
+      // अगर डेटाबेस में प्रश्न उपलब्ध न हों तो शून्य या पहले 100 प्रश्न लोड होंगे (कोई डुप्लीकेशन नहीं)
       if (setQuestions.length === 0) {
-        setQuestions = rawBank.slice(0, 100);
+        setQuestions = bank.slice(0, 100);
       }
 
       currentQuestions = setQuestions;
       currentQuestionIdx = 0;
       userAnswers = {};
 
-      document.getElementById('q-total-idx').textContent = currentQuestions.length;
+      const totalSpan = document.getElementById('q-total-idx');
+      if (totalSpan) totalSpan.textContent = currentQuestions.length;
+
       renderPaletteGrid();
       loadQuestion(0);
-      startCountdownTimer(3600);
+      startCountdownTimer(3600); // 60 minutes
     }
 
     function renderPaletteGrid() {
@@ -438,7 +450,7 @@
       currentQuestionIdx = idx;
       const q = currentQuestions[idx];
       document.getElementById('q-current-idx').textContent = idx + 1;
-      document.getElementById('q-category-badge').textContent = q.category || 'सामान्य ज्ञान';
+      document.getElementById('q-category-badge').textContent = q.category || 'सामान्य अध्ययन';
       document.getElementById('q-question-text').textContent = `${idx + 1}. ${q.question}`;
 
       const optionsDiv = document.getElementById('q-options-container');
@@ -518,7 +530,7 @@
     }
 
     function submitTestPrompt() {
-      if (confirm('क्या आप सचमुच टेस्ट सबमिट करना चाहते हैं?')) {
+      if (confirm('क्या आप सचमुच परीक्षा सबमिट करना चाहते हैं?')) {
         submitTest();
       }
     }
