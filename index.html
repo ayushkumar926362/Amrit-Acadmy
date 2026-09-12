@@ -1,2092 +1,558 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amrit Academy - Test Series & CBT Portal</title>
-  
-  <!-- Tailwind CSS CDN -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>अमृत एकेडमी - टेस्ट सीरीज़ पोर्टल (CBT Engine)</title>
+  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Font Awesome Icons CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* Attractive Academic Mesh & Tech Grid Background */
-    .bg-academic-mesh {
-      background-color: #f8fafc;
-      background-image: 
-        radial-gradient(at 12% 10%, rgba(16, 185, 129, 0.09) 0px, transparent 48%),
-        radial-gradient(at 88% 18%, rgba(99, 102, 241, 0.08) 0px, transparent 48%),
-        radial-gradient(at 50% 75%, rgba(20, 184, 166, 0.07) 0px, transparent 50%),
-        radial-gradient(at 90% 90%, rgba(245, 158, 11, 0.05) 0px, transparent 40%),
-        radial-gradient(rgba(148, 163, 184, 0.18) 1.2px, transparent 1.2px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 26px 26px;
-      background-attachment: fixed;
-    }
-
-    /* Ambient Floating Glow Animations */
-    @keyframes floatSlow {
-      0%, 100% { transform: translateY(0px) scale(1); }
-      50% { transform: translateY(-16px) scale(1.05); }
-    }
-    @keyframes floatReverse {
-      0%, 100% { transform: translateY(0px) scale(1); }
-      50% { transform: translateY(18px) scale(0.96); }
-    }
-    .ambient-orb-1 {
-      animation: floatSlow 12s ease-in-out infinite;
-    }
-    .ambient-orb-2 {
-      animation: floatReverse 15s ease-in-out infinite;
-    }
-    
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-    
-    /* CBT Question Status Badges */
-    .palette-answered { background-color: #16a34a !important; color: white !important; }
-    .palette-not-answered { background-color: #e11d48 !important; color: white !important; }
-    .palette-marked { background-color: #8b5cf6 !important; color: white !important; }
-    .palette-marked-answered { background-color: #7c3aed !important; color: #fde047 !important; position: relative; }
-    .palette-marked-answered::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      right: 2px;
-      width: 6px;
-      height: 6px;
-      background-color: #22c55e;
-      border-radius: 50%;
-    }
-    .palette-not-visited { background-color: #f1f5f9 !important; color: #475569 !important; border: 1px solid #cbd5e1 !important; }
-    .palette-active { outline: 3px solid #3b82f6 !important; outline-offset: 1px; }
-
-    @keyframes pulseSoft {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.85; transform: scale(1.02); }
-    }
-    .pulse-urgent { animation: pulseSoft 1.5s infinite; }
+    body { font-family: 'Hind', 'Poppins', sans-serif; }
+    .glass-card { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(8px); }
   </style>
 </head>
-<body class="bg-academic-mesh text-slate-800 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
-
-  <!-- DYNAMIC AMBIENT LIGHT ORBS (Background Visual Depth) -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-    <!-- Top-Left Emerald Aura -->
-    <div class="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-emerald-400/20 via-teal-300/15 to-transparent rounded-full blur-3xl ambient-orb-1"></div>
-    <!-- Top-Right Indigo Aura -->
-    <div class="absolute top-12 -right-28 w-[30rem] h-[30rem] bg-gradient-to-bl from-indigo-500/15 via-purple-400/10 to-transparent rounded-full blur-3xl ambient-orb-2"></div>
-    <!-- Center-Bottom Golden Teal Glow -->
-    <div class="absolute -bottom-20 left-1/3 w-[26rem] h-[26rem] bg-gradient-to-tr from-teal-400/15 via-amber-300/10 to-transparent rounded-full blur-3xl ambient-orb-1"></div>
-  </div>
+<body class="bg-slate-900 min-h-screen text-slate-800 antialiased flex flex-col justify-between">
 
   <!-- TOP NAVIGATION BAR -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between">
-      
-      <!-- Brand Logo -->
-      <div class="flex items-center gap-3 cursor-pointer" onclick="handleLogoClick()">
-        <!-- Amrit Academy Official Custom Vector Logo -->
-        <div class="relative group">
-          <svg class="w-11 h-11 drop-shadow-md shrink-0 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="shieldBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#064e3b"/>
-                <stop offset="50%" stop-color="#0f766e"/>
-                <stop offset="100%" stop-color="#1e1b4b"/>
-              </linearGradient>
-              <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fde047"/>
-                <stop offset="50%" stop-color="#fbbf24"/>
-                <stop offset="100%" stop-color="#b45309"/>
-              </linearGradient>
-              <linearGradient id="goldFill" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fef08a"/>
-                <stop offset="100%" stop-color="#f59e0b"/>
-              </linearGradient>
-            </defs>
-            <!-- Shield Body -->
-            <path d="M50 6 L88 20 C88 56 68 82 50 94 C32 82 12 56 12 20 Z" fill="url(#shieldBg)" stroke="url(#goldStroke)" stroke-width="3" stroke-linejoin="round"/>
-            <!-- Inner Shield Accent -->
-            <path d="M50 12 L82 24 C82 53 65 76 50 86 C35 76 18 53 18 24 Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
-            <!-- Laurel Wreath Accents -->
-            <path d="M25 40 C23 48 26 58 32 66 M75 40 C77 48 74 58 68 66" stroke="url(#goldStroke)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.85"/>
-            <!-- Open Book Foundation -->
-            <path d="M50 66 C42 61 32 62 26 65 L26 73 C32 70 42 69 50 74 C58 69 68 70 74 73 L74 65 C68 62 58 61 50 66 Z" fill="url(#goldFill)"/>
-            <line x1="50" y1="66" x2="50" y2="74" stroke="#78350f" stroke-width="1.5"/>
-            <!-- Center Academic "A" -->
-            <path d="M50 24 L36 58 H43.5 L46.5 48 H53.5 L56.5 58 H64 L50 24 Z M50 36 L52.2 43.5 H47.8 L50 36 Z" fill="#ffffff"/>
-            <!-- Amrit Star of Excellence -->
-            <path d="M50 15 L51.5 18.5 L55 19 L52 21.5 L53 25 L50 23 L47 25 L48 21.5 L45 19 L48.5 18.5 Z" fill="url(#goldFill)"/>
-          </svg>
+  <header class="bg-slate-800/90 text-white border-b border-slate-700 sticky top-0 z-40 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="goToDashboard()">
+        <!-- Vector Crest Logo -->
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-amber-500 p-0.5 shadow-lg shadow-emerald-500/20">
+          <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-black text-amber-400 text-lg">A</div>
         </div>
         <div>
-          <div class="flex items-center gap-1.5">
-            <span class="font-black text-base sm:text-lg tracking-tight text-slate-900 leading-none">AMRIT ACADEMY</span>
-            <span class="text-[10px] uppercase tracking-wider bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">CBT Test</span>
-          </div>
-          <p class="text-[11px] text-slate-500 font-medium">लक्ष्य आपकी, सफलता हमारी</p>
+          <h1 class="text-lg font-bold tracking-tight text-white leading-tight">अमृत एकेडमी</h1>
+          <p class="text-[11px] text-emerald-400 font-medium">लक्ष्य आपकी, सफलता हमारी</p>
         </div>
       </div>
 
-      <!-- Quick Action Controls -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        
-        <!-- Official YouTube Channel Link Button -->
-        <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" rel="noopener noreferrer" 
-           class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-xs font-bold transition shadow-sm"
-           title="Official Amrit Academy YouTube Channel">
-          <i class="fa-brands fa-youtube text-sm"></i>
-          <span class="hidden md:inline">YouTube</span>
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center space-x-2">
+        <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-semibold flex items-center space-x-1 transition shadow-sm">
+          <i data-lucide="youtube" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">YouTube</span>
         </a>
-
-        <!-- Official Contact Helpline -->
-        <a href="tel:6207662510" 
-           class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold transition shadow-sm"
-           title="Helpline: 6207662510">
-          <i class="fa-solid fa-phone text-xs"></i>
-          <span class="hidden md:inline">6207662510</span>
+        <a href="https://wa.me/916207662510" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center space-x-1 transition shadow-sm">
+          <i data-lucide="phone" class="w-4 h-4"></i>
+          <span>6207662510</span>
         </a>
-
-        <!-- Language Selector Dropdown -->
-        <div class="relative">
-          <button onclick="toggleLanguageDropdown()" id="lang-btn" 
-                  class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition border border-slate-200">
-            <i class="fa-solid fa-globe text-emerald-600"></i>
-            <span id="current-lang-text">Language: English</span>
-            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-          </button>
-          
-          <div id="lang-dropdown-menu" class="hidden absolute right-0 mt-1.5 w-44 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50 text-xs">
-            <div class="px-3 py-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Select Language</div>
-            <button onclick="selectAppLanguage('en')" class="w-full text-left px-3 py-2 hover:bg-slate-100 font-medium text-slate-700 flex items-center justify-between">
-              <span>English (Default)</span>
-              <span id="check-lang-en" class="text-emerald-600 font-bold"><i class="fa-solid fa-check"></i></span>
-            </button>
-            <button onclick="selectAppLanguage('hi')" class="w-full text-left px-3 py-2 hover:bg-slate-100 font-medium text-slate-700 flex items-center justify-between">
-              <span>हिंदी (Hindi)</span>
-              <span id="check-lang-hi" class="text-emerald-600 font-bold hidden"><i class="fa-solid fa-check"></i></span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Logged in User Tag & Logout -->
-        <div id="nav-user-profile" class="hidden items-center gap-2 pl-2 border-l border-slate-200">
-          <div class="hidden lg:block text-right">
-            <p id="nav-user-name" class="text-xs font-bold text-slate-900 leading-tight">Student</p>
-            <p id="nav-user-phone" class="text-[10px] text-slate-500 font-mono">9876543210</p>
-          </div>
-          <button onclick="logoutCandidate()" title="Logout" 
-                  class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 flex items-center justify-center transition border border-slate-200">
-            <i class="fa-solid fa-right-from-bracket text-xs"></i>
-          </button>
-        </div>
-
       </div>
     </div>
   </header>
 
-  <!-- MAIN APPLICATION SCREENS WRAPPER -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-start relative z-10">
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
 
-    <!-- ==========================================================================
-         SCREEN 1: DIRECT STUDENT REGISTRATION & LOGIN (No splash screen delay)
-         ========================================================================== -->
-    <section id="auth-screen" class="my-auto py-6 sm:py-10 max-w-md mx-auto w-full">
-      <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl shadow-slate-300/40 border border-slate-200/90 overflow-hidden transition-all duration-300">
-        
-        <!-- Header Banner with YouTube Link and Helpline info -->
-        <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-6 sm:p-8 text-white relative">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <svg class="w-14 h-14 drop-shadow-xl shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Shield Body -->
-                <path d="M50 6 L88 20 C88 56 68 82 50 94 C32 82 12 56 12 20 Z" fill="url(#shieldBg)" stroke="url(#goldStroke)" stroke-width="3.5" stroke-linejoin="round"/>
-                <!-- Inner Shield Accent -->
-                <path d="M50 12 L82 24 C82 53 65 76 50 86 C35 76 18 53 18 24 Z" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-                <!-- Laurel Wreaths -->
-                <path d="M25 40 C23 48 26 58 32 66 M75 40 C77 48 74 58 68 66" stroke="url(#goldStroke)" stroke-width="2" stroke-linecap="round" fill="none"/>
-                <!-- Open Book -->
-                <path d="M50 66 C42 61 32 62 26 65 L26 73 C32 70 42 69 50 74 C58 69 68 70 74 73 L74 65 C68 62 58 61 50 66 Z" fill="url(#goldFill)"/>
-                <line x1="50" y1="66" x2="50" y2="74" stroke="#78350f" stroke-width="1.5"/>
-                <!-- Letter "A" -->
-                <path d="M50 24 L36 58 H43.5 L46.5 48 H53.5 L56.5 58 H64 L50 24 Z M50 36 L52.2 43.5 H47.8 L50 36 Z" fill="#ffffff"/>
-                <!-- Gold Star -->
-                <path d="M50 15 L51.5 18.5 L55 19 L52 21.5 L53 25 L50 23 L47 25 L48 21.5 L45 19 L48.5 18.5 Z" fill="url(#goldFill)"/>
-              </svg>
-              <div>
-                <span class="text-[10px] font-bold tracking-wider uppercase text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-700/50">Official Portal</span>
-                <p class="text-xs text-slate-300 font-semibold mt-0.5">Premier Exam Prep</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <a href="https://wa.me/916207662510" target="_blank" 
-                 class="px-2.5 py-1 bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/30 rounded-lg text-xs font-semibold transition flex items-center gap-1">
-                <i class="fa-brands fa-whatsapp text-xs"></i>
-                <span>Help: 6207662510</span>
-              </a>
-            </div>
+    <!-- 1. LOGIN & REGISTRATION SCREEN -->
+    <div id="auth-screen" class="max-w-md mx-auto my-8">
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-slate-700 shadow-2xl shadow-emerald-500/10">
+        <div class="text-center mb-6">
+          <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full uppercase tracking-wider">CBT Test Portal</span>
+          <h2 class="text-2xl font-black text-slate-800 mt-2">छात्र लॉगिन / पंजीकरण</h2>
+          <p class="text-xs text-slate-500 mt-1">टेस्ट सीरीज शुरू करने के लिए अपना विवरण दर्ज करें</p>
+        </div>
+
+        <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">पूरा नाम (Full Name)</label>
+            <input type="text" id="user-name" required placeholder="उदा. आयुष कुमार" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
           </div>
-          
-          <h2 class="text-xl sm:text-2xl font-black mt-4 tracking-tight" id="auth-main-title">
-            Welcome to Amrit Academy
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">मोबाइल नंबर (10 Digit)</label>
+            <input type="tel" id="user-mobile" required pattern="[0-9]{10}" placeholder="उदा. 6207662510" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">पासवर्ड (कम से कम 6 अक्षर)</label>
+            <input type="password" id="user-password" required minlength="6" placeholder="••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm">
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/30 text-sm flex items-center justify-center space-x-2">
+            <span>लॉगिन करें और टेस्ट चुनें</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 2. TARGETED EXAMS DASHBOARD -->
+    <div id="dashboard-screen" class="hidden">
+      <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between bg-slate-800/80 p-6 rounded-2xl border border-slate-700 text-white">
+        <div>
+          <h2 class="text-xl font-bold flex items-center space-x-2">
+            <span>नमस्ते, </span>
+            <span id="display-user-name" class="text-emerald-400">छात्र</span>!
           </h2>
-          <p class="text-xs sm:text-sm text-slate-300 mt-1" id="auth-subtitle">
-            Targeted Mock Tests with 25 Sets & 100 Questions (60 Min)
-          </p>
-
-          <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-400">
-            <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
-              <i class="fa-solid fa-circle-check text-[11px]"></i> Real CBT Exam Format
-            </span>
-            <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="text-red-400 hover:text-red-300 flex items-center gap-1 font-semibold">
-              <i class="fa-brands fa-youtube"></i> Free Classes
-            </a>
-          </div>
+          <p class="text-xs text-slate-300 mt-0.5">अपना लक्षित विषय चुनें और मॉक टेस्ट शुरू करें।</p>
         </div>
-
-        <!-- Auth Tabs: Login vs Register -->
-        <div class="flex border-b border-slate-200 bg-slate-50/70 p-1.5 gap-1.5">
-          <button id="tab-login" onclick="switchAuthTab('login')" 
-                  class="flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-sm bg-white text-slate-900 border border-slate-200">
-            Student Login
-          </button>
-          <button id="tab-register" onclick="switchAuthTab('register')" 
-                  class="flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-slate-500 hover:text-slate-800">
-            New Registration
-          </button>
-        </div>
-
-        <!-- Auth Form Body -->
-        <div class="p-6 sm:p-8 space-y-4">
-          
-          <!-- Full Name Field (Registration only) -->
-          <div id="field-name-container" class="hidden space-y-1.5">
-            <label class="block text-xs font-bold text-slate-700" id="label-name">
-              Student Full Name <span class="text-rose-500">*</span>
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i class="fa-regular fa-user text-sm"></i>
-              </div>
-              <input type="text" id="input-name" placeholder="Enter student's full name"
-                     class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-xs sm:text-sm transition">
-            </div>
-            <p id="error-name" class="hidden text-[11px] text-rose-500 font-medium"></p>
-          </div>
-
-          <!-- Mobile Number Field (Strictly 10 digits) -->
-          <div class="space-y-1.5">
-            <div class="flex items-center justify-between">
-              <label class="block text-xs font-bold text-slate-700" id="label-phone">
-                Mobile Number (10 Digits) <span class="text-rose-500">*</span>
-              </label>
-              <span class="text-[10px] text-emerald-600 font-mono font-bold" id="badge-digits-phone">Exact 10 digits</span>
-            </div>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 font-bold text-xs">
-                +91
-              </div>
-              <input type="tel" id="input-phone" maxlength="10" placeholder="e.g. 9876543210"
-                     class="w-full pl-12 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-xs sm:text-sm font-mono tracking-wider transition"
-                     oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            </div>
-            <p id="error-phone" class="hidden text-[11px] text-rose-500 font-medium"></p>
-          </div>
-
-          <!-- Password Field (Strictly > 5 characters) -->
-          <div class="space-y-1.5">
-            <div class="flex items-center justify-between">
-              <label class="block text-xs font-bold text-slate-700" id="label-password">
-                Password <span class="text-rose-500">*</span>
-              </label>
-              <span class="text-[10px] text-slate-500" id="badge-pwd-min">Min. 6 characters</span>
-            </div>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i class="fa-solid fa-lock text-sm"></i>
-              </div>
-              <input type="password" id="input-password" placeholder="Password (more than 5 digits/chars)"
-                     class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-xs sm:text-sm transition">
-              <button type="button" onclick="togglePasswordVisibility('input-password', 'pwd-eye-icon')" 
-                      class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
-                <i class="fa-regular fa-eye text-sm" id="pwd-eye-icon"></i>
-              </button>
-            </div>
-            <p id="error-password" class="hidden text-[11px] text-rose-500 font-medium"></p>
-          </div>
-
-          <!-- Submit Button -->
-          <button type="button" id="btn-auth-submit" onclick="handleAuthSubmit()"
-                  class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2 mt-2">
-            <span id="btn-auth-text">Login to Dashboard</span>
-            <i class="fa-solid fa-arrow-right text-xs"></i>
-          </button>
-
-          <!-- Quick Test Credentials Filler -->
-          <div class="pt-2 text-center">
-            <button type="button" onclick="fillDemoCredentials()" class="text-[11px] text-emerald-700 hover:text-emerald-800 font-medium underline">
-              Demo Login (Auto-fill Demo Student)
-            </button>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==========================================================================
-         SCREEN 2: TARGETED EXAMS DASHBOARD & 4-CATEGORY JSON PAPER ENGINE
-         ========================================================================== -->
-    <section id="dashboard-screen" class="hidden space-y-8 py-4">
-      
-      <!-- Welcome Header -->
-      <div class="bg-gradient-to-r from-emerald-600 via-teal-700 to-indigo-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div class="space-y-2">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-200 text-xs font-semibold backdrop-blur border border-white/15">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span id="dash-badge">Targeted Exam Prep</span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-black tracking-tight" id="dash-greeting">
-            Welcome, Aspirant!
-          </h2>
-          <p class="text-xs sm:text-sm text-emerald-100 max-w-xl" id="dash-motto">
-            Select your target examination below. Each exam contains 25 full mock sets of 100 questions with 60 minutes countdown timer.
-          </p>
-        </div>
-
-        <!-- Official Support Box -->
-        <div class="bg-black/20 rounded-2xl p-4 border border-white/10 backdrop-blur w-full md:w-auto text-xs space-y-2">
-          <p class="font-bold text-slate-200 uppercase tracking-wider text-[10px]">Official Support & Lectures</p>
-          <div class="flex flex-col sm:flex-row md:flex-col gap-2">
-            <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="flex items-center gap-2 text-red-300 hover:text-white transition">
-              <i class="fa-brands fa-youtube text-base text-red-400"></i>
-              <span class="font-semibold">Amrit Academy YouTube</span>
-            </a>
-            <a href="tel:6207662510" class="flex items-center gap-2 text-emerald-300 hover:text-white transition">
-              <i class="fa-solid fa-phone text-xs"></i>
-              <span>Direct Call: 6207662510</span>
-            </a>
-            <a href="https://wa.me/916207662510" target="_blank" class="flex items-center gap-2 text-teal-300 hover:text-white transition">
-              <i class="fa-brands fa-whatsapp text-sm"></i>
-              <span>WhatsApp Helpline</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 TARGETED EXAMS CARDS GRID -->
-      <div>
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h3 class="text-lg sm:text-xl font-black text-slate-900" id="title-targeted-exams">Targeted Examinations</h3>
-            <p class="text-xs text-slate-500" id="desc-targeted-exams">Choose one of the 4 designated exams to view all 25 test sets</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          
-          <!-- Exam 1: Bihar Police (Constable) -->
-          <div class="bg-white rounded-2xl border border-slate-200 hover:border-indigo-500/80 p-5 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-            <div class="space-y-3">
-              <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition duration-300 border border-indigo-100">
-                <i class="fa-solid fa-shield-halved"></i>
-              </div>
-              <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">Exam 1</span>
-                <h4 class="text-base sm:text-lg font-bold text-slate-900 mt-1">Bihar Police (Constable)</h4>
-                <p class="text-xs text-slate-500 font-medium">बिहार पुलिस कांस्टेबल भर्ती परीक्षा</p>
-              </div>
-              <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-                <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
-                <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
-              </div>
-              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
-                100 Questions per test set
-              </div>
-            </div>
-            <button onclick="openExamSetSelection('bihar_police')" 
-                    class="mt-4 w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition shadow flex items-center justify-center gap-2">
-              <span>View 25 Test Sets</span>
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Exam 2: Bihar Daroga (SI) -->
-          <div class="bg-white rounded-2xl border border-slate-200 hover:border-emerald-500/80 p-5 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-            <div class="space-y-3">
-              <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition duration-300 border border-emerald-100">
-                <i class="fa-solid fa-star"></i>
-              </div>
-              <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Exam 2</span>
-                <h4 class="text-base sm:text-lg font-bold text-slate-900 mt-1">Bihar Daroga</h4>
-                <p class="text-xs text-slate-500 font-medium">बिहार दारोगा (SI) प्रारंभिक एवं मुख्य परीक्षा</p>
-              </div>
-              <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-                <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
-                <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
-              </div>
-              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
-                100 Questions per test set
-              </div>
-            </div>
-            <button onclick="openExamSetSelection('bihar_daroga')" 
-                    class="mt-4 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow flex items-center justify-center gap-2">
-              <span>View 25 Test Sets</span>
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Exam 3: Reasoning -->
-          <div class="bg-white rounded-2xl border border-slate-200 hover:border-amber-500/80 p-5 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-            <div class="space-y-3">
-              <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition duration-300 border border-amber-100">
-                <i class="fa-solid fa-brain"></i>
-              </div>
-              <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded">Exam 3</span>
-                <h4 class="text-base sm:text-lg font-bold text-slate-900 mt-1">Reasoning</h4>
-                <p class="text-xs text-slate-500 font-medium">तर्कशक्ति (वर्बल व नॉन-वर्बल रीजनिंग)</p>
-              </div>
-              <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-                <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
-                <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
-              </div>
-              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
-                100 Questions per test set
-              </div>
-            </div>
-            <button onclick="openExamSetSelection('reasoning')" 
-                    class="mt-4 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition shadow flex items-center justify-center gap-2">
-              <span>View 25 Test Sets</span>
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <!-- Exam 4: Maths -->
-          <div class="bg-white rounded-2xl border border-slate-200 hover:border-rose-500/80 p-5 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-            <div class="space-y-3">
-              <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl font-bold group-hover:scale-110 transition duration-300 border border-rose-100">
-                <i class="fa-solid fa-calculator"></i>
-              </div>
-              <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded">Exam 4</span>
-                <h4 class="text-base sm:text-lg font-bold text-slate-900 mt-1">Maths</h4>
-                <p class="text-xs text-slate-500 font-medium">गणित (अंकगणित, एडवांस मैथ्स, डीआई)</p>
-              </div>
-              <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
-                <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
-                <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
-              </div>
-              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
-                100 Questions per test set
-              </div>
-            </div>
-            <button onclick="openExamSetSelection('maths')" 
-                    class="mt-4 w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow flex items-center justify-center gap-2">
-              <span>View 25 Test Sets</span>
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- CUSTOM .JSON FILE READER ENGINE (Matching User's 4-Category Format) -->
-      <div class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-3xl p-6 sm:p-8 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
-        <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-800">
-          <div>
-            <div class="flex items-center gap-2 mb-1.5">
-              <span class="px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold font-mono">
-                .JSON Paper Reader
-              </span>
-              <span class="text-xs text-amber-400 font-semibold flex items-center gap-1">
-                <i class="fa-solid fa-bolt"></i> 4 Categories Engine
-              </span>
-            </div>
-            <h3 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-              <i class="fa-solid fa-file-code text-emerald-400"></i>
-              <span>Upload & Run Custom .JSON Test Paper</span>
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-400 mt-1">
-              Directly upload your custom <code class="text-emerald-300 font-mono">.json</code> file containing <code class="text-slate-300 font-mono">"bihar police"</code>, <code class="text-slate-300 font-mono">"bihar daroga"</code>, <code class="text-slate-300 font-mono">"reasoning"</code>, and <code class="text-slate-300 font-mono">"maths"</code>.
-            </p>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-2">
-            <button onclick="loadDefaultSampleJsonTemplate()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition flex items-center gap-1.5">
-              <i class="fa-solid fa-code"></i> View Example JSON
-            </button>
-            <button onclick="document.getElementById('json-file-input').click()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-900/30 transition flex items-center gap-2">
-              <i class="fa-solid fa-folder-open"></i> Select .JSON File
-            </button>
-            <input type="file" id="json-file-input" accept=".json,application/json" class="hidden" onchange="handleJsonFileInput(event)">
-          </div>
-        </div>
-
-        <!-- Drag and drop / Paste Tabs -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          
-          <!-- Left: Drag & Drop Dropzone -->
-          <div class="lg:col-span-6">
-            <div id="json-dropzone" 
-                 ondragover="handleDragOver(event)" 
-                 ondragleave="handleDragLeave(event)" 
-                 ondrop="handleFileDrop(event)" 
-                 onclick="document.getElementById('json-file-input').click()"
-                 class="border-2 border-dashed border-slate-700 hover:border-emerald-500 rounded-2xl p-6 sm:p-8 text-center cursor-pointer bg-slate-800/40 hover:bg-slate-800/80 transition group">
-              <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-2xl mx-auto mb-3 group-hover:scale-110 transition duration-300">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-              </div>
-              <h4 class="text-sm font-bold text-slate-200">Drag & Drop .json Question File Here</h4>
-              <p class="text-xs text-slate-400 mt-1">or click to browse from your device</p>
-              <div class="mt-4 inline-flex items-center gap-1.5 text-[11px] text-emerald-400 font-mono bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800/50">
-                <i class="fa-solid fa-circle-check text-[10px]"></i> Supports 4-in-1 format: { "bihar police": [...], "bihar daroga": [...], ... }
-              </div>
-            </div>
-          </div>
-
-          <!-- Right: Direct JSON Text Paste & Parser -->
-          <div class="lg:col-span-6 flex flex-col justify-between space-y-3">
-            <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <label class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                  <i class="fa-solid fa-paste text-amber-400"></i> Or Paste JSON Code Directly
-                </label>
-                <button onclick="clearJsonPasteBox()" class="text-[11px] text-slate-400 hover:text-rose-400">Clear</button>
-              </div>
-              <textarea id="json-paste-area" rows="4" 
-                        placeholder='Paste your JSON with 4 categories:
-{
-  "bihar police": [ { "id": 1, "category": "History", "question": "हड़प्पा सभ्यता की खोज...", "options": [...], "answer": "1921" } ],
-  "bihar daroga": [ { "id": 1, "category": "Polity", "question": "अनुच्छेद 356...", "options": [...], "answer": "राष्ट्रपति शासन" } ],
-  "reasoning": [ { "id": 1, "category": "Analogy", "question": "पुस्तक : लेखक :: गीत : ?", "options": [...], "answer": "गीतकार" } ],
-  "maths": [ { "id": 1, "category": "Percentage", "question": "किसी संख्या का 20%...", "options": [...], "answer": "400" } ]
-}' 
-                        class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 font-mono text-xs text-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent custom-scrollbar"></textarea>
-            </div>
-
-            <button onclick="parseAndLoadJsonFromTextarea()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-play"></i> Parse & Launch Test Now
-            </button>
-          </div>
-
-        </div>
-
-        <!-- Live Loaded Paper Status Card & Individual Category Launchers -->
-        <div id="loaded-json-summary" class="hidden mt-6 pt-5 border-t border-slate-800 space-y-4">
-          <div class="bg-slate-800/80 rounded-2xl p-4 sm:p-5 border border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div class="space-y-1">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <h5 id="loaded-paper-title" class="text-base font-extrabold text-white">Custom Test Paper Loaded</h5>
-              </div>
-              <p id="loaded-paper-meta" class="text-xs text-slate-300">Total Questions: 0 | Categories: Bihar Police, Bihar Daroga, Reasoning, Maths</p>
-            </div>
-            <div class="flex items-center gap-2.5">
-              <button onclick="startLoadedJsonTest('all')" id="start-all-btn" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-lg transition flex items-center gap-1.5">
-                <i class="fa-solid fa-circle-play text-sm"></i>
-                <span>Start Combined Test (All 4 Categories)</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- 4 Individual Category Cards Dynamic Grid -->
-          <div class="space-y-2">
-            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-              <i class="fa-solid fa-layer-group text-emerald-400"></i>
-              <span>Or Start An Individual Category Test:</span>
-            </h4>
-            <div id="loaded-categories-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <!-- Dynamically rendered category buttons -->
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- ==========================================================================
-         SCREEN 3: SET SELECTION SCREEN (25 FULL MOCK TESTS)
-         ========================================================================== -->
-    <section id="set-selection-screen" class="hidden space-y-6 py-4">
-      
-      <!-- Set Selection Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <div class="flex items-center gap-3">
-          <button onclick="showScreen('dashboard-screen')" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition">
-            <i class="fa-solid fa-arrow-left text-sm"></i>
-          </button>
-          <div>
-            <div class="flex items-center gap-2">
-              <span id="set-exam-badge" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-50 text-indigo-700">Exam</span>
-              <h3 id="set-selection-exam-title" class="text-lg sm:text-xl font-black text-slate-900">Bihar Police (Constable)</h3>
-            </div>
-            <p class="text-xs text-slate-500 mt-0.5">25 Full Length Mock Tests • 100 Questions & 60 Minutes Each</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 text-xs">
-          <span class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
-            <i class="fa-solid fa-check-circle mr-1"></i> All 25 Sets Unlocked
+        <div class="mt-4 md:mt-0">
+          <span class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5">
+            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+            <span>सभी 25 टेस्ट सेट्स निःशुल्क उपलब्ध हैं</span>
           </span>
         </div>
       </div>
 
-      <!-- 25 Test Sets Grid (Set 01 to Set 25) -->
-      <div id="sets-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
-        <!-- Dynamically rendered 25 test set cards -->
-      </div>
-    </section>
-
-    <!-- ==========================================================================
-         SCREEN 4: FULL COMPUTER BASED TEST (CBT) ENGINE SCREEN
-         ========================================================================== -->
-    <section id="cbt-screen" class="hidden space-y-4 py-2 flex-1 flex-col">
-      
-      <!-- CBT Top Status Bar -->
-      <div class="bg-slate-900 text-white rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <svg class="w-10 h-10 drop-shadow shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 6 L88 20 C88 56 68 82 50 94 C32 82 12 56 12 20 Z" fill="url(#shieldBg)" stroke="url(#goldStroke)" stroke-width="3"/>
-            <path d="M50 66 C42 61 32 62 26 65 L26 73 C32 70 42 69 50 74 C58 69 68 70 74 73 L74 65 C68 62 58 61 50 66 Z" fill="url(#goldFill)"/>
-            <path d="M50 24 L36 58 H43.5 L46.5 48 H53.5 L56.5 58 H64 L50 24 Z M50 36 L52.2 43.5 H47.8 L50 36 Z" fill="#ffffff"/>
-            <path d="M50 15 L51.5 18.5 L55 19 L52 21.5 L53 25 L50 23 L47 25 L48 21.5 L45 19 L48.5 18.5 Z" fill="url(#goldFill)"/>
-          </svg>
-          <div>
-            <h4 id="exam-header-title" class="text-sm sm:text-base font-bold text-white leading-tight">Mock Test Set 01</h4>
-            <p id="exam-user-tag" class="text-[11px] text-slate-300">Candidate: Student • 100 Questions (60 Min)</p>
+      <!-- Targeted Exams 4 Grid Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Bihar Police -->
+        <div onclick="selectExam('bihar police', 'बिहार पुलिस कांस्टेबल')" class="glass-card hover:-translate-y-1 transition p-6 rounded-2xl border border-slate-200 shadow-md cursor-pointer group">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg mb-4 group-hover:scale-105 transition">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-bold text-slate-800 text-lg">बिहार पुलिस (कांस्टेबल)</h3>
+          <p class="text-xs text-slate-500 mt-1">कुल 25 मॉक टेस्ट • 100 प्रश्न प्रति सेट</p>
+          <div class="mt-4 flex items-center text-xs font-bold text-blue-600">
+            <span>सेट्स देखें</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
           </div>
         </div>
 
-        <!-- 60-Minute Countdown Timer & Submit -->
-        <div class="flex items-center gap-3 ml-auto">
-          <div class="bg-slate-800 border border-slate-700 px-3.5 py-1.5 rounded-xl flex items-center gap-2">
-            <i class="fa-regular fa-clock text-amber-400 text-sm"></i>
-            <span class="text-xs text-slate-300">Time Left:</span>
-            <span id="exam-timer" class="font-mono font-black text-sm sm:text-base text-white">60:00</span>
+        <!-- Bihar Daroga -->
+        <div onclick="selectExam('bihar daroga', 'बिहार दरोगा (SI)')" class="glass-card hover:-translate-y-1 transition p-6 rounded-2xl border border-slate-200 shadow-md cursor-pointer group">
+          <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg mb-4 group-hover:scale-105 transition">
+            <i data-lucide="badge-check" class="w-6 h-6"></i>
           </div>
+          <h3 class="font-bold text-slate-800 text-lg">बिहार दरोगा (SI)</h3>
+          <p class="text-xs text-slate-500 mt-1">उच्च स्तरीय परीक्षा पैटर्न • 25 सेट</p>
+          <div class="mt-4 flex items-center text-xs font-bold text-indigo-600">
+            <span>सेट्स देखें</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+          </div>
+        </div>
 
-          <button onclick="confirmSubmitExam()" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold shadow-md transition flex items-center gap-1.5">
-            <i class="fa-solid fa-flag-checkered"></i>
-            <span>Submit Test</span>
+        <!-- Reasoning -->
+        <div onclick="selectExam('reasoning', 'तर्कशक्ति (Reasoning)')" class="glass-card hover:-translate-y-1 transition p-6 rounded-2xl border border-slate-200 shadow-md cursor-pointer group">
+          <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-lg mb-4 group-hover:scale-105 transition">
+            <i data-lucide="brain" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-bold text-slate-800 text-lg">तर्कशक्ति (Reasoning)</h3>
+          <p class="text-xs text-slate-500 mt-1">अध्यायवार व मिश्रित अभ्यास सेट</p>
+          <div class="mt-4 flex items-center text-xs font-bold text-purple-600">
+            <span>सेट्स देखें</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+          </div>
+        </div>
+
+        <!-- Maths -->
+        <div onclick="selectExam('maths', 'गणित (Mathematics)')" class="glass-card hover:-translate-y-1 transition p-6 rounded-2xl border border-slate-200 shadow-md cursor-pointer group">
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-lg mb-4 group-hover:scale-105 transition">
+            <i data-lucide="calculator" class="w-6 h-6"></i>
+          </div>
+          <h3 class="font-bold text-slate-800 text-lg">गणित (Maths)</h3>
+          <p class="text-xs text-slate-500 mt-1">शॉर्ट ट्रिक्स और हल सहित अभ्यास</p>
+          <div class="mt-4 flex items-center text-xs font-bold text-emerald-600">
+            <span>सेट्स देखें</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SET SELECTION VIEW (25 Sets Grid - All Free) -->
+    <div id="sets-screen" class="hidden">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <button onclick="goToDashboard()" class="text-xs font-bold text-slate-400 hover:text-white flex items-center space-x-1 mb-2">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>वापस विषय चुनें</span>
+          </button>
+          <h2 id="selected-exam-title" class="text-2xl font-black text-white">परीक्षा सेट्स</h2>
+        </div>
+        <div class="text-right">
+          <span class="text-xs text-emerald-400 font-bold bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/20">60 मिनट • 100 प्रश्न प्रति सेट</span>
+        </div>
+      </div>
+
+      <div id="sets-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+
+    <!-- 4. LIVE CBT TEST ENGINE (60 Min Timer + 100 Questions) -->
+    <div id="cbt-screen" class="hidden">
+      <div class="bg-slate-800 rounded-2xl p-4 mb-4 border border-slate-700 text-white flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 id="cbt-exam-name" class="text-sm font-bold text-emerald-400 leading-tight">मॉक टेस्ट</h3>
+          <p class="text-xs text-slate-400">समय सीमा: 60 मिनट • प्रश्न: <span id="q-current-idx">1</span>/100</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="px-3 py-1.5 bg-slate-900 rounded-xl border border-red-500/30 flex items-center space-x-2 text-red-400 font-mono text-base font-black">
+            <i data-lucide="clock" class="w-4 h-4"></i>
+            <span id="timer-display">60:00</span>
+          </div>
+          <button onclick="submitTestPrompt()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition shadow">
+            सबमिट करें
           </button>
         </div>
       </div>
 
-      <!-- CBT Body: Question Area (Left) + Palette (Right) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
-        
-        <!-- Left: Question Container (8 cols) -->
-        <div class="lg:col-span-8 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[460px]">
-          
-          <!-- Question Top Sub-header -->
-          <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-slate-700 bg-white px-3 py-1 rounded-lg border border-slate-200 shadow-sm" id="current-q-index-badge">
-                Question: 1 / 100
-              </span>
-              <span id="current-q-category" class="hidden text-[11px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-lg">
-                History
-              </span>
-            </div>
-            <div class="flex items-center gap-2 text-xs">
-              <span class="text-emerald-700 font-semibold bg-emerald-50 px-2 py-1 rounded border border-emerald-200" id="cbt-marking-correct">+1.0 Correct</span>
-              <span class="text-rose-600 font-semibold bg-rose-50 px-2 py-1 rounded border border-rose-200" id="cbt-marking-wrong">-0.2 Wrong</span>
-            </div>
-          </div>
-
-          <!-- Question Body Content -->
-          <div class="p-5 sm:p-6 flex-1 overflow-y-auto custom-scrollbar space-y-6">
-            <div>
-              <h3 id="question-text-hi" class="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
-                Loading question...
-              </h3>
-              <p id="question-text-en" class="text-xs sm:text-sm text-slate-500 mt-1 italic leading-relaxed">
-                Loading English question translation...
-              </p>
-            </div>
-
-            <!-- Options Container -->
-            <div id="options-container" class="space-y-3">
-              <!-- Dynamically populated options -->
-            </div>
-          </div>
-
-          <!-- Question Footer Navigation Buttons -->
-          <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <button onclick="navigateQuestion(-1)" id="btn-prev-q" class="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
-                <i class="fa-solid fa-chevron-left text-[10px]"></i> Previous
-              </button>
-              <button onclick="clearCurrentAnswer()" class="px-3 py-2 rounded-xl bg-white border border-slate-300 hover:bg-rose-50 hover:text-rose-600 text-slate-600 text-xs font-semibold transition">
-                Clear Selection
-              </button>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <button onclick="toggleMarkForReview()" id="btn-mark-review" class="px-3.5 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-bold transition flex items-center gap-1.5">
-                <i class="fa-regular fa-bookmark"></i> Mark for Review & Next
-              </button>
-              <button onclick="saveAndNextQuestion()" id="btn-save-next" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md transition flex items-center gap-1.5">
-                Save & Next <i class="fa-solid fa-chevron-right text-[10px]"></i>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Right: 100-Question Palette & Legend (4 cols) -->
-        <div class="lg:col-span-4 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm p-4 space-y-4">
-          
-          <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between">
-            <span>Question Palette</span>
-            <span id="palette-counter" class="text-emerald-700 font-mono">100 Questions</span>
-          </h4>
-
-          <!-- Palette Legend -->
-          <div class="grid grid-cols-2 gap-2 text-[11px] p-2.5 rounded-xl bg-slate-50 border border-slate-200">
-            <div class="flex items-center gap-1.5">
-              <span class="w-4 h-4 rounded bg-emerald-600 inline-block"></span>
-              <span>Answered</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-4 h-4 rounded bg-rose-600 inline-block"></span>
-              <span>Not Answered</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-4 h-4 rounded bg-purple-600 inline-block"></span>
-              <span>Marked Review</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-4 h-4 rounded bg-slate-100 border border-slate-300 inline-block"></span>
-              <span>Not Visited</span>
-            </div>
-          </div>
-
-          <!-- Scrollable 1 to 100 Palette Buttons -->
-          <div class="flex-1 overflow-y-auto max-h-[380px] custom-scrollbar p-1">
-            <div id="palette-grid" class="grid grid-cols-5 sm:grid-cols-6 lg:grid-cols-5 gap-2">
-              <!-- Buttons 1 to 100 -->
-            </div>
-          </div>
-
-          <!-- Bottom Emergency Action -->
-          <div class="pt-2 border-t border-slate-100">
-            <button onclick="confirmSubmitExam()" class="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> Final Submit Test
-            </button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- ==========================================================================
-         SCREEN 5: RESULT SCORECARD & SOLUTIONS REVIEW SCREEN
-         ========================================================================== -->
-    <section id="result-screen" class="hidden space-y-6 py-4">
-      
-      <!-- Result Top Header Card -->
-      <div class="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5 mb-6">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <!-- Question Card -->
+        <div class="lg:col-span-3 glass-card rounded-2xl p-6 border border-slate-200 shadow-lg flex flex-col justify-between min-h-[460px]">
           <div>
-            <span class="px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold">
-              Test Completed
-            </span>
-            <h3 id="result-exam-title" class="text-xl sm:text-2xl font-black mt-2 text-white">Scorecard</h3>
-            <p id="result-candidate-info" class="text-xs text-slate-400 mt-0.5">Candidate: Student • Target Exam</p>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-2">
-            <button onclick="showScreen('dashboard-screen')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold border border-slate-700 transition flex items-center gap-1.5">
-              <i class="fa-solid fa-house"></i> Dashboard
-            </button>
-            <a href="https://wa.me/916207662510" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5">
-              <i class="fa-brands fa-whatsapp"></i> Share on WhatsApp
-            </a>
-          </div>
-        </div>
-
-        <!-- Metrics Cards -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-          <div class="bg-slate-800/60 rounded-2xl p-4 border border-slate-700">
-            <p class="text-[11px] text-slate-400 font-bold uppercase">Final Score</p>
-            <h4 id="result-score" class="text-2xl sm:text-3xl font-black text-emerald-400 mt-1">0.0</h4>
-            <p class="text-[10px] text-slate-400">Total Marks: 100.0</p>
-          </div>
-
-          <div class="bg-slate-800/60 rounded-2xl p-4 border border-slate-700">
-            <p class="text-[11px] text-slate-400 font-bold uppercase">Accuracy</p>
-            <h4 id="result-accuracy" class="text-2xl sm:text-3xl font-black text-teal-400 mt-1">0%</h4>
-            <p class="text-[10px] text-slate-400">Correct vs Attempted</p>
-          </div>
-
-          <div class="bg-slate-800/60 rounded-2xl p-4 border border-slate-700">
-            <p class="text-[11px] text-slate-400 font-bold uppercase">Correct / Wrong</p>
-            <h4 class="text-lg sm:text-xl font-black mt-1">
-              <span id="result-correct" class="text-emerald-400">0</span> / 
-              <span id="result-wrong" class="text-rose-400">0</span>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+              <span id="q-category-badge" class="px-2.5 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-md">सामान्य ज्ञान</span>
+              <span class="text-xs text-slate-500">अंक: +1.0 | नकारात्मक अंक: -0.2</span>
+            </div>
+            
+            <h4 id="q-question-text" class="text-base sm:text-lg font-bold text-slate-800 my-4 leading-relaxed">
+              प्रश्न लोड हो रहा है...
             </h4>
-            <p class="text-[10px] text-slate-400">Unattempted: <span id="result-unattempted">0</span></p>
+
+            <div id="q-options-container" class="space-y-3">
+              <!-- Options rendered dynamically -->
+            </div>
           </div>
 
-          <div class="bg-slate-800/60 rounded-2xl p-4 border border-slate-700">
-            <p class="text-[11px] text-slate-400 font-bold uppercase">Mock State Rank</p>
-            <h4 id="result-rank" class="text-2xl sm:text-3xl font-black text-amber-400 mt-1">#42</h4>
-            <p class="text-[10px] text-slate-400">Among all candidates</p>
+          <div class="pt-6 mt-6 border-t border-slate-200 flex items-center justify-between">
+            <button onclick="prevQuestion()" id="prev-btn" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center space-x-1">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              <span>पिछला</span>
+            </button>
+            <div class="space-x-2">
+              <button onclick="clearResponse()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold">
+                उत्तर मिटाएं
+              </button>
+              <button onclick="nextQuestion()" id="next-btn" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center space-x-1 inline-flex">
+                <span>अगला</span>
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 100 Questions Palette -->
+        <div class="glass-card rounded-2xl p-4 border border-slate-200 shadow-lg">
+          <h5 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">प्रश्न पैलेट (1-100)</h5>
+          <div id="palette-grid" class="grid grid-cols-5 gap-1.5 max-h-[360px] overflow-y-auto p-1">
+            <!-- 100 buttons rendered by JavaScript -->
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Solutions & Explanations Accordion -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h4 class="text-base sm:text-lg font-black text-slate-900">Detailed Answer Explanations</h4>
-            <p class="text-xs text-slate-500">Review all questions with correct answers and step-by-step solutions</p>
+    <!-- 5. RESULT & MERIT SCORECARD -->
+    <div id="result-screen" class="hidden max-w-xl mx-auto my-8">
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-2xl text-center">
+        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i data-lucide="award" class="w-8 h-8"></i>
+        </div>
+        <h3 class="text-2xl font-black text-slate-800">टेस्ट स्कोरकार्ड</h3>
+        <p class="text-xs text-slate-500 mt-1">अमृत एकेडमी टेस्ट सीरीज़ परिणाम</p>
+
+        <div class="grid grid-cols-3 gap-3 my-6 text-left">
+          <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+            <span class="text-[11px] text-emerald-700 font-bold block">कुल प्राप्तांक</span>
+            <span id="res-score" class="text-lg font-black text-emerald-800">0.0</span>
+            <span class="text-[10px] text-emerald-600 block">/ 100 अंक</span>
           </div>
-          <span class="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-lg">100 Solutions</span>
+          <div class="bg-blue-50 p-3 rounded-xl border border-blue-200">
+            <span class="text-[11px] text-blue-700 font-bold block">सही उत्तर</span>
+            <span id="res-correct" class="text-lg font-black text-blue-800">0</span>
+            <span class="text-[10px] text-blue-600 block">सटीक उत्तर</span>
+          </div>
+          <div class="bg-red-50 p-3 rounded-xl border border-red-200">
+            <span class="text-[11px] text-red-700 font-bold block">गलत उत्तर</span>
+            <span id="res-wrong" class="text-lg font-black text-red-800">0</span>
+            <span class="text-[10px] text-red-600 block">-0.2 नेगेटिव</span>
+          </div>
         </div>
 
-        <div id="solutions-list" class="space-y-4 pt-2">
-          <!-- Dynamically populated answer review items -->
+        <div class="flex space-x-3">
+          <button onclick="goToDashboard()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition">
+            डैशबोर्ड पर वापस जाएं
+          </button>
         </div>
       </div>
-
-    </section>
+    </div>
 
   </main>
 
-  <!-- MODAL: CONFIRM EXAM SUBMIT -->
-  <div id="modal-confirm-submit" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 space-y-4">
-      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mx-auto">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-      </div>
-      <div class="text-center">
-        <h4 class="text-base font-bold text-slate-900">Submit Examination?</h4>
-        <p class="text-xs text-slate-500 mt-1">Are you sure you want to finish and submit your test paper? You will not be able to change answers after this.</p>
-      </div>
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 border-t border-slate-800 text-slate-500 text-xs py-4 text-center">
+    <p>© 2026 अमृत एकेडमी (Amrit Academy). सर्वाधिकार सुरक्षित। हेल्पलाइन: 6207662510</p>
+  </footer>
 
-      <!-- Quick Attempt Summary inside modal -->
-      <div class="grid grid-cols-2 gap-2 text-xs p-3 rounded-xl bg-slate-50 border border-slate-200 font-medium">
-        <div class="text-slate-600">Attempted: <span id="modal-stat-attempted" class="font-bold text-emerald-600">0</span></div>
-        <div class="text-slate-600">Unanswered: <span id="modal-stat-unanswered" class="font-bold text-rose-600">0</span></div>
-      </div>
-
-      <div class="flex items-center gap-2 pt-2">
-        <button onclick="closeSubmitModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
-          Resume Test
-        </button>
-        <button onclick="executeExamSubmission()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition shadow-md shadow-rose-600/30">
-          Yes, Submit Now
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 max-w-xs w-full bg-slate-900 text-white p-3.5 rounded-2xl shadow-xl border border-slate-700 translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-start gap-3">
-    <div id="toast-icon" class="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm mt-0.5 shrink-0">
-      <i class="fa-solid fa-check"></i>
-    </div>
-    <div class="flex-1">
-      <h5 id="toast-title" class="text-xs font-bold text-white">Notice</h5>
-      <p id="toast-msg" class="text-[11px] text-slate-300 mt-0.5 leading-snug">Information message</p>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT APPLICATION CORE -->
+  <!-- JAVASCRIPT LOGIC WITH EXTERNAL / EMBEDDED JSON SUPPORT -->
   <script>
-    /* ==========================================================================
-       GLOBAL STATE & STORAGE
-       ========================================================================== */
-    let currentAppLang = 'en'; // Default language is English
-    let currentUser = null;
-    let currentAuthMode = 'login';
-    let selectedExamType = null;
-    let activeTestQuestions = [];
-    let currentQuestionIdx = 0;
-    let userAnswers = {};
-    let markedForReview = {};
-    let examTimerInterval = null;
-    let timeRemainingSeconds = 3600; // 60 minutes = 3600 seconds
-    let customParsedQuestions = null;
-    let customParsedCategories = {};
-    let customPaperTitle = "Custom JSON Exam";
-
-    // Internationalization dictionary
-    const I18N = {
-      en: {
-        langDisplay: "Language: English",
-        authMainTitle: "Welcome to Amrit Academy",
-        authSubtitle: "Targeted Mock Tests with 25 Sets & 100 Questions (60 Min)",
-        tabLogin: "Student Login",
-        tabRegister: "New Registration",
-        labelName: "Student Full Name *",
-        labelPhone: "Mobile Number (10 Digits) *",
-        labelPassword: "Password *",
-        badgeMinPwd: "Min. 6 characters",
-        btnLogin: "Login to Dashboard",
-        btnRegister: "Complete Registration",
-        dashBadge: "Targeted Exam Prep",
-        dashGreeting: "Welcome, Aspirant!",
-        dashMotto: "Select your target examination below. Each exam contains 25 full mock sets of 100 questions with 60 minutes countdown timer.",
-        titleTargetedExams: "Targeted Examinations",
-        descTargetedExams: "Choose one of the 4 designated exams to view all 25 test sets",
-        cardBtnStart: "View 25 Test Sets",
-        setFormat: "100 Questions • 60 Minutes",
-        submitBtn: "Submit Test",
-        saveNext: "Save & Next",
-        markReview: "Mark for Review & Next",
-        prev: "Previous",
-        clear: "Clear Selection",
-        cbtMarkCorrect: "+1.0 Correct",
-        cbtMarkWrong: "-0.2 Wrong"
-      },
-      hi: {
-        langDisplay: "भाषा: हिंदी",
-        authMainTitle: "अमृत एकेडमी में आपका स्वागत है",
-        authSubtitle: "25 सेट एवं 100 प्रश्नों वाले मॉक टेस्ट (60 मिनट)",
-        tabLogin: "विद्यार्थी लॉगिन",
-        tabRegister: "नया पंजीकरण",
-        labelName: "विद्यार्थी का पूरा नाम *",
-        labelPhone: "मोबाइल नंबर (10 अंक) *",
-        labelPassword: "पासवर्ड *",
-        badgeMinPwd: "कम से कम 6 अक्षर",
-        btnLogin: "डैशबोर्ड में लॉगिन करें",
-        btnRegister: "पंजीकरण पूरा करें",
-        dashBadge: "लक्षित परीक्षा तैयारी",
-        dashGreeting: "स्वागत है, अभ्यर्थी!",
-        dashMotto: "नीचे अपनी लक्षित परीक्षा चुनें। प्रत्येक परीक्षा में 100 प्रश्नों एवं 60 मिनट टाइमर वाले 25 पूरे मॉक टेस्ट सेट उपलब्ध हैं।",
-        titleTargetedExams: "लक्षित परीक्षाएं (Targeted Exams)",
-        descTargetedExams: "सभी 25 टेस्ट सेट देखने के लिए 4 मुख्य परीक्षाओं में से एक का चयन करें",
-        cardBtnStart: "25 टेस्ट सेट देखें",
-        setFormat: "100 प्रश्न • 60 मिनट",
-        submitBtn: "टेस्ट सबमिट करें",
-        saveNext: "सेव करें और आगे बढ़ें",
-        markReview: "समीक्षा के लिए चिन्हित करें",
-        prev: "पिछला",
-        clear: "चयन हटाएं",
-        cbtMarkCorrect: "+1.0 सही उत्तर",
-        cbtMarkWrong: "-0.2 नकारात्मक अंक"
-      }
-    };
-
-    // Syllabus-aligned Question Pools for generating 100 questions per set
-    const QUESTION_POOLS = {
-      bihar_police: [
-        { qHi: "हड़प्पा सभ्यता की खोज किस वर्ष हुई थी?", qEn: "In which year was the Harappan Civilization discovered?", optsHi: ["1921", "1922", "1925", "1930"], optsEn: ["1921", "1922", "1925", "1930"], c: 0, exp: "हड़प्पा सभ्यता की खोज 1921 में दयाराम साहनी द्वारा की गई थी।" },
-        { qHi: "बिहार में 1857 के विद्रोह का नेतृत्व किसने किया था?", qEn: "Who led the revolt of 1857 in Bihar?", optsHi: ["कुंवर सिंह", "नाना साहेब", "तात्या टोपे", "मौलवी अहमदुल्लाह"], optsEn: ["Kunwar Singh", "Nana Saheb", "Tatya Tope", "Maulvi Ahmadullah"], c: 0, exp: "जगदीशपुर के बाबू वीर कुंवर सिंह ने बिहार में 1857 की क्रांति का नेतृत्व किया।" },
-        { qHi: "मानव शरीर में रक्त का शुद्धिकरण किस अंग में होता है?", qEn: "In which organ is blood purified in the human body?", optsHi: ["फेफड़े", "हृदय", "वृक्क (Kidney)", "यकृत"], optsEn: ["Lungs", "Heart", "Kidney", "Liver"], c: 2, exp: "वृक्क (किडनी) रक्त से अपशिष्ट पदार्थों को छानकर अलग करता है।" },
-        { qHi: "भारतीय संविधान की प्रारूप समिति के अध्यक्ष कौन थे?", qEn: "Who was the chairman of the Drafting Committee of the Indian Constitution?", optsHi: ["डॉ. राजेंद्र प्रसाद", "डॉ. बी. आर. अम्बेडकर", "जवाहरलाल नेहरू", "सरदार पटेल"], optsEn: ["Dr. Rajendra Prasad", "Dr. B. R. Ambedkar", "Jawaharlal Nehru", "Sardar Patel"], c: 1, exp: "डॉ. भीमराव अम्बेडकर संविधान प्रारूप समिति के अध्यक्ष थे।" },
-        { qHi: "ध्वनि की गति किस माध्यम में सबसे अधिक होती है?", qEn: "In which medium is the speed of sound the highest?", optsHi: ["ठोस (Solid)", "द्रव (Liquid)", "गैस (Gas)", "निर्वात (Vacuum)"], optsEn: ["Solid", "Liquid", "Gas", "Vacuum"], c: 0, exp: "ठोस माध्यम में अणुओं का घनत्व अधिक होने के कारण ध्वनि की गति सर्वाधिक होती है।" }
-      ],
-      bihar_daroga: [
-        { qHi: "भारतीय संविधान का कौन सा अनुच्छेद राज्य में राष्ट्रपति शासन से संबंधित है?", qEn: "Which article of the Indian Constitution relates to President's Rule in states?", optsHi: ["अनुच्छेद 352", "अनुच्छेद 356", "अनुच्छेद 360", "अनुच्छेद 370"], optsEn: ["Article 352", "Article 356", "Article 360", "Article 370"], c: 1, exp: "अनुच्छेद 356 राज्य में संवैधानिक तंत्र विफल होने पर राष्ट्रपति शासन लगाने की शक्ति देता है।" },
-        { qHi: "चम्पारण सत्याग्रह (1917) में गांधीजी को चम्पारण आने का निमंत्रण किसने दिया था?", qEn: "Who invited Gandhiji to Champaran during the Champaran Satyagraha (1917)?", optsHi: ["राजकुमार शुक्ल", "डॉ. अनुग्रह नारायण सिंह", "मजहरुल हक", "डॉ. राजेंद्र प्रसाद"], optsEn: ["Rajkumar Shukla", "Dr. Anugrah Narayan", "Mazharul Haq", "Dr. Rajendra Prasad"], c: 0, exp: "राजकुमार शुक्ल ने लखनऊ कांग्रेस अधिवेशन में गांधीजी से मिलकर चंपारण आने का आग्रह किया था।" },
-        { qHi: "भारत का कौन सा दर्रा लद्दाख को तिब्बत से जोड़ता है?", qEn: "Which pass connects Ladakh with Tibet?", optsHi: ["नाथुला दर्रा", "काराकोरम दर्रा", "रोहतांग दर्रा", "शिपकी ला दर्रा"], optsEn: ["Nathu La", "Karakoram Pass", "Rohtang Pass", "Shipki La"], c: 1, exp: "काराकोरम दर्रा लद्दाख को तिब्बत और चीन के झिनजियांग क्षेत्र से जोड़ता है।" },
-        { qHi: "रेपो रेट (Repo Rate) का निर्धारण किसके द्वारा किया जाता है?", qEn: "Who determines the Repo Rate in India?", optsHi: ["वित्त मंत्रालय", "भारतीय रिजर्व बैंक (RBI)", "नीति आयोग", "SEBI"], optsEn: ["Finance Ministry", "Reserve Bank of India (RBI)", "NITI Aayog", "SEBI"], c: 1, exp: "आरबीआई की मौद्रिक नीति समिति (MPC) द्वारा रेपो रेट निर्धारित किया जाता है।" },
-        { qHi: "प्रकाश संश्लेषण में कौन सी गैस अवशोषित होती है?", qEn: "Which gas is absorbed during photosynthesis?", optsHi: ["ऑक्सीजन", "कार्बन डाइऑक्साइड (CO2)", "नाइट्रोजन", "हाइड्रोजन"], optsEn: ["Oxygen", "Carbon Dioxide (CO2)", "Nitrogen", "Hydrogen"], c: 1, exp: "पौधे प्रकाश संश्लेषण में कार्बन डाइऑक्साइड ग्रहण करके ऑक्सीजन छोड़ते हैं।" }
-      ],
-      reasoning: [
-        { qHi: "यदि पुस्तक : लेखक, तो गीत : ?", qEn: "If Book : Author, then Song : ?", optsHi: ["गायक", "गीतकार (Lyricist)", "संगीतकार", "फिल्म"], optsEn: ["Singer", "Lyricist", "Composer", "Film"], c: 1, exp: "जिस प्रकार लेखक पुस्तक लिखता है, उसी प्रकार गीतकार गीत लिखता है।" },
-        { qHi: "श्रृंखला पूर्ण करें: 2, 6, 12, 20, 30, ?", qEn: "Complete the series: 2, 6, 12, 20, 30, ?", optsHi: ["40", "42", "44", "48"], optsEn: ["40", "42", "44", "48"], c: 1, exp: "अंतर है: +4, +6, +8, +10, +12. अतः 30 + 12 = 42." },
-        { qHi: "विषम शब्द ज्ञात करें: (Find the odd one out)", qEn: "Find the odd one out:", optsHi: ["पटना", "लखनऊ", "भोपाल", "कानपुर"], optsEn: ["Patna", "Lucknow", "Bhopal", "Kanpur"], c: 3, exp: "कानपुर को छोड़कर अन्य तीनों राज्य की राजधानियां हैं।" },
-        { qHi: "यदि 'CAT' का कोड 24 है, तो 'DOG' का कोड क्या होगा?", qEn: "If 'CAT' is coded as 24, what will be the code for 'DOG'?", optsHi: ["26", "27", "28", "29"], optsEn: ["26", "27", "28", "29"], c: 0, exp: "C(3)+A(1)+T(20)=24. D(4)+O(15)+G(7)=26." },
-        { qHi: "एक व्यक्ति दक्षिण की ओर 5 किमी चलता है, फिर बाएं मुड़कर 3 किमी चलता है। अब वह किस दिशा की ओर देख रहा है?", qEn: "A man walks 5 km South, then turns left and walks 3 km. Which direction is he facing?", optsHi: ["उत्तर", "दक्षिण", "पूर्व (East)", "पश्चिम"], optsEn: ["North", "South", "East", "West"], c: 2, exp: "दक्षिण दिशा में जाते हुए बाएं मुड़ने पर दिशा पूर्व (East) हो जाती है।" }
-      ],
-      maths: [
-        { qHi: "यदि किसी संख्या का 20% मान 80 है, तो वह संख्या क्या होगी?", qEn: "If 20% of a number is 80, what is that number?", optsHi: ["300", "350", "400", "500"], optsEn: ["300", "350", "400", "500"], c: 2, exp: "संख्या = 80 / 0.20 = 400." },
-        { qHi: "एक वस्तु को ₹500 में खरीदकर ₹600 में बेचा गया। लाभ प्रतिशत ज्ञात करें:", qEn: "An article bought for ₹500 was sold for ₹600. Find the profit percentage:", optsHi: ["15%", "20%", "25%", "10%"], optsEn: ["15%", "20%", "25%", "10%"], c: 1, exp: "लाभ = 100 रुपये. लाभ % = (100/500)*100 = 20%." },
-        { qHi: "प्रथम 50 प्राकृतिक संख्याओं का औसत क्या होगा?", qEn: "What is the average of the first 50 natural numbers?", optsHi: ["25", "25.5", "26", "26.5"], optsEn: ["25", "25.5", "26", "26.5"], c: 1, exp: "औसत = (n + 1) / 2 = 51 / 2 = 25.5." },
-        { qHi: "यदि A:B = 2:3 और B:C = 4:5 हो, तो A:B:C ज्ञात करें:", qEn: "If A:B = 2:3 and B:C = 4:5, find A:B:C:", optsHi: ["8:12:15", "6:12:15", "8:10:15", "2:4:5"], optsEn: ["8:12:15", "6:12:15", "8:10:15", "2:4:5"], c: 0, exp: "A:B:C = (2*4) : (3*4) : (3*5) = 8:12:15." },
-        { qHi: "एक ट्रेन 90 किमी/घंटा की गति से चल रही है। मीटर/सेकंड में इसकी गति ज्ञात करें:", qEn: "A train runs at 90 km/h. Find its speed in m/s:", optsHi: ["20 m/s", "25 m/s", "30 m/s", "35 m/s"], optsEn: ["20 m/s", "25 m/s", "30 m/s", "35 m/s"], c: 1, exp: "गति = 90 * (5/18) = 25 m/s." }
+    // प्रश्नों का डेटाबेस
+    // यह कोड पहले questions.json को लोड करने की कोशिश करता है; यदि वह न मिले तो इनबिल्ट डेटा का प्रयोग करता है।
+    let MASTER_JSON_DATA = {
+      "bihar police": [
+        {"id": 1, "category": "History", "question": "हड़प्पा सभ्यता की खोज किस वर्ष हुई थी?", "options": ["1920", "1921", "1922", "1925"], "answer": "1921"},
+        {"id": 2, "category": "History", "question": "1918 में महात्मा गांधी ने अहमदाबाद के सूती मिल मजदूरों के संघर्ष के दौरान मुख्य रूप से किस मांग को लेकर हड़ताल की थी?", "options": ["'प्लैग बोनस' को समाप्त न करने और वेतन वृद्धि की मांग", "न्यूनतम मजदूरी", "काम के घंटे कम करने", "बाल श्रम रोकने"], "answer": "'प्लैग बोनस' को समाप्त न करने और वेतन वृद्धि की मांग"},
+        {"id": 3, "category": "History", "question": "जैन धर्म के 24वें तीर्थंकर कौन थे?", "options": ["ऋषभदेव", "पार्श्वनाथ", "महावीर स्वामी", "अरिष्टनेमि"], "answer": "महावीर स्वामी"},
+        {"id": 4, "category": "History", "question": "'मेगस्थनीज' किसका राजदूत बनकर चंद्रगुप्त मौर्य के दरबार में आया था?", "options": ["सिकंदर", "सेल्यूकस निकेटर", "डेरियस", "टॉलेमी"], "answer": "सेल्यूकस निकेटर"},
+        {"id": 5, "category": "History", "question": "प्रसिद्ध 'कलिंग युद्ध' किस वर्ष लड़ा गया था?", "options": ["261 ई.पू.", "265 ई.पू.", "273 ई.पू.", "250 ई.पू."], "answer": "261 ई.पू."},
+        {"id": 6, "category": "History", "question": "'विक्रम संवत' का प्रारंभ कब हुआ था?", "options": ["78 ई.", "57 ई.पू.", "319 ई.", "606 ई."], "answer": "57 ई.पू."},
+        {"id": 7, "category": "History", "question": "गुप्त वंश के किस शासक को 'भारत का नेपोलियन' कहा जाता है?", "options": ["चंद्रगुप्त प्रथम", "समुद्रगुप्त", "कुमारगुप्त", "स्कंदगुप्त"], "answer": "समुद्रगुप्त"},
+        {"id": 8, "category": "History", "question": "नालंदा विश्वविद्यालय की स्थापना किसने की थी?", "options": ["धर्मपाल", "कुमारगुप्त प्रथम", "चंद्रगुप्त द्वितीय", "हर्षवर्द्धन"], "answer": "कुमारगुप्त प्रथम"},
+        {"id": 9, "category": "History", "question": "तराइन का प्रथम युद्ध किस वर्ष लड़ा गया था?", "options": ["1191", "1192", "1194", "1190"], "answer": "1191"},
+        {"id": 10, "category": "History", "question": "कुतुबमीनार का निर्माण किसने पूरा करवाया था?", "options": ["कुतुबुद्दीन ऐबक", "इल्तुतमिश", "बलबन", "अलाउद्दीन खिलजी"], "answer": "इल्तुतमिश"}
       ]
     };
 
-    // Generates 100 realistic, curriculum-based questions for any set index
-    function build100QuestionsForSet(examKey, setIndex) {
-      const basePool = QUESTION_POOLS[examKey] || QUESTION_POOLS.bihar_police;
-      const questions100 = [];
-      const topics = [
-        "History", "Polity", "Geography", "Economy", "Physics", 
-        "Chemistry", "Biology", "Bihar Special GK", "Current Affairs", 
-        "Hindi Grammar", "English", "Arithmetic", "Reasoning", "Computer"
-      ];
-
-      for (let i = 1; i <= 100; i++) {
-        const template = basePool[(i - 1 + setIndex) % basePool.length];
-        const topic = topics[(i + setIndex) % topics.length];
-        
-        let qHiText = `${template.qHi}`;
-        let qEnText = `${template.qEn}`;
-        let optsHi = [...template.optsHi];
-        let optsEn = [...template.optsEn];
-
-        if (i > 5) {
-          qHiText = `[सेट ${setIndex < 10 ? '0' + setIndex : setIndex} • प्र. ${i}] [${topic}] ${template.qHi}`;
-          qEnText = `[Set ${setIndex < 10 ? '0' + setIndex : setIndex} • Q. ${i}] [${topic}] ${template.qEn}`;
+    // GitHub Pages पर रखी हुई questions.json को लोड करने का कैश-बस्टर लॉजिक
+    async function loadExternalQuestions() {
+      try {
+        const response = await fetch('questions.json?v=' + new Date().getTime());
+        if (response.ok) {
+          const data = await response.json();
+          MASTER_JSON_DATA = data;
+          console.log('questions.json सफलतापूर्वक लोड हो गई। कुल प्रश्न:', data);
         }
-
-        questions100.push({
-          id: i,
-          category: topic,
-          qHi: qHiText,
-          qEn: qEnText,
-          optionsHi: optsHi,
-          optionsEn: optsEn,
-          correct: template.c,
-          exp: template.exp
-        });
+      } catch (err) {
+        console.log('लोकल या एम्बेडेड डेटा का उपयोग किया जा रहा है।');
       }
-      return questions100;
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      // Check saved user session
-      const savedUser = localStorage.getItem('amrit_candidate');
-      if (savedUser) {
-        try {
-          currentUser = JSON.parse(savedUser);
-          updateNavUser();
-          showScreen('dashboard-screen');
-        } catch (e) {
-          showScreen('auth-screen');
-        }
-      } else {
-        showScreen('auth-screen');
-      }
+    // App State Variables
+    let currentUser = null;
+    let selectedExamKey = 'bihar police';
+    let currentSetNumber = 1;
+    let currentQuestions = [];
+    let currentQuestionIdx = 0;
+    let userAnswers = {};
+    let testTimerInterval = null;
+    let timeLeft = 3600; // 60 minutes = 3600 seconds
 
-      applyTranslations();
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      checkSavedUser();
+      loadExternalQuestions();
     });
 
-    function showScreen(screenId) {
-      ['auth-screen', 'dashboard-screen', 'set-selection-screen', 'cbt-screen', 'result-screen'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
-      });
-      const target = document.getElementById(screenId);
-      if (target) {
-        target.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    function checkSavedUser() {
+      const savedUser = localStorage.getItem('amrit_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        document.getElementById('user-name').value = currentUser.name || '';
+        document.getElementById('user-mobile').value = currentUser.mobile || '';
       }
     }
 
-    function handleLogoClick() {
-      if (currentUser) {
-        showScreen('dashboard-screen');
-      } else {
-        showScreen('auth-screen');
+    function handleAuth(e) {
+      e.preventDefault();
+      const name = document.getElementById('user-name').value.trim();
+      const mobile = document.getElementById('user-mobile').value.trim();
+      const password = document.getElementById('user-password').value.trim();
+
+      if (mobile.length !== 10) {
+        alert('कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।');
+        return;
       }
+      if (password.length < 6) {
+        alert('पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।');
+        return;
+      }
+
+      currentUser = { name, mobile };
+      localStorage.setItem('amrit_user', JSON.stringify(currentUser));
+      goToDashboard();
     }
 
-    /* ==========================================================================
-       AUTHENTICATION & STRICT VALIDATIONS (No OTP Delays)
-       ========================================================================== */
-    function switchAuthTab(mode) {
-      currentAuthMode = mode;
-      const tabLogin = document.getElementById('tab-login');
-      const tabRegister = document.getElementById('tab-register');
-      const nameContainer = document.getElementById('field-name-container');
-      const submitBtnText = document.getElementById('btn-auth-text');
-
-      clearAuthErrors();
-
-      if (mode === 'login') {
-        tabLogin.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-sm bg-white text-slate-900 border border-slate-200";
-        tabRegister.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-slate-500 hover:text-slate-800";
-        nameContainer.classList.add('hidden');
-        submitBtnText.textContent = I18N[currentAppLang].btnLogin;
-      } else {
-        tabRegister.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-sm bg-white text-slate-900 border border-slate-200";
-        tabLogin.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-slate-500 hover:text-slate-800";
-        nameContainer.classList.remove('hidden');
-        submitBtnText.textContent = I18N[currentAppLang].btnRegister;
-      }
-    }
-
-    function clearAuthErrors() {
-      ['error-name', 'error-phone', 'error-password'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) { el.classList.add('hidden'); el.textContent = ''; }
-      });
-    }
-
-    function togglePasswordVisibility(inputId, iconId) {
-      const input = document.getElementById(inputId);
-      const icon = document.getElementById(iconId);
-      if (input.type === 'password') {
-        input.type = 'text';
-        icon.className = "fa-regular fa-eye-slash text-sm";
-      } else {
-        input.type = 'password';
-        icon.className = "fa-regular fa-eye text-sm";
-      }
-    }
-
-    function fillDemoCredentials() {
-      document.getElementById('input-phone').value = "9876543210";
-      document.getElementById('input-password').value = "amrit123";
-      if (currentAuthMode === 'register') {
-        document.getElementById('input-name').value = "Abhishek Kumar";
-      }
-      showToast('info', 'Demo Filled', '10-digit mobile & 8-digit password auto-filled!');
-    }
-
-    function handleAuthSubmit() {
-      clearAuthErrors();
-      let hasError = false;
-
-      const phone = document.getElementById('input-phone').value.trim();
-      const password = document.getElementById('input-password').value.trim();
-      let name = "Student";
-
-      // 1. Mandatory Name Validation for Registration
-      if (currentAuthMode === 'register') {
-        name = document.getElementById('input-name').value.trim();
-        if (!name) {
-          const errEl = document.getElementById('error-name');
-          errEl.textContent = currentAppLang === 'hi' ? 'कृपया अपना पूरा नाम दर्ज करें।' : 'Full Name is required for registration.';
-          errEl.classList.remove('hidden');
-          hasError = true;
-        }
-      }
-
-      // 2. Strict Mobile Number Validation: MUST be exactly 10 digits
-      const phoneRegex = /^[5-9]\d{9}$/;
-      if (!phone) {
-        const errEl = document.getElementById('error-phone');
-        errEl.textContent = currentAppLang === 'hi' ? 'कृपया 10 अंकों का मोबाइल नंबर दर्ज करें।' : 'Please enter your 10-digit mobile number.';
-        errEl.classList.remove('hidden');
-        hasError = true;
-      } else if (phone.length !== 10 || !phoneRegex.test(phone)) {
-        const errEl = document.getElementById('error-phone');
-        errEl.textContent = currentAppLang === 'hi' ? 'मान्य 10 अंकों का मोबाइल नंबर अनिवार्य है।' : 'Valid 10-digit mobile number starting with 5-9 is mandatory.';
-        errEl.classList.remove('hidden');
-        hasError = true;
-      }
-
-      // 3. Strict Password Validation: MUST be more than 5 characters/digits
-      if (!password) {
-        const errEl = document.getElementById('error-password');
-        errEl.textContent = currentAppLang === 'hi' ? 'पासवर्ड दर्ज करना अनिवार्य है।' : 'Password is required.';
-        errEl.classList.remove('hidden');
-        hasError = true;
-      } else if (password.length <= 5) {
-        const errEl = document.getElementById('error-password');
-        errEl.textContent = currentAppLang === 'hi' ? 'पासवर्ड 5 अक्षर से अधिक (कम से कम 6) होना चाहिए।' : 'Password must be more than 5 digits/characters.';
-        errEl.classList.remove('hidden');
-        hasError = true;
-      }
-
-      if (hasError) return;
-
-      // Direct Authentication (No OTP simulation delay)
-      currentUser = {
-        name: name,
-        phone: phone,
-        authTime: new Date().toISOString()
-      };
-
-      localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
-      updateNavUser();
-      showScreen('dashboard-screen');
-      showToast('success', 'Logged In!', `Welcome to Amrit Academy, ${name}!`);
-    }
-
-    function updateNavUser() {
-      const profile = document.getElementById('nav-user-profile');
-      const nameEl = document.getElementById('nav-user-name');
-      const phoneEl = document.getElementById('nav-user-phone');
-      const dashGreeting = document.getElementById('dash-greeting');
+    function goToDashboard() {
+      clearInterval(testTimerInterval);
+      document.getElementById('auth-screen').classList.add('hidden');
+      document.getElementById('sets-screen').classList.add('hidden');
+      document.getElementById('cbt-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.add('hidden');
+      document.getElementById('dashboard-screen').classList.remove('hidden');
 
       if (currentUser) {
-        profile.classList.remove('hidden');
-        profile.classList.add('flex');
-        nameEl.textContent = currentUser.name || "Student";
-        phoneEl.textContent = currentUser.phone || "";
-        dashGreeting.textContent = currentAppLang === 'hi' 
-          ? `नमस्ते, ${currentUser.name || 'अभ्यर्थी'}!` 
-          : `Welcome, ${currentUser.name || 'Aspirant'}!`;
-      } else {
-        profile.classList.add('hidden');
-        profile.classList.remove('flex');
+        document.getElementById('display-user-name').textContent = currentUser.name;
       }
     }
 
-    function logoutCandidate() {
-      localStorage.removeItem('amrit_candidate');
-      currentUser = null;
-      updateNavUser();
-      showScreen('auth-screen');
-      showToast('info', 'Logged Out', 'You have been logged out.');
+    function selectExam(examKey, examTitle) {
+      selectedExamKey = examKey;
+      document.getElementById('selected-exam-title').textContent = examTitle;
+      document.getElementById('dashboard-screen').classList.add('hidden');
+      document.getElementById('sets-screen').classList.remove('hidden');
+
+      renderSetsGrid();
     }
 
-    /* ==========================================================================
-       TARGETED EXAMS & 25 SETS NAVIGATION
-       ========================================================================== */
-    const EXAM_CONFIG = {
-      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", titleEn: "Bihar Police (Constable)", badge: "Exam 1", color: "indigo" },
-      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", titleEn: "Bihar Daroga", badge: "Exam 2", color: "emerald" },
-      reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", titleEn: "Reasoning", badge: "Exam 3", color: "amber" },
-      maths: { titleHi: "गणित (मैथ्स)", titleEn: "Maths", badge: "Exam 4", color: "rose" }
-    };
-
-    function openExamSetSelection(examKey) {
-      selectedExamType = examKey;
-      const config = EXAM_CONFIG[examKey];
-      
-      document.getElementById('set-exam-badge').textContent = config.badge;
-      document.getElementById('set-selection-exam-title').textContent = currentAppLang === 'hi' ? config.titleHi : config.titleEn;
-
-      render25SetsGrid(examKey);
-      showScreen('set-selection-screen');
-    }
-
-    function render25SetsGrid(examKey) {
-      const container = document.getElementById('sets-container');
-      container.innerHTML = '';
+    // Render 25 Set Cards (सभी 100% फ्री और अनलॉक)
+    function renderSetsGrid() {
+      const grid = document.getElementById('sets-grid');
+      grid.innerHTML = '';
 
       for (let i = 1; i <= 25; i++) {
-        const setNumFormatted = i < 10 ? `0${i}` : `${i}`;
         const card = document.createElement('div');
-        card.className = "bg-white rounded-2xl border border-slate-200 hover:border-emerald-500 p-4 transition-all duration-200 shadow-sm hover:shadow-md flex flex-col justify-between group";
-        
+        card.className = 'glass-card p-4 rounded-xl border border-emerald-500/30 text-center transition cursor-pointer hover:border-emerald-500 hover:-translate-y-1';
+        card.onclick = () => startTest(i);
+
         card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[11px] font-black font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                SET ${setNumFormatted}
-              </span>
-              <span class="text-[10px] text-slate-400 font-semibold flex items-center gap-1">
-                <i class="fa-solid fa-lock-open text-emerald-500"></i> Free
-              </span>
-            </div>
-            <h4 class="text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition">Full Mock Test ${setNumFormatted}</h4>
-            <div class="mt-2 space-y-1 text-[11px] text-slate-500 font-medium">
-              <p><i class="fa-solid fa-list-check text-slate-400 mr-1.5"></i>100 Questions</p>
-              <p><i class="fa-regular fa-clock text-slate-400 mr-1.5"></i>60 Minutes Duration</p>
-              <p><i class="fa-solid fa-award text-slate-400 mr-1.5"></i>100 Marks (+1, -0.2)</p>
-            </div>
+          <div class="text-xs font-bold text-emerald-600 mb-1">
+            ✓ FREE ACCESS
           </div>
-          <button onclick="startSpecificExamSet('${examKey}', ${i})" 
-                  class="mt-4 w-full py-2 rounded-xl bg-slate-900 group-hover:bg-emerald-600 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
-            <i class="fa-solid fa-play text-[10px]"></i>
-            <span>Start Set ${setNumFormatted}</span>
+          <h4 class="text-lg font-black text-slate-800">Set ${i < 10 ? '0' + i : i}</h4>
+          <p class="text-[11px] text-slate-500 mt-1">100 प्रश्न • 60 मिनट</p>
+          <button class="mt-3 w-full py-1.5 rounded-lg text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition">
+            टेस्ट शुरू करें
           </button>
         `;
-        container.appendChild(card);
+        grid.appendChild(card);
       }
     }
 
-    function startSpecificExamSet(examKey, setNum) {
-      const config = EXAM_CONFIG[examKey];
-      const examTitle = `${currentAppLang === 'hi' ? config.titleHi : config.titleEn} - Mock Set ${setNum < 10 ? '0' + setNum : setNum}`;
+    // Start 60-Minute CBT Engine with Non-Repeating Question Slicing
+    function startTest(setNum) {
+      currentSetNumber = setNum;
+      document.getElementById('sets-screen').classList.add('hidden');
+      document.getElementById('cbt-screen').classList.remove('hidden');
+      document.getElementById('cbt-exam-name').textContent = `${selectedExamKey.toUpperCase()} - मॉक टेस्ट ${setNum < 10 ? '0' + setNum : setNum}`;
 
-      // Build 100 questions for this set
-      activeTestQuestions = build100QuestionsForSet(examKey, setNum);
+      // हर सेट के लिए 100 अलग प्रश्न (Set 1: 0-100, Set 2: 100-200 आदि)
+      const bank = MASTER_JSON_DATA[selectedExamKey] || MASTER_JSON_DATA["bihar police"] || [];
+      const startIndex = (setNum - 1) * 100;
+      let setQuestions = bank.slice(startIndex, startIndex + 100);
+
+      // यदि किसी सेट के लिए प्रश्न उपलब्ध न हों तो शुरुआत से 100 प्रश्न लोड होंगे
+      if (setQuestions.length === 0) {
+        setQuestions = bank.slice(0, 100);
+      }
+
+      currentQuestions = setQuestions;
       currentQuestionIdx = 0;
       userAnswers = {};
-      markedForReview = {};
 
-      document.getElementById('exam-header-title').textContent = examTitle;
-      document.getElementById('exam-user-tag').textContent = `Candidate: ${currentUser?.name || 'Student'} • 100 Questions (60 Min)`;
-
-      renderPalette();
-      renderQuestion(0);
-      startExamTimer(60 * 60); // 60 minutes = 3600 seconds
-
-      showScreen('cbt-screen');
-      showToast('success', 'Test Started', `Set ${setNum} started. You have 60 minutes for 100 questions.`);
+      renderPaletteGrid();
+      loadQuestion(0);
+      startCountdownTimer(3600); // 60 minutes
     }
 
-    /* ==========================================================================
-       CBT EXAMINATION RUNTIME ENGINE
-       ========================================================================== */
-    function renderPalette() {
+    function renderPaletteGrid() {
       const palette = document.getElementById('palette-grid');
       palette.innerHTML = '';
-      document.getElementById('palette-counter').textContent = `${activeTestQuestions.length} Questions`;
-
-      activeTestQuestions.forEach((q, idx) => {
+      currentQuestions.forEach((_, idx) => {
         const btn = document.createElement('button');
         btn.id = `palette-btn-${idx}`;
         btn.textContent = idx + 1;
-        btn.className = "w-full aspect-square rounded-xl text-xs font-bold font-mono transition flex items-center justify-center palette-not-visited";
-        btn.onclick = () => renderQuestion(idx);
+        btn.className = 'w-full py-1.5 text-xs font-bold rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 transition';
+        btn.onclick = () => loadQuestion(idx);
         palette.appendChild(btn);
       });
-      updatePaletteButton(currentQuestionIdx);
+    }
+
+    function loadQuestion(idx) {
+      currentQuestionIdx = idx;
+      const q = currentQuestions[idx];
+      document.getElementById('q-current-idx').textContent = idx + 1;
+      document.getElementById('q-category-badge').textContent = q.category || 'सामान्य अध्ययन';
+      document.getElementById('q-question-text').textContent = `${idx + 1}. ${q.question}`;
+
+      const optionsDiv = document.getElementById('q-options-container');
+      optionsDiv.innerHTML = '';
+
+      q.options.forEach((opt, oIdx) => {
+        const isSelected = userAnswers[idx] === opt;
+        const optCard = document.createElement('div');
+        optCard.className = `p-3 rounded-xl border text-sm font-medium cursor-pointer transition flex items-center space-x-3 ${
+          isSelected 
+            ? 'bg-emerald-50 border-emerald-500 text-emerald-900 font-bold' 
+            : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-700'
+        }`;
+        optCard.onclick = () => selectOption(idx, opt);
+        optCard.innerHTML = `
+          <div class="w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold ${
+            isSelected ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-slate-300 text-slate-500'
+          }">
+            ${String.fromCharCode(65 + oIdx)}
+          </div>
+          <span>${opt}</span>
+        `;
+        optionsDiv.appendChild(optCard);
+      });
+
+      updatePaletteButton(idx);
+    }
+
+    function selectOption(qIdx, optionText) {
+      userAnswers[qIdx] = optionText;
+      loadQuestion(qIdx);
+    }
+
+    function clearResponse() {
+      delete userAnswers[currentQuestionIdx];
+      loadQuestion(currentQuestionIdx);
     }
 
     function updatePaletteButton(idx) {
       const btn = document.getElementById(`palette-btn-${idx}`);
       if (!btn) return;
-
-      btn.classList.remove('palette-answered', 'palette-not-answered', 'palette-marked', 'palette-marked-answered', 'palette-not-visited', 'palette-active');
-
-      const isAnswered = userAnswers[idx] !== undefined;
-      const isMarked = markedForReview[idx] === true;
-
-      if (isMarked && isAnswered) {
-        btn.classList.add('palette-marked-answered');
-      } else if (isMarked) {
-        btn.classList.add('palette-marked');
-      } else if (isAnswered) {
-        btn.classList.add('palette-answered');
+      if (userAnswers[idx]) {
+        btn.className = 'w-full py-1.5 text-xs font-bold rounded-lg bg-emerald-600 text-white border border-emerald-600';
       } else {
-        btn.classList.add('palette-not-answered');
-      }
-
-      if (idx === currentQuestionIdx) {
-        btn.classList.add('palette-active');
+        btn.className = 'w-full py-1.5 text-xs font-bold rounded-lg border border-slate-300 text-slate-600';
       }
     }
 
-    function renderQuestion(idx) {
-      if (idx < 0 || idx >= activeTestQuestions.length) return;
-      currentQuestionIdx = idx;
-
-      // Update palette buttons
-      for (let i = 0; i < activeTestQuestions.length; i++) {
-        const b = document.getElementById(`palette-btn-${i}`);
-        if (b) b.classList.remove('palette-active');
-      }
-      const activeB = document.getElementById(`palette-btn-${idx}`);
-      if (activeB) activeB.classList.add('palette-active');
-
-      const q = activeTestQuestions[idx];
-
-      // Badges
-      const qBadgeText = currentAppLang === 'hi' 
-        ? `प्रश्न संख्या: ${idx + 1} / ${activeTestQuestions.length}`
-        : `Question: ${idx + 1} / ${activeTestQuestions.length}`;
-      document.getElementById('current-q-index-badge').textContent = qBadgeText;
-
-      const categoryBadge = document.getElementById('current-q-category');
-      if (categoryBadge) {
-        if (q.category) {
-          categoryBadge.textContent = q.category;
-          categoryBadge.classList.remove('hidden');
-        } else {
-          categoryBadge.classList.add('hidden');
-        }
-      }
-
-      // Question Text
-      document.getElementById('question-text-hi').textContent = q.qHi;
-      document.getElementById('question-text-en').textContent = q.qEn || q.qHi;
-
-      // Render Options
-      const optionsContainer = document.getElementById('options-container');
-      optionsContainer.innerHTML = '';
-
-      const letters = ['A', 'B', 'C', 'D'];
-      const currentOpts = (currentAppLang === 'hi' && q.optionsHi) ? q.optionsHi : (q.optionsEn || q.optionsHi);
-
-      currentOpts.forEach((optText, optIdx) => {
-        const isSelected = userAnswers[idx] === optIdx;
-        const optRow = document.createElement('div');
-        optRow.onclick = () => selectOption(optIdx);
-        optRow.className = `p-3.5 rounded-xl border cursor-pointer transition flex items-center gap-3 ${
-          isSelected 
-            ? 'bg-emerald-50 border-emerald-500 ring-2 ring-emerald-500/20 shadow-sm' 
-            : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
-        }`;
-
-        optRow.innerHTML = `
-          <div class="w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center font-mono shrink-0 transition ${
-            isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700'
-          }">
-            ${letters[optIdx]}
-          </div>
-          <span class="text-xs sm:text-sm font-medium ${isSelected ? 'text-emerald-950 font-bold' : 'text-slate-800'}">
-            ${optText}
-          </span>
-        `;
-        optionsContainer.appendChild(optRow);
-      });
-
-      // Update Prev Button state
-      document.getElementById('btn-prev-q').disabled = (idx === 0);
-      document.getElementById('btn-prev-q').classList.toggle('opacity-50', idx === 0);
-
-      // Update Mark for review label
-      const markBtn = document.getElementById('btn-mark-review');
-      if (markedForReview[idx]) {
-        markBtn.classList.remove('bg-purple-50', 'text-purple-700');
-        markBtn.classList.add('bg-purple-600', 'text-white');
-      } else {
-        markBtn.classList.add('bg-purple-50', 'text-purple-700');
-        markBtn.classList.remove('bg-purple-600', 'text-white');
+    function nextQuestion() {
+      if (currentQuestionIdx < currentQuestions.length - 1) {
+        loadQuestion(currentQuestionIdx + 1);
       }
     }
 
-    function selectOption(optIdx) {
-      userAnswers[currentQuestionIdx] = optIdx;
-      updatePaletteButton(currentQuestionIdx);
-      renderQuestion(currentQuestionIdx);
-    }
-
-    function clearCurrentAnswer() {
-      delete userAnswers[currentQuestionIdx];
-      updatePaletteButton(currentQuestionIdx);
-      renderQuestion(currentQuestionIdx);
-    }
-
-    function toggleMarkForReview() {
-      markedForReview[currentQuestionIdx] = !markedForReview[currentQuestionIdx];
-      updatePaletteButton(currentQuestionIdx);
-      if (currentQuestionIdx < activeTestQuestions.length - 1) {
-        renderQuestion(currentQuestionIdx + 1);
-      } else {
-        renderQuestion(currentQuestionIdx);
+    function prevQuestion() {
+      if (currentQuestionIdx > 0) {
+        loadQuestion(currentQuestionIdx - 1);
       }
     }
 
-    function saveAndNextQuestion() {
-      updatePaletteButton(currentQuestionIdx);
-      if (currentQuestionIdx < activeTestQuestions.length - 1) {
-        renderQuestion(currentQuestionIdx + 1);
-      } else {
-        confirmSubmitExam();
-      }
-    }
+    function startCountdownTimer(seconds) {
+      clearInterval(testTimerInterval);
+      timeLeft = seconds;
 
-    function navigateQuestion(delta) {
-      const newIdx = currentQuestionIdx + delta;
-      if (newIdx >= 0 && newIdx < activeTestQuestions.length) {
-        renderQuestion(newIdx);
-      }
-    }
+      testTimerInterval = setInterval(() => {
+        timeLeft--;
+        const m = Math.floor(timeLeft / 60);
+        const s = timeLeft % 60;
+        document.getElementById('timer-display').textContent = 
+          `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
 
-    /* ==========================================================================
-       60-MINUTE EXAM TIMER LOGIC
-       ========================================================================== */
-    function startExamTimer(durationSeconds) {
-      if (examTimerInterval) clearInterval(examTimerInterval);
-      timeRemainingSeconds = durationSeconds;
-
-      updateTimerDisplay();
-
-      examTimerInterval = setInterval(() => {
-        timeRemainingSeconds--;
-        updateTimerDisplay();
-
-        if (timeRemainingSeconds <= 0) {
-          clearInterval(examTimerInterval);
-          showToast('info', 'Time Expired', '60 minutes finished. Auto-submitting test paper.');
-          executeExamSubmission();
+        if (timeLeft <= 0) {
+          clearInterval(testTimerInterval);
+          submitTest();
         }
       }, 1000);
     }
 
-    function updateTimerDisplay() {
-      const timerEl = document.getElementById('exam-timer');
-      const minutes = Math.floor(timeRemainingSeconds / 60);
-      const seconds = timeRemainingSeconds % 60;
-      const mm = minutes < 10 ? `0${minutes}` : `${minutes}`;
-      const ss = seconds < 10 ? `0${seconds}` : `${seconds}`;
-      timerEl.textContent = `${mm}:${ss}`;
-
-      if (timeRemainingSeconds < 300) { // Under 5 minutes
-        timerEl.classList.add('text-rose-400', 'pulse-urgent');
-      } else {
-        timerEl.classList.remove('text-rose-400', 'pulse-urgent');
+    function submitTestPrompt() {
+      if (confirm('क्या आप सचमुच परीक्षा सबमिट करना चाहते हैं?')) {
+        submitTest();
       }
     }
 
-    /* ==========================================================================
-       EXAM SUBMISSION, SCORECARD & 100 SOLUTIONS ENGINE
-       ========================================================================== */
-    function confirmSubmitExam() {
-      const totalQ = activeTestQuestions.length;
-      const attemptedCount = Object.keys(userAnswers).length;
-      const unansweredCount = totalQ - attemptedCount;
+    function submitTest() {
+      clearInterval(testTimerInterval);
+      let correct = 0;
+      let wrong = 0;
 
-      document.getElementById('modal-stat-attempted').textContent = attemptedCount;
-      document.getElementById('modal-stat-unanswered').textContent = unansweredCount;
-
-      document.getElementById('modal-confirm-submit').classList.remove('hidden');
-    }
-
-    function closeSubmitModal() {
-      document.getElementById('modal-confirm-submit').classList.add('hidden');
-    }
-
-    function executeExamSubmission() {
-      closeSubmitModal();
-      if (examTimerInterval) clearInterval(examTimerInterval);
-
-      let correctCount = 0;
-      let wrongCount = 0;
-      const totalQuestions = activeTestQuestions.length;
-
-      activeTestQuestions.forEach((q, idx) => {
-        if (userAnswers[idx] !== undefined) {
-          if (userAnswers[idx] === q.correct) {
-            correctCount++;
+      currentQuestions.forEach((q, idx) => {
+        const ans = userAnswers[idx];
+        if (ans) {
+          if (ans === q.answer) {
+            correct++;
           } else {
-            wrongCount++;
+            wrong++;
           }
         }
       });
 
-      const unattemptedCount = totalQuestions - (correctCount + wrongCount);
-      // Scoring: +1.0 for correct, -0.2 for wrong
-      const finalScore = Math.max(0, (correctCount * 1.0) - (wrongCount * 0.2)).toFixed(2);
-      const accuracy = (correctCount + wrongCount > 0) 
-        ? Math.round((correctCount / (correctCount + wrongCount)) * 100) 
-        : 0;
+      const score = (correct * 1.0) - (wrong * 0.2);
 
-      // Mock statewide rank
-      const mockRank = Math.max(1, Math.floor(1000 - (finalScore * 8.5)));
+      document.getElementById('cbt-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
 
-      // Populate Scorecard
-      document.getElementById('result-exam-title').textContent = document.getElementById('exam-header-title').textContent;
-      document.getElementById('result-candidate-info').textContent = `Candidate: ${currentUser?.name || 'Student'} • Mobile: ${currentUser?.phone || 'N/A'}`;
-      document.getElementById('result-score').textContent = finalScore;
-      document.getElementById('result-accuracy').textContent = `${accuracy}%`;
-      document.getElementById('result-correct').textContent = correctCount;
-      document.getElementById('result-wrong').textContent = wrongCount;
-      document.getElementById('result-unattempted').textContent = unattemptedCount;
-      document.getElementById('result-rank').textContent = `#${mockRank}`;
-
-      renderSolutionsList();
-
-      showScreen('result-screen');
-      showToast('success', 'Test Evaluated', `Your Score: ${finalScore} / ${totalQuestions * 1.0} Marks`);
+      document.getElementById('res-score').textContent = score.toFixed(1);
+      document.getElementById('res-correct').textContent = correct;
+      document.getElementById('res-wrong').textContent = wrong;
     }
-
-    function renderSolutionsList() {
-      const container = document.getElementById('solutions-list');
-      container.innerHTML = '';
-
-      const letters = ['A', 'B', 'C', 'D'];
-
-      activeTestQuestions.forEach((q, idx) => {
-        const userChoice = userAnswers[idx];
-        const isCorrect = userChoice === q.correct;
-        const isAttempted = userChoice !== undefined;
-
-        let statusBadge = '';
-        if (!isAttempted) {
-          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600">Unattempted</span>';
-        } else if (isCorrect) {
-          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800"><i class="fa-solid fa-check mr-1"></i>Correct (+1.0)</span>';
-        } else {
-          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800"><i class="fa-solid fa-xmark mr-1"></i>Wrong (-0.2)</span>';
-        }
-
-        const opts = (currentAppLang === 'hi' && q.optionsHi) ? q.optionsHi : (q.optionsEn || q.optionsHi);
-
-        const card = document.createElement('div');
-        card.className = "p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white space-y-3 shadow-sm";
-        card.innerHTML = `
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-lg">Question ${idx + 1} of ${activeTestQuestions.length}</span>
-              ${q.category ? `<span class="text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">${q.category}</span>` : ''}
-            </div>
-            ${statusBadge}
-          </div>
-          <h5 class="text-sm sm:text-base font-bold text-slate-900">${q.qHi}</h5>
-          ${q.qEn && q.qEn !== q.qHi ? `<p class="text-xs text-slate-500 italic">${q.qEn}</p>` : ''}
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-2">
-            ${opts.map((opt, oIdx) => {
-              const isUserPicked = userChoice === oIdx;
-              const isCorrectOpt = q.correct === oIdx;
-              let optStyle = "bg-slate-50 border-slate-200 text-slate-700";
-              if (isCorrectOpt) optStyle = "bg-emerald-50 border-emerald-500 text-emerald-900 font-bold";
-              else if (isUserPicked && !isCorrectOpt) optStyle = "bg-rose-50 border-rose-400 text-rose-900 line-through";
-
-              return `
-                <div class="p-2.5 rounded-xl border flex items-center gap-2 ${optStyle}">
-                  <span class="w-5 h-5 rounded flex items-center justify-center font-mono text-[11px] font-bold bg-white border shrink-0">
-                    ${letters[oIdx]}
-                  </span>
-                  <span>${opt}</span>
-                </div>
-              `;
-            }).join('')}
-          </div>
-
-          <!-- Explanation box -->
-          <div class="mt-3 p-3 rounded-xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 space-y-1">
-            <p class="font-bold flex items-center gap-1.5 text-amber-800">
-              <i class="fa-solid fa-lightbulb text-amber-600"></i>
-              <span>Step-by-step Solution:</span>
-            </p>
-            <p>${q.exp || 'No detailed explanation provided for this question.'}</p>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    /* ==========================================================================
-       CUSTOM .JSON FILE READER ENGINE (User's Exact 4-Category Format)
-       ========================================================================== */
-    function handleJsonFileInput(e) {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      readJsonFile(file);
-    }
-
-    function handleDragOver(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      document.getElementById('json-dropzone').classList.add('border-emerald-400', 'bg-slate-800');
-    }
-
-    function handleDragLeave(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      document.getElementById('json-dropzone').classList.remove('border-emerald-400', 'bg-slate-800');
-    }
-
-    function handleFileDrop(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      document.getElementById('json-dropzone').classList.remove('border-emerald-400', 'bg-slate-800');
-      const files = e.dataTransfer.files;
-      if (files && files.length > 0) {
-        readJsonFile(files[0]);
-      }
-    }
-
-    function readJsonFile(file) {
-      if (!file.name.toLowerCase().endsWith('.json') && file.type !== 'application/json') {
-        showToast('error', 'Invalid File Type', 'Please upload a valid .json file.');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        const content = evt.target.result;
-        processRawJsonContent(content, file.name);
-      };
-      reader.onerror = function() {
-        showToast('error', 'Read Error', 'Failed to read the selected .json file.');
-      };
-      reader.readAsText(file);
-    }
-
-    function clearJsonPasteBox() {
-      document.getElementById('json-paste-area').value = '';
-    }
-
-    function parseAndLoadJsonFromTextarea() {
-      const text = document.getElementById('json-paste-area').value.trim();
-      if (!text) {
-        showToast('error', 'Empty JSON', 'Please paste valid JSON text first.');
-        return;
-      }
-      processRawJsonContent(text, "Amrit Academy 4-in-1 Test Paper");
-    }
-
-    function processRawJsonContent(jsonStr, fileName) {
-      try {
-        const parsed = JSON.parse(jsonStr);
-        let categoriesMap = {};
-        let detectedExamTitle = fileName.replace('.json', '');
-        customParsedCategories = {};
-
-        function normalizeQArray(qArr, defaultCat) {
-          return qArr.map((item, idx) => {
-            const qText = item.question || item.qHi || item.qEn || `Question ${idx + 1}`;
-            const optionsList = Array.isArray(item.options) ? item.options : (item.optionsHi || ["Option A", "Option B", "Option C", "Option D"]);
-            const category = item.category || defaultCat || "General";
-
-            // Resolve answer string or index
-            let correctIndex = 0;
-            if (item.answer !== undefined && item.answer !== null) {
-              const rawAns = String(item.answer).trim();
-              const matchIdx = optionsList.findIndex(opt => String(opt).trim() === rawAns);
-              if (matchIdx !== -1) {
-                correctIndex = matchIdx;
-              } else if (!isNaN(rawAns) && parseInt(rawAns) >= 0 && parseInt(rawAns) < optionsList.length) {
-                correctIndex = parseInt(rawAns);
-              } else if (['a', 'b', 'c', 'd'].includes(rawAns.toLowerCase())) {
-                correctIndex = ['a', 'b', 'c', 'd'].indexOf(rawAns.toLowerCase());
-              }
-            } else if (item.correct !== undefined) {
-              correctIndex = parseInt(item.correct) || 0;
-            }
-
-            return {
-              id: item.id || (idx + 1),
-              category: category,
-              qHi: qText,
-              qEn: item.question_en || qText,
-              optionsHi: optionsList.map(o => String(o)),
-              optionsEn: optionsList.map(o => String(o)),
-              correct: correctIndex,
-              exp: item.explanation || item.exp || `सही उत्तर: ${optionsList[correctIndex] || 'Option ' + (correctIndex + 1)}`
-            };
-          });
-        }
-
-        // Case 1: Multi-category root object {"bihar police": [...], "bihar daroga": [...], ...}
-        if (typeof parsed === 'object' && !Array.isArray(parsed) && parsed !== null) {
-          const keys = Object.keys(parsed);
-          if (keys.length === 0) throw new Error("Empty JSON object.");
-
-          let allCombinedQuestions = [];
-
-          keys.forEach(k => {
-            const val = parsed[k];
-            if (Array.isArray(val) && val.length > 0) {
-              const normKey = k.toLowerCase().trim();
-              const displayTitle = getCategoryDisplayName(normKey);
-              const normalized = normalizeQArray(val, displayTitle);
-              categoriesMap[normKey] = {
-                key: normKey,
-                displayName: displayTitle,
-                questions: normalized
-              };
-              allCombinedQuestions = allCombinedQuestions.concat(normalized);
-            }
-          });
-
-          if (allCombinedQuestions.length === 0) {
-            throw new Error("No questions found in any category array.");
-          }
-
-          customParsedCategories = categoriesMap;
-          customParsedQuestions = allCombinedQuestions;
-          customPaperTitle = detectedExamTitle || "Amrit Academy Custom Exam";
-
-        } else if (Array.isArray(parsed) && parsed.length > 0) {
-          // Case 2: Direct array of question objects
-          const normalized = normalizeQArray(parsed, "General");
-          customParsedQuestions = normalized;
-          customParsedCategories = {
-            "all": {
-              key: "all",
-              displayName: "All Questions",
-              questions: normalized
-            }
-          };
-          customPaperTitle = detectedExamTitle || "Custom Test Paper";
-        } else {
-          throw new Error("Invalid JSON format.");
-        }
-
-        renderLoadedCategoriesCards();
-
-        const summaryCard = document.getElementById('loaded-json-summary');
-        const titleEl = document.getElementById('loaded-paper-title');
-        const metaEl = document.getElementById('loaded-paper-meta');
-
-        const totalCats = Object.keys(customParsedCategories).length;
-        const totalQCount = customParsedQuestions.length;
-
-        titleEl.textContent = `${customPaperTitle} (${totalQCount} Total Questions)`;
-        const catNames = Object.values(customParsedCategories).map(c => c.displayName);
-        metaEl.textContent = `Total Questions: ${totalQCount} • Categories Loaded: ${catNames.join(', ')}`;
-
-        summaryCard.classList.remove('hidden');
-        summaryCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        showToast('success', '4-in-1 JSON Loaded!', `Found ${totalCats} categories with ${totalQCount} questions in total.`);
-      } catch (err) {
-        console.error("JSON Parse Error:", err);
-        showToast('error', 'Invalid JSON Format', err.message || 'Please check your JSON format.');
-      }
-    }
-
-    function getCategoryDisplayName(key) {
-      if (key.includes('police')) return 'Bihar Police';
-      if (key.includes('daroga') || key.includes('si')) return 'Bihar Daroga';
-      if (key.includes('reason') || key.includes('reasin')) return 'Reasoning';
-      if (key.includes('math')) return 'Maths';
-      return key.charAt(0).toUpperCase() + key.slice(1);
-    }
-
-    function renderLoadedCategoriesCards() {
-      const container = document.getElementById('loaded-categories-grid');
-      if (!container) return;
-      container.innerHTML = '';
-
-      const catMetaConfig = {
-        'police': { icon: 'fa-shield-halved', color: 'indigo', labelHi: 'बिहार पुलिस', labelEn: 'Bihar Police' },
-        'daroga': { icon: 'fa-star', color: 'emerald', labelHi: 'बिहार दरोगा', labelEn: 'Bihar Daroga' },
-        'reason': { icon: 'fa-brain', color: 'amber', labelHi: 'रीजनिंग', labelEn: 'Reasoning' },
-        'math': { icon: 'fa-calculator', color: 'rose', labelHi: 'मैथ्स', labelEn: 'Maths' }
-      };
-
-      Object.keys(customParsedCategories).forEach(catKey => {
-        const cat = customParsedCategories[catKey];
-        let meta = { icon: 'fa-book-open', color: 'blue', labelHi: cat.displayName, labelEn: cat.displayName };
-
-        for (const [pattern, cfg] of Object.entries(catMetaConfig)) {
-          if (catKey.includes(pattern)) {
-            meta = cfg;
-            break;
-          }
-        }
-
-        const card = document.createElement('div');
-        card.className = "bg-slate-900 border border-slate-700/80 hover:border-emerald-500/80 rounded-xl p-3.5 transition group flex flex-col justify-between";
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="w-8 h-8 rounded-lg bg-${meta.color}-500/20 text-${meta.color}-400 flex items-center justify-center text-sm border border-${meta.color}-500/30">
-                <i class="fa-solid ${meta.icon}"></i>
-              </span>
-              <span class="text-[11px] font-mono font-bold bg-slate-800 text-emerald-400 px-2 py-0.5 rounded border border-slate-700">
-                ${cat.questions.length} Qs
-              </span>
-            </div>
-            <h5 class="text-xs font-bold text-white group-hover:text-emerald-300 transition">${cat.displayName}</h5>
-            <p class="text-[11px] text-slate-400 mt-0.5">${meta.labelHi || ''}</p>
-          </div>
-          <button onclick="startLoadedJsonTest('${catKey}')" class="mt-3 w-full py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 hover:text-slate-950 text-white text-[11px] font-bold transition flex items-center justify-center gap-1 border border-slate-700 hover:border-emerald-500">
-            <i class="fa-solid fa-play text-[9px]"></i>
-            <span>Start ${cat.displayName}</span>
-          </button>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function startLoadedJsonTest(categoryKey = 'all') {
-      let selectedQuestions = [];
-      let testTitle = "";
-
-      if (categoryKey === 'all' || !customParsedCategories[categoryKey]) {
-        selectedQuestions = customParsedQuestions;
-        testTitle = `${customPaperTitle} (All Categories)`;
-      } else {
-        const cat = customParsedCategories[categoryKey];
-        selectedQuestions = cat.questions;
-        testTitle = `${cat.displayName} - Amrit Academy Mock`;
-      }
-
-      if (!selectedQuestions || selectedQuestions.length === 0) {
-        showToast('error', 'No Questions Found', 'Selected category has no questions.');
-        return;
-      }
-
-      activeTestQuestions = selectedQuestions;
-      currentQuestionIdx = 0;
-      userAnswers = {};
-      markedForReview = {};
-
-      document.getElementById('exam-header-title').textContent = testTitle;
-      document.getElementById('exam-user-tag').textContent = `Candidate: ${currentUser?.name || 'Student'} • ${selectedQuestions.length} Questions (60 Min)`;
-
-      renderPalette();
-      renderQuestion(0);
-      startExamTimer(60 * 60);
-
-      showScreen('cbt-screen');
-      showToast('success', 'Test Started!', `Loaded ${selectedQuestions.length} questions for ${testTitle}.`);
-    }
-
-    function loadDefaultSampleJsonTemplate() {
-      const sample = {
-        "bihar police": [
-          {
-            "id": 1,
-            "category": "History",
-            "question": "हड़प्पा सभ्यता की खोज किस वर्ष हुई थी?",
-            "options": ["1920", "1921", "1922", "1925"],
-            "answer": "1921"
-          },
-          {
-            "id": 2,
-            "category": "Science",
-            "question": "मानव शरीर में रक्त का शुद्धिकरण किस अंग द्वारा होता है?",
-            "options": ["हृदय", "वृक्क (Kidney)", "यकृत", "फेफड़े"],
-            "answer": "वृक्क (Kidney)"
-          }
-        ],
-        "bihar daroga": [
-          {
-            "id": 1,
-            "category": "Polity",
-            "question": "भारतीय संविधान का कौन सा अनुच्छेद राज्य में राष्ट्रपति शासन से संबंधित है?",
-            "options": ["अनुच्छेद 352", "अनुच्छेद 356", "अनुच्छेद 360", "अनुच्छेद 370"],
-            "answer": "अनुच्छेद 356"
-          },
-          {
-            "id": 2,
-            "category": "Geography",
-            "question": "भारत की सबसे लंबी नदी कौन सी है?",
-            "options": ["गोदावरी", "गंगा", "ब्रह्मपुत्र", "यमुना"],
-            "answer": "गंगा"
-          }
-        ],
-        "reasoning": [
-          {
-            "id": 1,
-            "category": "Analogy",
-            "question": "यदि पुस्तक : लेखक, तो गीत : ?",
-            "options": ["गायक", "गीतकार", "संगीतकार", "फिल्म"],
-            "answer": "गीतकार"
-          },
-          {
-            "id": 2,
-            "category": "Series",
-            "question": "श्रृंखला पूर्ण करें: 2, 4, 8, 16, ?",
-            "options": ["24", "30", "32", "64"],
-            "answer": "32"
-          }
-        ],
-        "maths": [
-          {
-            "id": 1,
-            "category": "Percentage",
-            "question": "यदि किसी संख्या का 20% मान 80 है, तो वह संख्या क्या होगी?",
-            "options": ["300", "350", "400", "500"],
-            "answer": "400"
-          },
-          {
-            "id": 2,
-            "category": "Profit & Loss",
-            "question": "एक वस्तु को ₹500 में खरीदकर ₹600 में बेचा गया, लाभ प्रतिशत ज्ञात करें:",
-            "options": ["15%", "20%", "25%", "10%"],
-            "answer": "20%"
-          }
-        ]
-      };
-      document.getElementById('json-paste-area').value = JSON.stringify(sample, null, 2);
-      showToast('info', '4-Category JSON Loaded', 'Sample for Bihar Police, Bihar Daroga, Reasoning, and Maths loaded!');
-    }
-
-    /* ==========================================================================
-       LANGUAGE SWITCHER & TRANSLATION ENGINE
-       ========================================================================== */
-    function toggleLanguageDropdown() {
-      document.getElementById('lang-dropdown-menu').classList.toggle('hidden');
-    }
-
-    function selectAppLanguage(lang) {
-      currentAppLang = lang;
-      document.getElementById('lang-dropdown-menu').classList.add('hidden');
-      
-      const checkEn = document.getElementById('check-lang-en');
-      const checkHi = document.getElementById('check-lang-hi');
-      if (lang === 'hi') {
-        checkEn.classList.add('hidden');
-        checkHi.classList.remove('hidden');
-      } else {
-        checkEn.classList.remove('hidden');
-        checkHi.classList.add('hidden');
-      }
-
-      applyTranslations();
-      showToast('info', 'Language Changed', lang === 'hi' ? 'ऐप की भाषा हिंदी में बदली गई।' : 'App language switched to English.');
-    }
-
-    function applyTranslations() {
-      const t = I18N[currentAppLang];
-      const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-
-      setText('current-lang-text', t.langDisplay);
-      setText('auth-main-title', t.authMainTitle);
-      setText('auth-subtitle', t.authSubtitle);
-      setText('tab-login', t.tabLogin);
-      setText('tab-register', t.tabRegister);
-      setText('label-name', t.labelName);
-      setText('label-phone', t.labelPhone);
-      setText('label-password', t.labelPassword);
-      setText('badge-pwd-min', t.badgeMinPwd);
-      setText('btn-auth-text', currentAuthMode === 'login' ? t.btnLogin : t.btnRegister);
-      
-      setText('dash-badge', t.dashBadge);
-      setText('dash-motto', t.dashMotto);
-      setText('title-targeted-exams', t.titleTargetedExams);
-      setText('desc-targeted-exams', t.descTargetedExams);
-      
-      setText('cbt-marking-correct', t.cbtMarkCorrect);
-      setText('cbt-marking-wrong', t.cbtMarkWrong);
-
-      if (currentUser) updateNavUser();
-      if (!document.getElementById('cbt-screen').classList.contains('hidden')) {
-        renderQuestion(currentQuestionIdx);
-      }
-    }
-
-    /* ==========================================================================
-       TOAST UTILITY
-       ========================================================================== */
-    let toastTimeout = null;
-    function showToast(type, title, message) {
-      const toast = document.getElementById('toast');
-      const toastIcon = document.getElementById('toast-icon');
-      const toastTitle = document.getElementById('toast-title');
-      const toastMsg = document.getElementById('toast-msg');
-
-      if (!toast) return;
-
-      toastTitle.textContent = title;
-      toastMsg.textContent = message;
-
-      if (type === 'error') {
-        toastIcon.className = "w-7 h-7 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-sm mt-0.5 shrink-0";
-        toastIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
-      } else if (type === 'info') {
-        toastIcon.className = "w-7 h-7 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-sm mt-0.5 shrink-0";
-        toastIcon.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
-      } else {
-        toastIcon.className = "w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm mt-0.5 shrink-0";
-        toastIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
-      }
-
-      toast.classList.remove('translate-y-24', 'opacity-0');
-      toast.classList.add('translate-y-0', 'opacity-100');
-
-      if (toastTimeout) clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('translate-y-0', 'opacity-100');
-        toast.classList.add('translate-y-24', 'opacity-0');
-      }, 3500);
-    }
-
-    // Close dropdown on outside click
-    window.addEventListener('click', (e) => {
-      const langBtn = document.getElementById('lang-btn');
-      const langMenu = document.getElementById('lang-dropdown-menu');
-      if (langBtn && langMenu && !langBtn.contains(e.target) && !langMenu.contains(e.target)) {
-        langMenu.classList.add('hidden');
-      }
-    });
   </script>
 </body>
 </html>
