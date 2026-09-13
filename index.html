@@ -94,7 +94,7 @@
 </head>
 <body class="bg-academic-mesh text-slate-800 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
 
-  <!-- DYNAMIC AMBIENT LIGHT ORBS (Background Visual Depth) -->
+  <!-- DYNAMIC AMBIENT LIGHT ORBS -->
   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-emerald-400/20 via-teal-300/15 to-transparent rounded-full blur-3xl ambient-orb-1"></div>
     <div class="absolute top-12 -right-28 w-[30rem] h-[30rem] bg-gradient-to-bl from-indigo-500/15 via-purple-400/10 to-transparent rounded-full blur-3xl ambient-orb-2"></div>
@@ -195,7 +195,7 @@
     </div>
   </header>
 
-  <!-- MAIN APPLICATION SCREENS WRAPPER -->
+  <!-- MAIN APPLICATION SCREENS -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-start relative z-10">
 
     <!-- SCREEN 1: LOGIN & REGISTRATION -->
@@ -387,8 +387,8 @@
                 <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
                 <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
               </div>
-              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg" id="badge-bp-total-q">
-                100 Questions per test set
+              <div class="text-[11px] text-indigo-600 font-semibold bg-indigo-50 px-2.5 py-1 rounded-lg">
+                प्रश्न संख्या: 1 से 2500 तक
               </div>
             </div>
             <button onclick="openExamSetSelection('bihar_police')" 
@@ -414,7 +414,7 @@
                 <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
               </div>
               <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
-                100 Questions per test set
+                प्रश्न संख्या: 2501 से 5000 तक
               </div>
             </div>
             <button onclick="openExamSetSelection('bihar_daroga')" 
@@ -439,7 +439,7 @@
                 <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
                 <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
               </div>
-              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
+              <div class="text-[11px] text-amber-600 font-semibold bg-amber-50 px-2.5 py-1 rounded-lg">
                 100 Questions per test set
               </div>
             </div>
@@ -465,7 +465,7 @@
                 <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
                 <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
               </div>
-              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
+              <div class="text-[11px] text-rose-600 font-semibold bg-rose-50 px-2.5 py-1 rounded-lg">
                 100 Questions per test set
               </div>
             </div>
@@ -815,7 +815,7 @@
       loadExternalJSON();
     });
 
-    // Auto-fetch questions.json / question.json without repeating or crashing
+    // Auto-fetch questions.json / question.json without crashing
     async function loadExternalJSON() {
       const possibleFiles = ['./questions.json', './question.json', 'questions.json', 'question.json'];
 
@@ -825,7 +825,6 @@
           if (res.ok) {
             let text = await res.text();
             
-            // Auto repair incomplete/truncated JSON if necessary
             try {
               MASTER_JSON_DATA = JSON.parse(text);
             } catch (err) {
@@ -836,10 +835,7 @@
               }
             }
 
-            const bpTotal = MASTER_JSON_DATA["bihar police"] ? MASTER_JSON_DATA["bihar police"].length : 0;
-            const badge = document.getElementById('badge-bp-total-q');
-            if (badge) badge.textContent = `${bpTotal} Original Questions Loaded`;
-            console.log('JSON File Loaded from:', path, 'Total Questions:', bpTotal);
+            console.log('JSON File Loaded from:', path);
             return;
           }
         } catch (e) {}
@@ -989,10 +985,10 @@
 
     /* EXAM & 25 SETS NAVIGATION */
     const EXAM_CONFIG = {
-      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", titleEn: "Bihar Police (Constable)", badge: "Exam 1", jsonKey: "bihar police" },
-      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", titleEn: "Bihar Daroga", badge: "Exam 2", jsonKey: "bihar daroga" },
-      reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", titleEn: "Reasoning", badge: "Exam 3", jsonKey: "reasoning" },
-      maths: { titleHi: "गणित (मैथ्स)", titleEn: "Maths", badge: "Exam 4", jsonKey: "maths" }
+      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", titleEn: "Bihar Police (Constable)", badge: "Exam 1", jsonKey: "bihar police", baseOffset: 0 },
+      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", titleEn: "Bihar Daroga", badge: "Exam 2", jsonKey: "bihar daroga", baseOffset: 2500 },
+      reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", titleEn: "Reasoning", badge: "Exam 3", jsonKey: "reasoning", baseOffset: 0 },
+      maths: { titleHi: "गणित (मैथ्स)", titleEn: "Maths", badge: "Exam 4", jsonKey: "maths", baseOffset: 0 }
     };
 
     function openExamSetSelection(examKey) {
@@ -1042,19 +1038,20 @@
       }
     }
 
-    // Zero-Repetition Question Slicing Logic
+    // Question Slicing Logic with Category Offset (1-2500 & 2501-5000)
     function startSpecificExamSet(examKey, setNum) {
       const config = EXAM_CONFIG[examKey];
       const examTitle = `${currentAppLang === 'hi' ? config.titleHi : config.titleEn} - Mock Set ${setNum < 10 ? '0' + setNum : setNum}`;
 
-      const jsonKey = config.jsonKey;
-      const bank = MASTER_JSON_DATA[jsonKey] || MASTER_JSON_DATA["bihar police"] || [];
+      // Get pool from json
+      let bank = MASTER_JSON_DATA[config.jsonKey] || MASTER_JSON_DATA["bihar police"] || [];
 
-      // Set 1: 0 to 100, Set 2: 100 to 200, Set 3: 200 to 300
-      const startIndex = (setNum - 1) * 100;
+      // Offset: Bihar Police = 0, Bihar Daroga = 2500
+      const baseOffset = config.baseOffset || 0;
+      const startIndex = baseOffset + (setNum - 1) * 100;
       let setQuestions = bank.slice(startIndex, startIndex + 100);
 
-      // If database has fewer questions, take first 100 without looping
+      // Fallback: If not enough questions exist in this offset range, pick from beginning
       if (setQuestions.length === 0) {
         setQuestions = bank.slice(0, 100);
       }
@@ -1422,6 +1419,7 @@
       const toastMsg = document.getElementById('toast-msg');
 
       if (!toast) return;
+
       toastTitle.textContent = title;
       toastMsg.textContent = message;
 
