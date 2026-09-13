@@ -35,7 +35,6 @@
       background-attachment: fixed;
     }
 
-    /* Ambient Floating Glow Animations */
     @keyframes floatSlow {
       0%, 100% { transform: translateY(0px) scale(1); }
       50% { transform: translateY(-16px) scale(1.05); }
@@ -143,7 +142,7 @@
         </div>
       </div>
 
-      <!-- Quick Action Controls -->
+      <!-- Controls -->
       <div class="flex items-center gap-2 sm:gap-3">
         <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" rel="noopener noreferrer" 
            class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-xs font-bold transition shadow-sm">
@@ -157,7 +156,7 @@
           <span class="hidden md:inline">6207662510</span>
         </a>
 
-        <!-- Language Selector Dropdown -->
+        <!-- Language Selector -->
         <div class="relative">
           <button onclick="toggleLanguageDropdown()" id="lang-btn" 
                   class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition border border-slate-200">
@@ -179,7 +178,7 @@
           </div>
         </div>
 
-        <!-- Logged in User Tag & Logout -->
+        <!-- User Tag & Logout -->
         <div id="nav-user-profile" class="hidden items-center gap-2 pl-2 border-l border-slate-200">
           <div class="hidden lg:block text-right">
             <p id="nav-user-name" class="text-xs font-bold text-slate-900 leading-tight">Student</p>
@@ -195,7 +194,7 @@
     </div>
   </header>
 
-  <!-- MAIN APPLICATION SCREENS -->
+  <!-- MAIN WRAPPER -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-start relative z-10">
 
     <!-- SCREEN 1: LOGIN & REGISTRATION -->
@@ -387,7 +386,7 @@
                 <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
                 <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
               </div>
-              <div class="text-[11px] text-indigo-600 font-semibold bg-indigo-50 px-2.5 py-1 rounded-lg">
+              <div class="text-[11px] text-indigo-600 font-semibold bg-indigo-50 px-2.5 py-1 rounded-lg" id="badge-bp-total-q">
                 प्रश्न संख्या: 1 से 2500 तक
               </div>
             </div>
@@ -413,7 +412,7 @@
                 <span><i class="fa-solid fa-layer-group text-slate-400 mr-1"></i> 25 Mock Sets</span>
                 <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
               </div>
-              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg">
+              <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg" id="badge-si-total-q">
                 प्रश्न संख्या: 2501 से 5000 तक
               </div>
             </div>
@@ -752,7 +751,7 @@
     let timeRemainingSeconds = 3600;
 
     // JSON Data Store
-    let MASTER_JSON_DATA = { "bihar police": [] };
+    let MASTER_JSON_DATA = {};
 
     const I18N = {
       en: {
@@ -836,9 +835,44 @@
             }
 
             console.log('JSON File Loaded from:', path);
+            updateExamCounters();
             return;
           }
         } catch (e) {}
+      }
+    }
+
+    // Helper: case-insensitive key search
+    function getQuestionsFromMaster(keyPattern) {
+      if (!MASTER_JSON_DATA) return [];
+      const keys = Object.keys(MASTER_JSON_DATA);
+      const cleanPattern = keyPattern.toLowerCase().replace(/[^a-z]/g, '');
+      
+      for (let k of keys) {
+        const cleanKey = k.toLowerCase().replace(/[^a-z]/g, '');
+        if (cleanKey.includes(cleanPattern)) {
+          return MASTER_JSON_DATA[k] || [];
+        }
+      }
+      return [];
+    }
+
+    function updateExamCounters() {
+      const bp = getQuestionsFromMaster("biharpolice");
+      const daroga = getQuestionsFromMaster("bihardaroga");
+      
+      const bpBadge = document.getElementById('badge-bp-total-q');
+      const siBadge = document.getElementById('badge-si-total-q');
+      
+      if (bpBadge) {
+        bpBadge.textContent = bp.length > 0 ? `कुल ${Math.min(bp.length, 2500)} प्रश्न उपलब्ध` : `प्रश्न: 1 से 2500 तक`;
+      }
+      if (siBadge) {
+        if (daroga.length > 0) {
+          siBadge.textContent = `कुल ${daroga.length} प्रश्न उपलब्ध`;
+        } else if (bp.length > 2500) {
+          siBadge.textContent = `कुल ${bp.length - 2500} प्रश्न उपलब्ध (2501-5000)`;
+        }
       }
     }
 
@@ -985,10 +1019,10 @@
 
     /* EXAM & 25 SETS NAVIGATION */
     const EXAM_CONFIG = {
-      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", titleEn: "Bihar Police (Constable)", badge: "Exam 1", jsonKey: "bihar police", baseOffset: 0 },
-      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", titleEn: "Bihar Daroga", badge: "Exam 2", jsonKey: "bihar daroga", baseOffset: 2500 },
-      reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", titleEn: "Reasoning", badge: "Exam 3", jsonKey: "reasoning", baseOffset: 0 },
-      maths: { titleHi: "गणित (मैथ्स)", titleEn: "Maths", badge: "Exam 4", jsonKey: "maths", baseOffset: 0 }
+      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", titleEn: "Bihar Police (Constable)", badge: "Exam 1", searchPattern: "police" },
+      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", titleEn: "Bihar Daroga", badge: "Exam 2", searchPattern: "daroga" },
+      reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", titleEn: "Reasoning", badge: "Exam 3", searchPattern: "reason" },
+      maths: { titleHi: "गणित (मैथ्स)", titleEn: "Maths", badge: "Exam 4", searchPattern: "math" }
     };
 
     function openExamSetSelection(examKey) {
@@ -1038,22 +1072,46 @@
       }
     }
 
-    // Question Slicing Logic with Category Offset (1-2500 & 2501-5000)
+    // Zero-Repetition Question Logic for Bihar Police (1-2500) and Bihar Daroga (2500-5000)
     function startSpecificExamSet(examKey, setNum) {
       const config = EXAM_CONFIG[examKey];
       const examTitle = `${currentAppLang === 'hi' ? config.titleHi : config.titleEn} - Mock Set ${setNum < 10 ? '0' + setNum : setNum}`;
 
-      // Get pool from json
-      let bank = MASTER_JSON_DATA[config.jsonKey] || MASTER_JSON_DATA["bihar police"] || [];
+      let specificBank = getQuestionsFromMaster(config.searchPattern);
+      let setQuestions = [];
 
-      // Offset: Bihar Police = 0, Bihar Daroga = 2500
-      const baseOffset = config.baseOffset || 0;
-      const startIndex = baseOffset + (setNum - 1) * 100;
-      let setQuestions = bank.slice(startIndex, startIndex + 100);
+      if (examKey === 'bihar_daroga') {
+        // If "bihar daroga" exists as a separate array with questions
+        if (specificBank.length >= 100) {
+          const startIndex = (setNum - 1) * 100;
+          setQuestions = specificBank.slice(startIndex, startIndex + 100);
+        } else {
+          // If questions are packed together inside "bihar police" at index 2500-5000
+          const bpBank = getQuestionsFromMaster("police");
+          const startIndex = 2500 + (setNum - 1) * 100;
+          setQuestions = bpBank.slice(startIndex, startIndex + 100);
 
-      // Fallback: If not enough questions exist in this offset range, pick from beginning
-      if (setQuestions.length === 0) {
-        setQuestions = bank.slice(0, 100);
+          // If less than 2500 questions exist, gracefully slice without repeating
+          if (setQuestions.length === 0 && bpBank.length >= 100) {
+            const fallbackStart = (setNum - 1) * 100;
+            setQuestions = bpBank.slice(fallbackStart, fallbackStart + 100);
+          }
+        }
+      } else if (examKey === 'bihar_police') {
+        // Bihar police: questions 1 to 2500
+        const bpBank = specificBank.length > 0 ? specificBank : getQuestionsFromMaster("police");
+        const startIndex = (setNum - 1) * 100;
+        setQuestions = bpBank.slice(startIndex, startIndex + 100);
+      } else {
+        // Reasoning / Maths
+        const targetBank = specificBank.length > 0 ? specificBank : getQuestionsFromMaster("police");
+        const startIndex = (setNum - 1) * 100;
+        setQuestions = targetBank.slice(startIndex, startIndex + 100);
+      }
+
+      if (!setQuestions || setQuestions.length === 0) {
+        showToast('error', 'No Questions Found', `Set ${setNum} के लिए JSON में पर्याप्त प्रश्न नहीं मिले।`);
+        return;
       }
 
       activeTestQuestions = setQuestions.map((item, idx) => {
@@ -1085,7 +1143,7 @@
       startExamTimer(60 * 60);
 
       showScreen('cbt-screen');
-      showToast('success', 'Test Started', `Set ${setNum} started. 60 minutes for ${activeTestQuestions.length} questions.`);
+      showToast('success', 'Test Started', `Set ${setNum} started (${activeTestQuestions.length} questions).`);
     }
 
     /* CBT RUNTIME ENGINE */
