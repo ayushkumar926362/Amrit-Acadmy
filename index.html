@@ -413,7 +413,7 @@
                 <span><i class="fa-regular fa-clock text-slate-400 mr-1"></i> 60 Min / Set</span>
               </div>
               <div class="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-lg" id="badge-si-total-q">
-                प्रश्न संख्या: 2501 से 5000 तक
+                प्रश्न संख्या: 1 से 2600 तक (Daroga Pool)
               </div>
             </div>
             <button onclick="openExamSetSelection('bihar_daroga')" 
@@ -842,7 +842,7 @@
       }
     }
 
-    // Helper: case-insensitive key search
+    // Helper: case-insensitive key search (matches "bihardaroga", "bihar police", etc.)
     function getQuestionsFromMaster(keyPattern) {
       if (!MASTER_JSON_DATA) return [];
       const keys = Object.keys(MASTER_JSON_DATA);
@@ -850,7 +850,7 @@
       
       for (let k of keys) {
         const cleanKey = k.toLowerCase().replace(/[^a-z]/g, '');
-        if (cleanKey.includes(cleanPattern)) {
+        if (cleanKey === cleanPattern || cleanKey.includes(cleanPattern)) {
           return MASTER_JSON_DATA[k] || [];
         }
       }
@@ -865,14 +865,10 @@
       const siBadge = document.getElementById('badge-si-total-q');
       
       if (bpBadge) {
-        bpBadge.textContent = bp.length > 0 ? `कुल ${Math.min(bp.length, 2500)} प्रश्न उपलब्ध` : `प्रश्न: 1 से 2500 तक`;
+        bpBadge.textContent = bp.length > 0 ? `कुल ${bp.length} प्रश्न (1 से 2500)` : `प्रश्न: 1 से 2500 तक`;
       }
       if (siBadge) {
-        if (daroga.length > 0) {
-          siBadge.textContent = `कुल ${daroga.length} प्रश्न उपलब्ध`;
-        } else if (bp.length > 2500) {
-          siBadge.textContent = `कुल ${bp.length - 2500} प्रश्न उपलब्ध (2501-5000)`;
-        }
+        siBadge.textContent = daroga.length > 0 ? `कुल ${daroga.length} प्रश्न (1 से 2600)` : `प्रश्न: 1 से 2600 तक`;
       }
     }
 
@@ -1019,8 +1015,8 @@
 
     /* EXAM & 25 SETS NAVIGATION */
     const EXAM_CONFIG = {
-      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", titleEn: "Bihar Police (Constable)", badge: "Exam 1", searchPattern: "police" },
-      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", titleEn: "Bihar Daroga", badge: "Exam 2", searchPattern: "daroga" },
+      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", titleEn: "Bihar Police (Constable)", badge: "Exam 1", searchPattern: "biharpolice" },
+      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", titleEn: "Bihar Daroga", badge: "Exam 2", searchPattern: "bihardaroga" },
       reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", titleEn: "Reasoning", badge: "Exam 3", searchPattern: "reason" },
       maths: { titleHi: "गणित (मैथ्स)", titleEn: "Maths", badge: "Exam 4", searchPattern: "math" }
     };
@@ -1072,45 +1068,20 @@
       }
     }
 
-    // Zero-Repetition Question Logic for Bihar Police (1-2500) and Bihar Daroga (2500-5000)
+    // Direct Slicing: Bihar Police (0-2500) and Bihar Daroga (0-2600 from "bihardaroga")
     function startSpecificExamSet(examKey, setNum) {
       const config = EXAM_CONFIG[examKey];
       const examTitle = `${currentAppLang === 'hi' ? config.titleHi : config.titleEn} - Mock Set ${setNum < 10 ? '0' + setNum : setNum}`;
 
-      let specificBank = getQuestionsFromMaster(config.searchPattern);
-      let setQuestions = [];
+      // Target array directly by key
+      let bank = getQuestionsFromMaster(config.searchPattern);
 
-      if (examKey === 'bihar_daroga') {
-        // If "bihar daroga" exists as a separate array with questions
-        if (specificBank.length >= 100) {
-          const startIndex = (setNum - 1) * 100;
-          setQuestions = specificBank.slice(startIndex, startIndex + 100);
-        } else {
-          // If questions are packed together inside "bihar police" at index 2500-5000
-          const bpBank = getQuestionsFromMaster("police");
-          const startIndex = 2500 + (setNum - 1) * 100;
-          setQuestions = bpBank.slice(startIndex, startIndex + 100);
-
-          // If less than 2500 questions exist, gracefully slice without repeating
-          if (setQuestions.length === 0 && bpBank.length >= 100) {
-            const fallbackStart = (setNum - 1) * 100;
-            setQuestions = bpBank.slice(fallbackStart, fallbackStart + 100);
-          }
-        }
-      } else if (examKey === 'bihar_police') {
-        // Bihar police: questions 1 to 2500
-        const bpBank = specificBank.length > 0 ? specificBank : getQuestionsFromMaster("police");
-        const startIndex = (setNum - 1) * 100;
-        setQuestions = bpBank.slice(startIndex, startIndex + 100);
-      } else {
-        // Reasoning / Maths
-        const targetBank = specificBank.length > 0 ? specificBank : getQuestionsFromMaster("police");
-        const startIndex = (setNum - 1) * 100;
-        setQuestions = targetBank.slice(startIndex, startIndex + 100);
-      }
+      // Start Index for 100 questions per set
+      const startIndex = (setNum - 1) * 100;
+      let setQuestions = bank.slice(startIndex, startIndex + 100);
 
       if (!setQuestions || setQuestions.length === 0) {
-        showToast('error', 'No Questions Found', `Set ${setNum} के लिए JSON में पर्याप्त प्रश्न नहीं मिले।`);
+        showToast('error', 'No Questions Found', `Set ${setNum} के लिए "${config.searchPattern}" में प्रश्न नहीं मिले।`);
         return;
       }
 
