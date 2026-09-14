@@ -101,9 +101,9 @@
                 <stop offset="100%" stop-color="#f59e0b"/>
               </linearGradient>
             </defs>
-            <path d="M50 6 L88 20 C88 56 68 82 50 94 C32 82 12 56 12 20 Z" fill="url(#shieldBg)" stroke="url(#goldStroke)" stroke-width="3.5" stroke-linejoin="round"/>
-            <path d="M50 12 L82 24 C82 53 65 76 50 86 C35 76 18 53 18 24 Z" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
-            <path d="M25 40 C23 48 26 58 32 66 M75 40 C77 48 74 58 68 66" stroke="url(#goldStroke)" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M50 6 L88 20 C88 56 68 82 50 94 C32 82 12 56 12 20 Z" fill="url(#shieldBg)" stroke="url(#goldStroke)" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M50 12 L82 24 C82 53 65 76 50 86 C35 76 18 53 18 24 Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+            <path d="M25 40 C23 48 26 58 32 66 M75 40 C77 48 74 58 68 66" stroke="url(#goldStroke)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.85"/>
             <path d="M50 66 C42 61 32 62 26 65 L26 73 C32 70 42 69 50 74 C58 69 68 70 74 73 L74 65 C68 62 58 61 50 66 Z" fill="url(#goldFill)"/>
             <line x1="50" y1="66" x2="50" y2="74" stroke="#78350f" stroke-width="1.5"/>
             <path d="M50 24 L36 58 H43.5 L46.5 48 H53.5 L56.5 58 H64 L50 24 Z M50 36 L52.2 43.5 H47.8 L50 36 Z" fill="#ffffff"/>
@@ -486,7 +486,7 @@
       </div>
     </section>
 
-    <!-- SCREEN 3: SET SELECTION (Set 1 Free, Set 2-25 ₹1 Razorpay Locked) -->
+    <!-- SCREEN 3: SET SELECTION -->
     <section id="set-selection-screen" class="hidden space-y-6 py-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center gap-3">
@@ -706,10 +706,42 @@
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 text-center text-xs text-slate-600 font-medium">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+  <!-- LEGAL, ABOUT, FEATURES & SUPPORT MODALS CONTAINERS -->
+  <div id="info-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full shadow-2xl border border-slate-200 space-y-4 relative max-h-[85vh] flex flex-col">
+      <button onclick="closeInfoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 z-10">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <h3 id="info-modal-title" class="text-lg font-black text-slate-900 border-b pb-2">Information</h3>
+      <div id="info-modal-content" class="text-xs sm:text-sm text-slate-600 overflow-y-auto custom-scrollbar space-y-3 flex-1 pr-1">
+        <!-- Content loaded dynamically -->
+      </div>
+      <div class="pt-2 border-t text-center">
+        <button onclick="closeInfoModal()" class="px-5 py-2 bg-slate-900 text-white font-bold rounded-xl text-xs">बंद करें (Close)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER WITH ALL LEGAL & SUPPORT LINKS -->
+  <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 text-xs text-slate-600 font-medium relative z-10">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
       <p>© 2026 अमृत एकेडमी (Amrit Academy). सर्वाधिकार सुरक्षित।</p>
+      
+      <!-- Footer Links Bar -->
+      <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[11px] font-semibold text-slate-600">
+        <button onclick="openInfoModal('about')" class="hover:text-emerald-600 transition">About Us</button>
+        <span>•</span>
+        <button onclick="openInfoModal('features')" class="hover:text-emerald-600 transition">Features</button>
+        <span>•</span>
+        <button onclick="openInfoModal('contact')" class="hover:text-emerald-600 transition">Contact & Support</button>
+        <span>•</span>
+        <button onclick="openInfoModal('terms')" class="hover:text-emerald-600 transition">Terms of Service</button>
+        <span>•</span>
+        <button onclick="openInfoModal('privacy')" class="hover:text-emerald-600 transition">Privacy Policy</button>
+        <span>•</span>
+        <button onclick="openInfoModal('delete')" class="text-rose-600 hover:text-rose-700 transition">Delete Account</button>
+      </div>
+
       <p class="font-bold text-emerald-700 flex items-center gap-1.5">
         <span>Created by Ayush</span>
         <i class="fa-solid fa-code text-slate-400"></i>
@@ -717,7 +749,7 @@
     </div>
   </footer>
 
-  <!-- SECURE PAYMENT MODAL (DIRECT RAZORPAT.ME LINK) -->
+  <!-- SECURE PAYMENT MODAL -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -738,10 +770,9 @@
           <span>Razorpay Official Payment Link</span>
         </div>
         <p class="text-xs text-slate-600 leading-relaxed">
-          नीचे दिए गए बटन पर क्लिक करके सीधे आपके सुरक्षित Razorpay लिंक पर ₹1 का भुगतान करें।
+          नीचे दिए गए बटन पर क्लिक करके सीधे Razorpay पर ₹1 का भुगतान करें।
         </p>
         
-        <!-- Direct Clean Link without breaking parameters -->
         <a href="https://razorpay.me/@acharyaamrit" 
            target="_blank" 
            rel="noopener noreferrer" 
@@ -973,6 +1004,83 @@
 
     function closePaymentModal() {
       document.getElementById('payment-modal').classList.add('hidden');
+    }
+
+    /* FOOTER INFO MODALS CONTROLLER */
+    function openInfoModal(type) {
+      const modal = document.getElementById('info-modal');
+      const titleEl = document.getElementById('info-modal-title');
+      const contentEl = document.getElementById('info-modal-content');
+
+      modal.classList.remove('hidden');
+
+      if (type === 'about') {
+        titleEl.textContent = "About Us - अमृत एकेडमी (Amrit Academy)";
+        contentEl.innerHTML = `
+          <p><b>अमृत एकेडमी (Amrit Academy)</b> प्रतियोगी परीक्षाओं (जैसे बिहार पुलिस, बिहार दारोगा, रीजनिंग और गणित) की तैयारी कर रहे विद्यार्थियों के लिए एक समर्पित डिजिटल लर्निंग और CBT (कंप्यूटर आधारित टेस्ट) पोर्टल है।</p>
+          <p>हमारा उद्देश्य हर छात्र को उच्च गुणवत्ता वाली मॉक टेस्ट सीरीज़ और सटीक व्याख्या (Explanations) बेहद किफायती शुल्क पर उपलब्ध कराना है ताकि वे अपनी सफलता सुनिश्चित कर सकें।</p>
+          <p><b>संस्थापक एवं डेवलपर:</b> आयुष कुमार</p>
+        `;
+      } else if (type === 'features') {
+        titleEl.textContent = "Portal Features - मुख्य विशेषताएँ";
+        contentEl.innerHTML = `
+          <ul class="list-disc pl-4 space-y-2">
+            <li><b>25 Full Length Mock Sets:</b> प्रत्येक परीक्षा में 25 व्यापक सेट।</li>
+            <li><b>100 Questions & 60 Mins:</b> बिल्कुल वास्तविक परीक्षा पैटर्न पर आधारित टाइमर और नेगेटिव मार्किंग (-0.20)।</li>
+            <li><b>Set 01 Free Demo:</b> बिना किसी शुल्क के पहला सेट सभी छात्रों के लिए हमेशा खुला रहता है।</li>
+            <li><b>Secure Mobile Unlocking:</b> मात्र ₹1 के भुगतान पर आपके मोबाइल नंबर के लिए सभी 25 सेट हमेशा के लिए अनलॉक।</li>
+            <li><b>Detailed Solutions:</b> प्रत्येक प्रश्न के अंत में विस्तृत उत्तर और स्पष्टीकरण।</li>
+          </ul>
+        `;
+      } else if (type === 'contact') {
+        titleEl.textContent = "Contact & Support - सहायता केंद्र";
+        contentEl.innerHTML = `
+          <p>यदि आपको लॉगिन, भुगतान या टेस्ट सीरीज से संबंधित कोई भी सहायता चाहिए, तो आप हमसे सीधे संपर्क कर सकते हैं:</p>
+          <div class="p-3 bg-slate-50 rounded-xl space-y-2 border">
+            <p><i class="fa-solid fa-phone text-emerald-600 mr-2"></i><b>फोन / कॉलिंग:</b> <a href="tel:6207662510" class="text-blue-600 underline">6207662510</a></p>
+            <p><i class="fa-brands fa-whatsapp text-emerald-600 mr-2"></i><b>व्हाट्सएप सपोर्ट:</b> <a href="https://wa.me/916207662510" target="_blank" class="text-emerald-600 underline">6207662510 पर मैसेज करें</a></p>
+            <p><i class="fa-brands fa-youtube text-red-600 mr-2"></i><b>YouTube चैनल:</b> <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="text-red-600 underline">Amrit Academy YouTube</a></p>
+          </div>
+        `;
+      } else if (type === 'terms') {
+        titleEl.textContent = "Terms of Service - सेवा की शर्तें";
+        contentEl.innerHTML = `
+          <p>1. अमृत एकेडमी पोर्टल का उपयोग केवल शैक्षणिक और प्रतियोगी परीक्षा की तैयारी के लिए किया जा सकता है।</p>
+          <p>2. पोर्टल पर दिए गए सभी प्रश्न और मॉक टेस्ट अमृत एकेडमी की बौद्धिक संपदा हैं। इनका अनधिकृत वितरण वर्जित है।</p>
+          <p>3. परीक्षा शुल्क (₹1) या अन्य डिजिटल लेनदेन Razorpay सुरक्षित गेटवे के माध्यम से संचालित होते हैं।</p>
+        `;
+      } else if (type === 'privacy') {
+        titleEl.textContent = "Privacy Policy - गोपनीयता नीति";
+        contentEl.innerHTML = `
+          <p><b>अमृत एकेडमी</b> आपकी गोपनीयता का पूरा सम्मान करती है।</p>
+          <p>हम केवल आपका नाम और मोबाइल नंबर (जो आप लॉगिन या पंजीकरण के समय दर्ज करते हैं) आपके परीक्षा रिकॉर्ड और कोर्स एक्सेस को सुरक्षित रखने के लिए सहेजते हैं। हम आपकी कोई भी व्यक्तिगत जानकारी किसी तीसरे पक्ष के साथ साझा नहीं करते हैं।</p>
+        `;
+      } else if (type === 'delete') {
+        titleEl.textContent = "Delete Account - खाता हटाएं";
+        contentEl.innerHTML = `
+          <p class="text-rose-600 font-bold">चेतावनी: खाता हटाने से आपका सारा लोकल डेटा और कोर्स प्रोग्रेस इस डिवाइस से हटा दी जाएगी।</p>
+          <p class="mt-2">यदि आप अपना खाता और सहेजा गया डेटा हटाना चाहते हैं, तो नीचे दिए गए बटन पर क्लिक करें:</p>
+          <div class="mt-4 text-center">
+            <button onclick="executeDeleteAccount()" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs shadow transition">
+              हाँ, मेरा खाता और डेटा हटा दें (Delete My Data)
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function closeInfoModal() {
+      document.getElementById('info-modal').classList.add('hidden');
+    }
+
+    function executeDeleteAccount() {
+      if (confirm("क्या आप वाकई अपना खाता और सारा डेटा हटाना चाहते हैं?")) {
+        localStorage.clear();
+        currentUser = null;
+        alert("आपका डेटा सफलतापूर्वक हटा दिया गया है।");
+        closeInfoModal();
+        showScreen('auth-screen');
+      }
     }
 
     function showScreen(screenId) {
@@ -1555,7 +1663,7 @@
 
     /* LANGUAGE TOGGLE */
     function toggleLanguageDropdown() {
-      document.getElementById('lang-dropdown-menu').classList.add('hidden');
+      document.getElementById('lang-dropdown-menu').classList.toggle('hidden');
     }
 
     function selectAppLanguage(lang) {
