@@ -73,14 +73,14 @@
 </head>
 <body class="bg-academic-mesh text-slate-800 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
 
-  <!-- LIGHT ORBS -->
+  <!-- DYNAMIC AMBIENT LIGHT ORBS -->
   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-emerald-400/20 via-teal-300/15 to-transparent rounded-full blur-3xl ambient-orb-1"></div>
     <div class="absolute top-12 -right-28 w-[30rem] h-[30rem] bg-gradient-to-bl from-indigo-500/15 via-purple-400/10 to-transparent rounded-full blur-3xl ambient-orb-2"></div>
     <div class="absolute -bottom-20 left-1/3 w-[26rem] h-[26rem] bg-gradient-to-tr from-teal-400/15 via-amber-300/10 to-transparent rounded-full blur-3xl ambient-orb-1"></div>
   </div>
 
-  <!-- NAVIGATION BAR -->
+  <!-- TOP NAVIGATION BAR -->
   <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between">
       
@@ -104,7 +104,7 @@
                 <stop offset="100%" stop-color="#f59e0b"/>
               </linearGradient>
             </defs>
-            <path d="M50 6 L88 20 C88 56 68 82 50 94 C32 82 12 56 12 20 Z" fill="url(#shieldBg)" stroke="url(#goldStroke)" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M50 6 L88 20 C88 56 68 82 50 94 C32 82 12 56 12 20 Z" fill="url(#shieldBg)" stroke="url(#goldStroke)" stroke-width="3.5" stroke-linejoin="round"/>
             <path d="M50 12 L82 24 C82 53 65 76 50 86 C35 76 18 53 18 24 Z" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
             <path d="M25 40 C23 48 26 58 32 66 M75 40 C77 48 74 58 68 66" stroke="url(#goldStroke)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.85"/>
             <path d="M50 66 C42 61 32 62 26 65 L26 73 C32 70 42 69 50 74 C58 69 68 70 74 73 L74 65 C68 62 58 61 50 66 Z" fill="url(#goldFill)"/>
@@ -158,7 +158,7 @@
           </div>
         </div>
 
-        <!-- User Profile & Header Logout Button -->
+        <!-- Logged In User Profile & Direct Logout Button -->
         <div id="nav-user-profile" class="hidden items-center gap-2 pl-2 border-l border-slate-200">
           <div class="hidden lg:block text-right">
             <p id="nav-user-name" class="text-xs font-bold text-slate-900 leading-tight">Student</p>
@@ -179,7 +179,7 @@
   <!-- MAIN WRAPPER -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-start relative z-10">
 
-    <!-- SCREEN 1: LOGIN & REGISTRATION (CLEAN, NO EMAIL, NO OTP) -->
+    <!-- SCREEN 1: AUTH SCREEN WITH STRICT REGISTRATION & LOGIN CHECK -->
     <section id="auth-screen" class="my-auto py-6 sm:py-10 max-w-md mx-auto w-full">
       <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl shadow-slate-300/40 border border-slate-200/90 overflow-hidden transition-all duration-300">
         
@@ -238,7 +238,13 @@
         </div>
 
         <div class="p-6 sm:p-8 space-y-4">
-          <!-- Full Name (Only on Registration) -->
+          <!-- General Auth Warning Banner -->
+          <div id="auth-general-error" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation text-rose-500"></i>
+            <span id="auth-general-error-text">Error message</span>
+          </div>
+
+          <!-- Student Full Name (Only on Registration) -->
           <div id="field-name-container" class="hidden space-y-1.5">
             <label class="block text-xs font-bold text-slate-700" id="label-name">
               Student Full Name <span class="text-rose-500">*</span>
@@ -302,7 +308,7 @@
 
           <div class="pt-2 text-center">
             <button type="button" onclick="fillDemoCredentials()" class="text-[11px] text-emerald-700 hover:text-emerald-800 font-medium underline">
-              Demo Login (Auto-fill Demo Student)
+              Demo Registration / Auto-fill Student
             </button>
           </div>
         </div>
@@ -729,35 +735,34 @@
 
       <div class="text-center space-y-1">
         <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
-          Special Offer Fee: ₹1 Only
+          Special Fee: ₹1 Only
         </span>
         <h4 id="payment-modal-course-title" class="text-lg sm:text-xl font-black text-slate-900 mt-1">अनलॉक प्रीमियम टेस्ट सीरीज़</h4>
-        <p class="text-xs text-slate-500">बैच शुल्क ₹1 सुरक्षित भुगतान गेटवे द्वारा</p>
+        <p class="text-xs text-slate-500">मात्र ₹1 का भुगतान करें और Set 02 से 25 तक के 2500+ प्रश्न अनलॉक करें</p>
       </div>
 
-      <div class="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50 to-indigo-50 border border-emerald-200 space-y-4 text-center">
-        <div class="flex items-center justify-between bg-white px-4 py-2.5 rounded-xl border border-emerald-100 shadow-sm text-xs font-bold text-slate-700">
-          <span id="selected-batch-label">Selected Course:</span>
-          <span class="text-emerald-700 text-sm font-black">₹1.00</span>
+      <div class="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 space-y-4 text-center">
+        <div class="flex items-center justify-center gap-2 text-blue-900 font-bold text-sm">
+          <i class="fa-solid fa-shield-halved text-blue-600"></i>
+          <span>Razorpay Official Payment</span>
         </div>
-
+        <p class="text-xs text-slate-600 leading-relaxed">
+          नीचे दिए गए बटन पर क्लिक करके सीधे Razorpay पर ₹1 का भुगतान करें। केवल सफल भुगतान होने पर ही सेट्स अनलॉक होंगे।
+        </p>
+        
         <button onclick="launchPresetRazorpayCheckout()" 
-                class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition transform active:scale-95">
-          <i class="fa-solid fa-shield-halved"></i>
+           class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition active:scale-95">
+          <i class="fa-solid fa-lock"></i>
           <span>Pay ₹1 Securely via Razorpay</span>
         </button>
-
-        <p class="text-[11px] text-slate-500">
-          केवल सफल भुगतान होने पर ही सेट्स अनलॉक होंगे। बैक करने या रद्द करने पर अनलॉक नहीं होगा।
-        </p>
       </div>
 
-      <div class="pt-2 border-t border-slate-100 text-xs text-center">
+      <div class="pt-2 border-t border-slate-100 text-xs">
         <a href="https://wa.me/916207662510" 
            target="_blank" 
-           class="inline-flex items-center justify-center gap-1.5 text-emerald-800 hover:text-emerald-900 font-bold">
+           class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold flex items-center justify-center gap-1.5 transition">
           <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
-          <span>सहायता केंद्र: 6207662510</span>
+          <span>WhatsApp सहायता केंद्र (6207662510)</span>
         </a>
       </div>
 
@@ -802,7 +807,7 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <!-- SMART JAVASCRIPT APPLICATION CORE -->
   <script>
     let currentAppLang = 'en';
     let currentUser = null;
@@ -861,11 +866,13 @@
     };
 
     window.addEventListener('DOMContentLoaded', () => {
+      // Initialize default demo account if not exists
+      initDefaultUserDatabase();
+
       const savedUser = localStorage.getItem('amrit_candidate');
       if (savedUser) {
         try {
           currentUser = JSON.parse(savedUser);
-          if (currentUser.name) document.getElementById('input-name').value = currentUser.name;
           if (currentUser.phone) document.getElementById('input-phone').value = currentUser.phone;
           updateNavUser();
         } catch (e) {}
@@ -876,6 +883,33 @@
       loadExternalJSON();
     });
 
+    // Helper: Registered users database in localStorage
+    function getRegisteredUsers() {
+      try {
+        return JSON.parse(localStorage.getItem('amrit_registered_users')) || [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveRegisteredUsers(users) {
+      localStorage.setItem('amrit_registered_users', JSON.stringify(users));
+    }
+
+    function initDefaultUserDatabase() {
+      let users = getRegisteredUsers();
+      // Ensure the official default demo student is registered
+      if (!users.some(u => u.phone === '6207662510')) {
+        users.push({
+          name: "Ayush Kumar",
+          phone: "6207662510",
+          password: "amrit123"
+        });
+        saveRegisteredUsers(users);
+      }
+    }
+
+    // Auto-fetch questions.json without crashing
     async function loadExternalJSON() {
       const possibleFiles = ['./questions.json', './question.json', 'questions.json', 'question.json'];
 
@@ -931,7 +965,6 @@
       }
     }
 
-    // Check if the current mobile number has unlocked the exam
     function isCurrentMobileUnlocked(examKey) {
       if (!currentUser || !currentUser.phone) return false;
       const unlockKey = `unlocked_${examKey}_${currentUser.phone}`;
@@ -941,7 +974,6 @@
     function openPaymentModal() {
       const courseTitle = EXAM_CONFIG[selectedExamType]?.titleHi || "प्रीमियम टेस्ट सीरीज़";
       document.getElementById('payment-modal-course-title').textContent = `अनलॉक: ${courseTitle}`;
-      document.getElementById('selected-batch-label').textContent = `${courseTitle} (Set 02-25):`;
       document.getElementById('payment-modal').classList.remove('hidden');
     }
 
@@ -949,20 +981,18 @@
       document.getElementById('payment-modal').classList.add('hidden');
     }
 
-    // STRICT VERIFICATION: Unlocks ONLY when payment success callback fires with payment_id
     function launchPresetRazorpayCheckout() {
       const mobile = currentUser?.phone || "";
       const name = currentUser?.name || "Student";
       const examName = EXAM_CONFIG[selectedExamType]?.titleEn || "Mock Test Series";
 
       const options = {
-        "key": "rzp_test_placeholder", // Replace with your live Razorpay Key ID (rzp_live_xxxxxxxx)
-        "amount": "100", // Fixed ₹1 (100 Paise)
+        "key": "rzp_test_placeholder", // Replace with live Key ID (rzp_live_xxxxxxxx)
+        "amount": "100", // ₹1 (100 Paise)
         "currency": "INR",
         "name": "Amrit Academy",
         "description": `${examName} Full Batch - ₹1 Only`,
         "handler": function (response) {
-          // STRICT CHECK: Verifies that a valid payment ID is returned
           if (response && response.razorpay_payment_id) {
             const unlockKey = `unlocked_${selectedExamType}_${mobile}`;
             localStorage.setItem(unlockKey, 'true');
@@ -978,7 +1008,6 @@
         },
         "modal": {
           "ondismiss": function() {
-            // User closed the popup without paying - NO UNLOCK
             showToast('info', 'रद्द किया गया', 'भुगतान पूरा नहीं किया गया। सेट्स लॉक रहेंगे।');
           }
         },
@@ -994,12 +1023,10 @@
       try {
         const rzp1 = new Razorpay(options);
         rzp1.on('payment.failed', function (response) {
-          // Payment Failed - NO UNLOCK
           showToast('error', 'भुगतान विफल', response.error.description || 'लेनदेन अधूरा रहा। कोई राशि नहीं कटी।');
         });
         rzp1.open();
       } catch (err) {
-        // Fallback to Razorpay.me if checkout SDK is unconfigured
         window.open('https://razorpay.me/@acharyaamrit', '_blank');
       }
     }
@@ -1051,6 +1078,17 @@
         const el = document.getElementById(id);
         if (el) { el.classList.add('hidden'); el.textContent = ''; }
       });
+      const genErr = document.getElementById('auth-general-error');
+      if (genErr) genErr.classList.add('hidden');
+    }
+
+    function showGeneralAuthError(msg) {
+      const genErr = document.getElementById('auth-general-error');
+      const genErrText = document.getElementById('auth-general-error-text');
+      if (genErr && genErrText) {
+        genErrText.textContent = msg;
+        genErr.classList.remove('hidden');
+      }
     }
 
     function togglePasswordVisibility(inputId, iconId) {
@@ -1069,17 +1107,22 @@
       document.getElementById('input-name').value = "Ayush Kumar";
       document.getElementById('input-phone').value = "6207662510";
       document.getElementById('input-password').value = "amrit123";
-      showToast('info', 'Demo Filled', '10-digit mobile & password filled!');
+      clearAuthErrors();
+      showToast('info', 'Demo Filled', '10-digit mobile & password filled! Click submit.');
     }
 
+    /* ==========================================================================
+       STRICT AUTHENTICATION & REGISTRATION CHECK
+       ========================================================================== */
     function handleAuthSubmit() {
       clearAuthErrors();
       let hasError = false;
 
       const phone = document.getElementById('input-phone').value.trim();
       const password = document.getElementById('input-password').value.trim();
-      let name = "Student";
+      let name = "";
 
+      // 1. Basic format validation
       if (currentAuthMode === 'register') {
         name = document.getElementById('input-name').value.trim();
         if (!name) {
@@ -1088,11 +1131,8 @@
           errEl.classList.remove('hidden');
           hasError = true;
         }
-      } else if (currentUser && currentUser.name) {
-        name = currentUser.name;
       }
 
-      // Mobile Number Check
       const phoneRegex = /^[5-9]\d{9}$/;
       if (!phone || phone.length !== 10 || !phoneRegex.test(phone)) {
         const errEl = document.getElementById('error-phone');
@@ -1101,7 +1141,6 @@
         hasError = true;
       }
 
-      // Password Check
       if (!password || password.length <= 5) {
         const errEl = document.getElementById('error-password');
         errEl.textContent = currentAppLang === 'hi' ? 'पासवर्ड 5 अक्षर से अधिक (कम से कम 6) होना चाहिए।' : 'Password must be more than 5 digits/characters.';
@@ -1111,11 +1150,57 @@
 
       if (hasError) return;
 
-      currentUser = { name, phone };
-      localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
-      updateNavUser();
-      showScreen('dashboard-screen');
-      showToast('success', 'Logged In!', `Welcome, ${name}!`);
+      let users = getRegisteredUsers();
+
+      // 2. Strict Database Verification
+      if (currentAuthMode === 'register') {
+        // Registration Mode: Prevent duplicate mobile registration
+        const existingUser = users.find(u => u.phone === phone);
+        if (existingUser) {
+          showGeneralAuthError(currentAppLang === 'hi' 
+            ? 'यह मोबाइल नंबर पहले से पंजीकृत है! कृपया "Student Login" करें।' 
+            : 'This mobile number is already registered! Please switch to Student Login.');
+          return;
+        }
+
+        // Save new user in database
+        const newUser = { name, phone, password };
+        users.push(newUser);
+        saveRegisteredUsers(users);
+
+        currentUser = { name, phone };
+        localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
+        updateNavUser();
+        showScreen('dashboard-screen');
+        showToast('success', 'पंजीकरण सफल!', `अमृत एकेडमी में आपका स्वागत है, ${name}!`);
+      } else {
+        // Login Mode: Check if registered and verify exact password
+        const foundUser = users.find(u => u.phone === phone);
+
+        if (!foundUser) {
+          showGeneralAuthError(currentAppLang === 'hi' 
+            ? 'यह मोबाइल नंबर पंजीकृत नहीं है! कृपया पहले "New Registration" करें।' 
+            : 'Mobile number not registered! Please complete New Registration first.');
+          return;
+        }
+
+        if (foundUser.password !== password) {
+          const errEl = document.getElementById('error-password');
+          errEl.textContent = currentAppLang === 'hi' 
+            ? 'गलत पासवर्ड! कृपया सही पासवर्ड दर्ज करें।' 
+            : 'Incorrect password! Please enter the correct password.';
+          errEl.classList.remove('hidden');
+          showGeneralAuthError(currentAppLang === 'hi' ? 'पासवर्ड गलत है!' : 'Password mismatch!');
+          return;
+        }
+
+        // Exact match successful
+        currentUser = { name: foundUser.name, phone: foundUser.phone };
+        localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
+        updateNavUser();
+        showScreen('dashboard-screen');
+        showToast('success', 'लॉगिन सफल!', `वापसी पर स्वागत है, ${foundUser.name}!`);
+      }
     }
 
     function updateNavUser() {
@@ -1199,10 +1284,10 @@
           </div>
           <button onclick="handleSetClick('${examKey}', ${i})" 
                   class="mt-4 w-full py-2 rounded-xl text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm ${
-                    canAccess ? 'bg-slate-900 group-hover:bg-emerald-600' : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500'
+                    canAccess ? 'bg-slate-900 group-hover:bg-emerald-600' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500'
                   }">
             <i class="fa-solid ${canAccess ? 'fa-play text-[10px]' : 'fa-lock'}"></i>
-            <span>${canAccess ? `Start Set ${setNumFormatted}` : 'Unlock Batch (₹1)'}</span>
+            <span>${canAccess ? `Start Set ${setNumFormatted}` : 'Unlock Set (₹1)'}</span>
           </button>
         `;
         container.appendChild(card);
@@ -1266,7 +1351,7 @@
       showToast('success', 'Test Started', `Set ${setNum} started (${activeTestQuestions.length} questions).`);
     }
 
-    /* CBT ENGINE */
+    /* CBT RUNTIME ENGINE */
     function renderPalette() {
       const palette = document.getElementById('palette-grid');
       palette.innerHTML = '';
