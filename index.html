@@ -16,6 +16,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- Razorpay Official Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -42,28 +45,13 @@
       0%, 100% { transform: translateY(0px) scale(1); }
       50% { transform: translateY(18px) scale(0.96); }
     }
-    .ambient-orb-1 {
-      animation: floatSlow 12s ease-in-out infinite;
-    }
-    .ambient-orb-2 {
-      animation: floatReverse 15s ease-in-out infinite;
-    }
+    .ambient-orb-1 { animation: floatSlow 12s ease-in-out infinite; }
+    .ambient-orb-2 { animation: floatReverse 15s ease-in-out infinite; }
     
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     
     .palette-answered { background-color: #16a34a !important; color: white !important; }
     .palette-not-answered { background-color: #e11d48 !important; color: white !important; }
@@ -81,24 +69,18 @@
     }
     .palette-not-visited { background-color: #f1f5f9 !important; color: #475569 !important; border: 1px solid #cbd5e1 !important; }
     .palette-active { outline: 3px solid #3b82f6 !important; outline-offset: 1px; }
-
-    @keyframes pulseSoft {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.85; transform: scale(1.02); }
-    }
-    .pulse-urgent { animation: pulseSoft 1.5s infinite; }
   </style>
 </head>
 <body class="bg-academic-mesh text-slate-800 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
 
-  <!-- DYNAMIC AMBIENT LIGHT ORBS -->
+  <!-- LIGHT ORBS -->
   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
     <div class="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-emerald-400/20 via-teal-300/15 to-transparent rounded-full blur-3xl ambient-orb-1"></div>
     <div class="absolute top-12 -right-28 w-[30rem] h-[30rem] bg-gradient-to-bl from-indigo-500/15 via-purple-400/10 to-transparent rounded-full blur-3xl ambient-orb-2"></div>
     <div class="absolute -bottom-20 left-1/3 w-[26rem] h-[26rem] bg-gradient-to-tr from-teal-400/15 via-amber-300/10 to-transparent rounded-full blur-3xl ambient-orb-1"></div>
   </div>
 
-  <!-- TOP NAVIGATION BAR -->
+  <!-- NAVIGATION BAR -->
   <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between">
       
@@ -176,15 +158,17 @@
           </div>
         </div>
 
-        <!-- User Profile & Logout -->
+        <!-- User Profile & Header Logout Button -->
         <div id="nav-user-profile" class="hidden items-center gap-2 pl-2 border-l border-slate-200">
           <div class="hidden lg:block text-right">
             <p id="nav-user-name" class="text-xs font-bold text-slate-900 leading-tight">Student</p>
             <p id="nav-user-phone" class="text-[10px] text-slate-500 font-mono">9876543210</p>
           </div>
-          <button onclick="logoutCandidate()" title="Logout" 
-                  class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-600 flex items-center justify-center transition border border-slate-200">
-            <i class="fa-solid fa-right-from-bracket text-xs"></i>
+          <button onclick="logoutCandidate()" 
+                  class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold flex items-center gap-1.5 transition shadow-sm"
+                  title="Logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span class="hidden sm:inline">Logout</span>
           </button>
         </div>
 
@@ -195,7 +179,7 @@
   <!-- MAIN WRAPPER -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-start relative z-10">
 
-    <!-- SCREEN 1: LOGIN & REGISTRATION -->
+    <!-- SCREEN 1: LOGIN & REGISTRATION (CLEAN, NO EMAIL, NO OTP) -->
     <section id="auth-screen" class="my-auto py-6 sm:py-10 max-w-md mx-auto w-full">
       <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl shadow-slate-300/40 border border-slate-200/90 overflow-hidden transition-all duration-300">
         
@@ -254,6 +238,7 @@
         </div>
 
         <div class="p-6 sm:p-8 space-y-4">
+          <!-- Full Name (Only on Registration) -->
           <div id="field-name-container" class="hidden space-y-1.5">
             <label class="block text-xs font-bold text-slate-700" id="label-name">
               Student Full Name <span class="text-rose-500">*</span>
@@ -263,42 +248,44 @@
                 <i class="fa-regular fa-user text-sm"></i>
               </div>
               <input type="text" id="input-name" placeholder="Enter student's full name"
-                     class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-xs sm:text-sm transition">
+                     class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs sm:text-sm transition">
             </div>
             <p id="error-name" class="hidden text-[11px] text-rose-500 font-medium"></p>
           </div>
 
+          <!-- Mobile Number -->
           <div class="space-y-1.5">
             <div class="flex items-center justify-between">
               <label class="block text-xs font-bold text-slate-700" id="label-phone">
                 Mobile Number (10 Digits) <span class="text-rose-500">*</span>
               </label>
-              <span class="text-[10px] text-emerald-600 font-mono font-bold" id="badge-digits-phone">Exact 10 digits</span>
+              <span class="text-[10px] text-emerald-600 font-mono font-bold">Exact 10 digits</span>
             </div>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 font-bold text-xs">
                 +91
               </div>
               <input type="tel" id="input-phone" maxlength="10" placeholder="e.g. 6207662510"
-                     class="w-full pl-12 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-xs sm:text-sm font-mono tracking-wider transition"
+                     class="w-full pl-12 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs sm:text-sm font-mono tracking-wider transition"
                      oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             <p id="error-phone" class="hidden text-[11px] text-rose-500 font-medium"></p>
           </div>
 
+          <!-- Password -->
           <div class="space-y-1.5">
             <div class="flex items-center justify-between">
               <label class="block text-xs font-bold text-slate-700" id="label-password">
                 Password <span class="text-rose-500">*</span>
               </label>
-              <span class="text-[10px] text-slate-500" id="badge-pwd-min">Min. 6 characters</span>
+              <span class="text-[10px] text-slate-500">Min. 6 characters</span>
             </div>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <i class="fa-solid fa-lock text-sm"></i>
               </div>
-              <input type="password" id="input-password" placeholder="Password (more than 5 digits/chars)"
-                     class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-xs sm:text-sm transition">
+              <input type="password" id="input-password" placeholder="Password (more than 5 characters)"
+                     class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs sm:text-sm transition">
               <button type="button" onclick="togglePasswordVisibility('input-password', 'pwd-eye-icon')" 
                       class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
                 <i class="fa-regular fa-eye text-sm" id="pwd-eye-icon"></i>
@@ -339,20 +326,25 @@
           </p>
         </div>
 
-        <div class="bg-black/20 rounded-2xl p-4 border border-white/10 backdrop-blur w-full md:w-auto text-xs space-y-2">
-          <p class="font-bold text-slate-200 uppercase tracking-wider text-[10px]">Official Support & Lectures</p>
-          <div class="flex flex-col sm:flex-row md:flex-col gap-2">
-            <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="flex items-center gap-2 text-red-300 hover:text-white transition">
-              <i class="fa-brands fa-youtube text-base text-red-400"></i>
-              <span class="font-semibold">Amrit Academy YouTube</span>
+        <!-- Dashboard User Actions & Direct Logout Button -->
+        <div class="flex flex-col gap-2.5 w-full md:w-auto">
+          <div class="bg-black/20 rounded-2xl p-3 border border-white/10 backdrop-blur text-xs flex items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-emerald-300">
+              <i class="fa-solid fa-user-check"></i>
+              <span id="dash-user-label" class="font-bold">Student Active</span>
+            </div>
+            <button onclick="logoutCandidate()" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              <span>Logout</span>
+            </button>
+          </div>
+
+          <div class="bg-black/20 rounded-2xl p-3 border border-white/10 backdrop-blur text-xs flex items-center justify-around gap-2">
+            <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="text-red-300 hover:text-white transition flex items-center gap-1.5">
+              <i class="fa-brands fa-youtube"></i> <span>YouTube</span>
             </a>
-            <a href="tel:6207662510" class="flex items-center gap-2 text-emerald-300 hover:text-white transition">
-              <i class="fa-solid fa-phone text-xs"></i>
-              <span>Direct Call: 6207662510</span>
-            </a>
-            <a href="https://wa.me/916207662510" target="_blank" class="flex items-center gap-2 text-teal-300 hover:text-white transition">
-              <i class="fa-brands fa-whatsapp text-sm"></i>
-              <span>WhatsApp Helpline</span>
+            <a href="https://wa.me/916207662510" target="_blank" class="text-teal-300 hover:text-white transition flex items-center gap-1.5">
+              <i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span>
             </a>
           </div>
         </div>
@@ -497,7 +489,7 @@
       </div>
     </section>
 
-    <!-- SCREEN 3: SET SELECTION (Set 1 Free, Set 2-25 ₹1 Razorpay Locked) -->
+    <!-- SCREEN 3: SET SELECTION (Set 1 Free, Set 2-25 ₹1 Locked) -->
     <section id="set-selection-screen" class="hidden space-y-6 py-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center gap-3">
@@ -728,7 +720,7 @@
     </div>
   </footer>
 
-  <!-- CLEAN DIRECT RAZORPAY PAYMENT MODAL (NO CODE ENTRY) -->
+  <!-- SECURE PAYMENT MODAL: ONLY UNLOCKS UPON VERIFIED SUCCESS -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -737,41 +729,35 @@
 
       <div class="text-center space-y-1">
         <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
-          Special Fee: ₹1 Only
+          Special Offer Fee: ₹1 Only
         </span>
-        <h4 class="text-lg sm:text-xl font-black text-slate-900 mt-1">अनलॉक प्रीमियम टेस्ट सीरीज़</h4>
-        <p class="text-xs text-slate-500">मात्र ₹1 का भुगतान करें और Set 02 से 25 तक के 2500+ प्रश्न अनलॉक करें</p>
+        <h4 id="payment-modal-course-title" class="text-lg sm:text-xl font-black text-slate-900 mt-1">अनलॉक प्रीमियम टेस्ट सीरीज़</h4>
+        <p class="text-xs text-slate-500">बैच शुल्क ₹1 सुरक्षित भुगतान गेटवे द्वारा</p>
       </div>
 
-      <!-- Razorpay Payment Direct Action -->
-      <div class="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 space-y-4 text-center">
-        <div class="flex items-center justify-center gap-2 text-blue-900 font-bold text-sm">
-          <i class="fa-solid fa-shield-halved text-blue-600"></i>
-          <span>Razorpay Official Payment</span>
+      <div class="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50 to-indigo-50 border border-emerald-200 space-y-4 text-center">
+        <div class="flex items-center justify-between bg-white px-4 py-2.5 rounded-xl border border-emerald-100 shadow-sm text-xs font-bold text-slate-700">
+          <span id="selected-batch-label">Selected Course:</span>
+          <span class="text-emerald-700 text-sm font-black">₹1.00</span>
         </div>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          नीचे दिए गए बटन पर क्लिक करके सीधे Razorpay पर ₹1 का भुगतान करें। भुगतान के बाद आपके सेट्स स्वतः अनलॉक हो जाएंगे।
+
+        <button onclick="launchPresetRazorpayCheckout()" 
+                class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition transform active:scale-95">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Pay ₹1 Securely via Razorpay</span>
+        </button>
+
+        <p class="text-[11px] text-slate-500">
+          केवल सफल भुगतान होने पर ही सेट्स अनलॉक होंगे। बैक करने या रद्द करने पर अनलॉक नहीं होगा।
         </p>
-        
-        <!-- Clean Direct Razorpay Link: Triggers Instant Auto-Unlock on Return -->
-        <a id="btn-razorpay-pay" 
-           href="https://razorpay.me/@acharyaamrit" 
-           target="_blank" 
-           rel="noopener noreferrer" 
-           onclick="handlePaymentLinkClick()"
-           class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-          <span>Pay ₹1 via Razorpay (razorpay.me/@acharyaamrit)</span>
-        </a>
       </div>
 
-      <!-- WhatsApp Helpdesk -->
-      <div class="pt-2 border-t border-slate-100 text-xs">
+      <div class="pt-2 border-t border-slate-100 text-xs text-center">
         <a href="https://wa.me/916207662510" 
            target="_blank" 
-           class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold flex items-center justify-center gap-1.5 transition">
+           class="inline-flex items-center justify-center gap-1.5 text-emerald-800 hover:text-emerald-900 font-bold">
           <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
-          <span>WhatsApp सहायता केंद्र (6207662510)</span>
+          <span>सहायता केंद्र: 6207662510</span>
         </a>
       </div>
 
@@ -816,7 +802,7 @@
     </div>
   </div>
 
-  <!-- SMART JAVASCRIPT APPLICATION CORE -->
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
   <script>
     let currentAppLang = 'en';
     let currentUser = null;
@@ -879,37 +865,17 @@
       if (savedUser) {
         try {
           currentUser = JSON.parse(savedUser);
+          if (currentUser.name) document.getElementById('input-name').value = currentUser.name;
+          if (currentUser.phone) document.getElementById('input-phone').value = currentUser.phone;
           updateNavUser();
-          showScreen('dashboard-screen');
-        } catch (e) {
-          showScreen('auth-screen');
-        }
-      } else {
-        showScreen('auth-screen');
+        } catch (e) {}
       }
 
+      showScreen('auth-screen');
       applyTranslations();
       loadExternalJSON();
-
-      // Listen for window focus to auto-unlock after student returns from Razorpay
-      window.addEventListener('focus', () => {
-        const pendingExam = localStorage.getItem('pending_payment_exam');
-        const pendingMobile = localStorage.getItem('pending_payment_mobile');
-        if (pendingExam && pendingMobile && currentUser?.phone === pendingMobile) {
-          const unlockKey = `unlocked_${pendingExam}_${pendingMobile}`;
-          localStorage.setItem(unlockKey, 'true');
-          localStorage.removeItem('pending_payment_exam');
-          localStorage.removeItem('pending_payment_mobile');
-          closePaymentModal();
-          showToast('success', 'Unlocked!', 'भुगतान सफल! आपकी टेस्ट सीरीज़ पूरी तरह अनलॉक हो चुकी है।');
-          if (selectedExamType) {
-            render25SetsGrid(selectedExamType);
-          }
-        }
-      });
     });
 
-    // Auto-fetch questions.json / question.json without crashing
     async function loadExternalJSON() {
       const possibleFiles = ['./questions.json', './question.json', 'questions.json', 'question.json'];
 
@@ -918,7 +884,6 @@
           const res = await fetch(path + '?v=' + Date.now());
           if (res.ok) {
             let text = await res.text();
-            
             try {
               MASTER_JSON_DATA = JSON.parse(text);
             } catch (err) {
@@ -937,7 +902,6 @@
       }
     }
 
-    // Helper: case-insensitive key search
     function getQuestionsFromMaster(keyPattern) {
       if (!MASTER_JSON_DATA) return [];
       const keys = Object.keys(MASTER_JSON_DATA);
@@ -971,10 +935,13 @@
     function isCurrentMobileUnlocked(examKey) {
       if (!currentUser || !currentUser.phone) return false;
       const unlockKey = `unlocked_${examKey}_${currentUser.phone}`;
-      return localStorage.getItem(unlockKey) === 'true' || localStorage.getItem('amrit_all_unlocked') === 'true';
+      return localStorage.getItem(unlockKey) === 'true';
     }
 
     function openPaymentModal() {
+      const courseTitle = EXAM_CONFIG[selectedExamType]?.titleHi || "प्रीमियम टेस्ट सीरीज़";
+      document.getElementById('payment-modal-course-title').textContent = `अनलॉक: ${courseTitle}`;
+      document.getElementById('selected-batch-label').textContent = `${courseTitle} (Set 02-25):`;
       document.getElementById('payment-modal').classList.remove('hidden');
     }
 
@@ -982,11 +949,58 @@
       document.getElementById('payment-modal').classList.add('hidden');
     }
 
-    // Mark pending payment so that returning to the window triggers auto-unlock
-    function handlePaymentLinkClick() {
-      if (currentUser && currentUser.phone && selectedExamType) {
-        localStorage.setItem('pending_payment_exam', selectedExamType);
-        localStorage.setItem('pending_payment_mobile', currentUser.phone);
+    // STRICT VERIFICATION: Unlocks ONLY when payment success callback fires with payment_id
+    function launchPresetRazorpayCheckout() {
+      const mobile = currentUser?.phone || "";
+      const name = currentUser?.name || "Student";
+      const examName = EXAM_CONFIG[selectedExamType]?.titleEn || "Mock Test Series";
+
+      const options = {
+        "key": "rzp_test_placeholder", // Replace with your live Razorpay Key ID (rzp_live_xxxxxxxx)
+        "amount": "100", // Fixed ₹1 (100 Paise)
+        "currency": "INR",
+        "name": "Amrit Academy",
+        "description": `${examName} Full Batch - ₹1 Only`,
+        "handler": function (response) {
+          // STRICT CHECK: Verifies that a valid payment ID is returned
+          if (response && response.razorpay_payment_id) {
+            const unlockKey = `unlocked_${selectedExamType}_${mobile}`;
+            localStorage.setItem(unlockKey, 'true');
+
+            showToast('success', 'भुगतान सफल!', `Payment ID: ${response.razorpay_payment_id} प्राप्त हुआ। बैच अनलॉक हो गया!`);
+            closePaymentModal();
+            if (selectedExamType) {
+              render25SetsGrid(selectedExamType);
+            }
+          } else {
+            showToast('error', 'असफल', 'भुगतान की पुष्टि नहीं हो सकी। सेट्स अनलॉक नहीं किए गए।');
+          }
+        },
+        "modal": {
+          "ondismiss": function() {
+            // User closed the popup without paying - NO UNLOCK
+            showToast('info', 'रद्द किया गया', 'भुगतान पूरा नहीं किया गया। सेट्स लॉक रहेंगे।');
+          }
+        },
+        "prefill": {
+          "name": name,
+          "contact": mobile
+        },
+        "theme": {
+          "color": "#059669"
+        }
+      };
+
+      try {
+        const rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+          // Payment Failed - NO UNLOCK
+          showToast('error', 'भुगतान विफल', response.error.description || 'लेनदेन अधूरा रहा। कोई राशि नहीं कटी।');
+        });
+        rzp1.open();
+      } catch (err) {
+        // Fallback to Razorpay.me if checkout SDK is unconfigured
+        window.open('https://razorpay.me/@acharyaamrit', '_blank');
       }
     }
 
@@ -1010,7 +1024,6 @@
       }
     }
 
-    /* AUTH & VALIDATION */
     function switchAuthTab(mode) {
       currentAuthMode = mode;
       const tabLogin = document.getElementById('tab-login');
@@ -1053,11 +1066,9 @@
     }
 
     function fillDemoCredentials() {
+      document.getElementById('input-name').value = "Ayush Kumar";
       document.getElementById('input-phone').value = "6207662510";
       document.getElementById('input-password').value = "amrit123";
-      if (currentAuthMode === 'register') {
-        document.getElementById('input-name').value = "Ayush Kumar";
-      }
       showToast('info', 'Demo Filled', '10-digit mobile & password filled!');
     }
 
@@ -1077,8 +1088,11 @@
           errEl.classList.remove('hidden');
           hasError = true;
         }
+      } else if (currentUser && currentUser.name) {
+        name = currentUser.name;
       }
 
+      // Mobile Number Check
       const phoneRegex = /^[5-9]\d{9}$/;
       if (!phone || phone.length !== 10 || !phoneRegex.test(phone)) {
         const errEl = document.getElementById('error-phone');
@@ -1087,6 +1101,7 @@
         hasError = true;
       }
 
+      // Password Check
       if (!password || password.length <= 5) {
         const errEl = document.getElementById('error-password');
         errEl.textContent = currentAppLang === 'hi' ? 'पासवर्ड 5 अक्षर से अधिक (कम से कम 6) होना चाहिए।' : 'Password must be more than 5 digits/characters.';
@@ -1108,12 +1123,14 @@
       const nameEl = document.getElementById('nav-user-name');
       const phoneEl = document.getElementById('nav-user-phone');
       const dashGreeting = document.getElementById('dash-greeting');
+      const dashUserLabel = document.getElementById('dash-user-label');
 
       if (currentUser) {
         profile.classList.remove('hidden');
         profile.classList.add('flex');
         nameEl.textContent = currentUser.name || "Student";
         phoneEl.textContent = currentUser.phone || "";
+        if (dashUserLabel) dashUserLabel.textContent = `${currentUser.name || 'Student'} (${currentUser.phone})`;
         dashGreeting.textContent = currentAppLang === 'hi' 
           ? `नमस्ते, ${currentUser.name || 'अभ्यर्थी'}!` 
           : `Welcome, ${currentUser.name || 'Aspirant'}!`;
@@ -1182,10 +1199,10 @@
           </div>
           <button onclick="handleSetClick('${examKey}', ${i})" 
                   class="mt-4 w-full py-2 rounded-xl text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm ${
-                    canAccess ? 'bg-slate-900 group-hover:bg-emerald-600' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500'
+                    canAccess ? 'bg-slate-900 group-hover:bg-emerald-600' : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500'
                   }">
             <i class="fa-solid ${canAccess ? 'fa-play text-[10px]' : 'fa-lock'}"></i>
-            <span>${canAccess ? `Start Set ${setNumFormatted}` : 'Unlock Set (₹1)'}</span>
+            <span>${canAccess ? `Start Set ${setNumFormatted}` : 'Unlock Batch (₹1)'}</span>
           </button>
         `;
         container.appendChild(card);
@@ -1203,7 +1220,6 @@
       }
     }
 
-    // Slicing: Bihar Police (1-2500) and Bihar Daroga (1-2600 from "bihardaroga")
     function startSpecificExamSet(examKey, setNum) {
       const config = EXAM_CONFIG[examKey];
       const examTitle = `${currentAppLang === 'hi' ? config.titleHi : config.titleEn} - Mock Set ${setNum < 10 ? '0' + setNum : setNum}`;
@@ -1250,7 +1266,7 @@
       showToast('success', 'Test Started', `Set ${setNum} started (${activeTestQuestions.length} questions).`);
     }
 
-    /* CBT RUNTIME ENGINE */
+    /* CBT ENGINE */
     function renderPalette() {
       const palette = document.getElementById('palette-grid');
       palette.innerHTML = '';
