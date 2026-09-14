@@ -22,7 +22,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Attractive Academic Mesh & Tech Grid Background */
     .bg-academic-mesh {
       background-color: #f8fafc;
       background-image: 
@@ -66,7 +65,6 @@
       background: #94a3b8;
     }
     
-    /* CBT Question Status Badges */
     .palette-answered { background-color: #16a34a !important; color: white !important; }
     .palette-not-answered { background-color: #e11d48 !important; color: white !important; }
     .palette-marked { background-color: #8b5cf6 !important; color: white !important; }
@@ -360,7 +358,7 @@
         </div>
       </div>
 
-      <!-- 4 Target Exams Grid (₹1 Fee Badge) -->
+      <!-- 4 Target Exams Grid -->
       <div>
         <div class="flex items-center justify-between mb-4">
           <div>
@@ -719,7 +717,18 @@
 
   </main>
 
-  <!-- RAZORPAY PAYMENT & UNLOCK MODAL (Fee: ₹1 Only) -->
+  <!-- FOOTER -->
+  <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 text-center text-xs text-slate-600 font-medium">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 अमृत एकेडमी (Amrit Academy). सर्वाधिकार सुरक्षित।</p>
+      <p class="font-bold text-emerald-700 flex items-center gap-1.5">
+        <span>Created by Ayush</span>
+        <i class="fa-solid fa-code text-slate-400"></i>
+      </p>
+    </div>
+  </footer>
+
+  <!-- RAZORPAY PAYMENT & UNLOCK MODAL -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -738,24 +747,25 @@
       <div class="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 space-y-3 text-center">
         <div class="flex items-center justify-center gap-2 text-blue-900 font-bold text-sm">
           <i class="fa-solid fa-credit-card text-blue-600"></i>
-          <span>Razorpay Secure Payment Gateway</span>
+          <span>Razorpay Official Payment</span>
         </div>
-        <p class="text-xs text-slate-600">UPI (Google Pay, PhonePe, Paytm) अथवा कार्ड द्वारा सुरक्षित ₹1 का भुगतान करें।</p>
+        <p class="text-xs text-slate-600">नीचे दिए गए बटन पर क्लिक करके सीधे Razorpay द्वारा ₹1 का सुरक्षित भुगतान करें:</p>
         
+        <!-- Clean Direct Razorpay Link: razorpay.me/@acharyaamrit -->
         <a id="btn-razorpay-pay" href="https://razorpay.me/@acharyaamrit" target="_blank" rel="noopener noreferrer" 
-           class="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition">
+           class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition">
           <i class="fa-solid fa-arrow-up-right-from-square"></i>
-          <span>Pay ₹1 via Razorpay</span>
+          <span>Pay ₹1 via Razorpay (razorpay.me/@acharyaamrit)</span>
         </a>
       </div>
 
       <!-- Verification & Access Key -->
       <div class="space-y-3 pt-2 border-t border-slate-100 text-xs">
-        <a id="link-whatsapp-proof" href="https://wa.me/916207662510?text=नमस्ते%20अमृत%20एकेडमी,%20मैंने%20₹1%20का%20भुगतान%20Razorpay%20द्वारा%20कर%20दिया%20है।%20कृपया%20मेरी%20Unlock%20Key%20भेजें।" 
+        <a id="link-whatsapp-proof" href="https://wa.me/916207662510" 
            target="_blank" 
            class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold flex items-center justify-center gap-1.5 transition">
           <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
-          <span>WhatsApp पर स्क्रीनशॉट भेजें (6207662510)</span>
+          <span>WhatsApp सहायता केंद्र (6207662510)</span>
         </a>
 
         <div>
@@ -916,7 +926,7 @@
       }
     }
 
-    // Helper: case-insensitive key search (matches "bihardaroga", "bihar police", etc.)
+    // Helper: case-insensitive key search
     function getQuestionsFromMaster(keyPattern) {
       if (!MASTER_JSON_DATA) return [];
       const keys = Object.keys(MASTER_JSON_DATA);
@@ -955,13 +965,8 @@
 
     function openPaymentModal() {
       const mobile = currentUser?.phone || "";
-      const razorpayBtn = document.getElementById('btn-razorpay-pay');
       const waLink = document.getElementById('link-whatsapp-proof');
 
-      // Add mobile number to payment parameters
-      if (razorpayBtn) {
-        razorpayBtn.href = `https://razorpay.me/@acharyaamrit?amount=1&contact=${encodeURIComponent(mobile)}`;
-      }
       if (waLink) {
         waLink.href = `https://wa.me/916207662510?text=नमस्ते%20अमृत%20एकेडमी,%20मैंने%20मोबाइल%20नंबर%20${mobile}%20से%20₹1%20का%20भुगतान%20Razorpay%20द्वारा%20कर%20दिया%20है।%20कृपया%20मेरी%20Unlock%20Key%20भेजें।`;
       }
@@ -973,7 +978,7 @@
       document.getElementById('payment-modal').classList.add('hidden');
     }
 
-    // Verify Access Key for the candidate's mobile number
+    // Verify Access Key for candidate's mobile number
     function verifyAccessKey() {
       const code = document.getElementById('input-access-key').value.trim().toUpperCase();
       const mobile = currentUser?.phone || "";
@@ -1210,10 +1215,8 @@
       const config = EXAM_CONFIG[examKey];
       const examTitle = `${currentAppLang === 'hi' ? config.titleHi : config.titleEn} - Mock Set ${setNum < 10 ? '0' + setNum : setNum}`;
 
-      // Target array directly by key
       let bank = getQuestionsFromMaster(config.searchPattern);
 
-      // Start Index for 100 questions per set
       const startIndex = (setNum - 1) * 100;
       let setQuestions = bank.slice(startIndex, startIndex + 100);
 
