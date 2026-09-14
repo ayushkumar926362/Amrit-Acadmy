@@ -352,7 +352,7 @@
         <div class="flex items-center justify-between mb-4">
           <div>
             <h3 class="text-lg sm:text-xl font-black text-slate-900" id="title-targeted-exams">Targeted Examinations</h3>
-            <p class="text-xs text-slate-500" id="desc-targeted-exams">Choose one of the 4 designated exams to view all 25 test sets (Fee: ₹1 Only)</p>
+            <p class="text-xs text-slate-500" id="desc-targeted-exams">Choose one of the 4 designated exams to view all 25 test sets (Fee: ₹2 Only)</p>
           </div>
         </div>
 
@@ -366,7 +366,7 @@
                   <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <span class="text-xs font-black text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-300">
-                  मात्र ₹1
+                  मात्र ₹2
                 </span>
               </div>
               <div>
@@ -397,7 +397,7 @@
                   <i class="fa-solid fa-star"></i>
                 </div>
                 <span class="text-xs font-black text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-300">
-                  मात्र ₹1
+                  मात्र ₹2
                 </span>
               </div>
               <div>
@@ -428,7 +428,7 @@
                   <i class="fa-solid fa-brain"></i>
                 </div>
                 <span class="text-xs font-black text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-300">
-                  मात्र ₹1
+                  मात्र ₹2
                 </span>
               </div>
               <div>
@@ -459,7 +459,7 @@
                   <i class="fa-solid fa-calculator"></i>
                 </div>
                 <span class="text-xs font-black text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-300">
-                  मात्र ₹1
+                  मात्र ₹2
                 </span>
               </div>
               <div>
@@ -498,14 +498,14 @@
               <span id="set-exam-badge" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-indigo-50 text-indigo-700">Exam</span>
               <h3 id="set-selection-exam-title" class="text-lg sm:text-xl font-black text-slate-900">Bihar Police (Constable)</h3>
             </div>
-            <p class="text-xs text-slate-500 mt-0.5">25 Full Length Mock Tests • Set 01 Free • Sets 02-25 Unlocked at ₹1</p>
+            <p class="text-xs text-slate-500 mt-0.5">25 Full Length Mock Tests • Set 01 Free • Sets 02-25 Unlocked at ₹2</p>
           </div>
         </div>
 
         <div class="flex items-center gap-2 text-xs">
           <button onclick="openPaymentModal()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold shadow transition flex items-center gap-1.5">
             <i class="fa-solid fa-shield-halved"></i>
-            <span>Unlock All for ₹1 (Razorpay)</span>
+            <span>Unlock All for ₹2 (Razorpay)</span>
           </button>
         </div>
       </div>
@@ -706,7 +706,7 @@
 
   </main>
 
-  <!-- LEGAL, ABOUT, FEATURES & SUPPORT MODALS CONTAINERS -->
+  <!-- LEGAL, ABOUT, FEATURES & SUPPORT MODALS -->
   <div id="info-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full shadow-2xl border border-slate-200 space-y-4 relative max-h-[85vh] flex flex-col">
       <button onclick="closeInfoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 z-10">
@@ -749,7 +749,7 @@
     </div>
   </footer>
 
-  <!-- SECURE PAYMENT MODAL -->
+  <!-- PAYMENT PRIVACY WARNING MODAL (NEW) -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -757,35 +757,40 @@
       </button>
 
       <div class="text-center space-y-1">
-        <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
-          Special Fee: ₹1 Only
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-black uppercase tracking-wider">
+          महत्वपूर्ण निर्देश (Important Notice)
         </span>
         <h4 id="payment-modal-course-title" class="text-lg sm:text-xl font-black text-slate-900 mt-1">अनलॉक प्रीमियम टेस्ट सीरीज़</h4>
-        <p class="text-xs text-slate-500">मात्र ₹1 का भुगतान करें और Set 02 से 25 तक के 2500+ प्रश्न अनलॉक करें</p>
+        <p class="text-xs text-slate-500">कोर्स शुल्क: ₹2</p>
       </div>
 
-      <div class="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 space-y-4 text-center">
-        <div class="flex items-center justify-center gap-2 text-blue-900 font-bold text-sm">
-          <i class="fa-solid fa-shield-halved text-blue-600"></i>
-          <span>Razorpay Official Payment Link</span>
+      <!-- Warning Privacy Box -->
+      <div class="p-4 rounded-2xl bg-amber-50 border border-amber-300 space-y-3">
+        <div class="flex items-start gap-2.5 text-xs text-amber-900 font-semibold leading-relaxed">
+          <i class="fa-solid fa-triangle-exclamation text-amber-600 text-base mt-0.5 shrink-0"></i>
+          <span>जितने रुपये का कोर्स है (₹2), उतना ही टाइप करके Pay करें। कम रुपये pay करने पर आपका टेस्ट चालू नहीं होगा।</span>
         </div>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          नीचे दिए गए बटन पर क्लिक करके सीधे Razorpay पर ₹1 का भुगतान करें।
-        </p>
-        
-        <a href="https://razorpay.me/@acharyaamrit" 
+
+        <label class="flex items-center gap-2 pt-2 border-t border-amber-200/80 cursor-pointer select-none">
+          <input type="checkbox" id="payment-consent-check" onchange="togglePaymentButtonState()" class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500">
+          <span class="text-[11px] font-bold text-slate-700">मैंने निर्देश पढ़ लिया है और मैं सहमत हूँ।</span>
+        </label>
+      </div>
+
+      <!-- Payment Button (Initially Disabled until checkbox is checked) -->
+      <div class="space-y-3">
+        <a id="btn-proceed-pay" 
+           href="https://razorpay.me/@acharyaamrit" 
            target="_blank" 
            rel="noopener noreferrer" 
-           class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition">
+           class="pointer-events-none opacity-50 inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition">
           <i class="fa-solid fa-arrow-up-right-from-square"></i>
-          <span>Pay ₹1 via Razorpay (razorpay.me/@acharyaamrit)</span>
+          <span>Proceed to Pay ₹2 via Razorpay</span>
         </a>
-      </div>
 
-      <div class="pt-2 border-t border-slate-100 text-xs">
         <a href="https://wa.me/916207662510" 
            target="_blank" 
-           class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold flex items-center justify-center gap-1.5 transition">
+           class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold flex items-center justify-center gap-1.5 text-xs transition">
           <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
           <span>WhatsApp सहायता केंद्र (6207662510)</span>
         </a>
@@ -864,7 +869,7 @@
         dashGreeting: "Welcome, Aspirant!",
         dashMotto: "Select your target examination below. Each exam contains 25 full mock sets of 100 questions with 60 minutes countdown timer.",
         titleTargetedExams: "Targeted Examinations",
-        descTargetedExams: "Choose one of the 4 designated exams to view all 25 test sets (Fee: ₹1 Only)",
+        descTargetedExams: "Choose one of the 4 designated exams to view all 25 test sets (Fee: ₹2 Only)",
         cbtMarkCorrect: "+1.0 Correct",
         cbtMarkWrong: "-0.2 Wrong"
       },
@@ -884,7 +889,7 @@
         dashGreeting: "स्वागत है, अभ्यर्थी!",
         dashMotto: "नीचे अपनी लक्षित परीक्षा चुनें। प्रत्येक परीक्षा में 100 प्रश्नों एवं 60 मिनट टाइमर वाले 25 पूरे मॉक टेस्ट सेट उपलब्ध हैं।",
         titleTargetedExams: "लक्षित परीक्षाएं (Targeted Exams)",
-        descTargetedExams: "सभी 25 टेस्ट सेट देखने के लिए 4 मुख्य परीक्षाओं में से एक का चयन करें (शुल्क: मात्र ₹1)",
+        descTargetedExams: "सभी 25 टेस्ट सेट देखने के लिए 4 मुख्य परीक्षाओं में से एक का चयन करें (शुल्क: मात्र ₹2)",
         cbtMarkCorrect: "+1.0 सही उत्तर",
         cbtMarkWrong: "-0.2 नकारात्मक अंक"
       }
@@ -999,11 +1004,25 @@
     function openPaymentModal() {
       const courseTitle = EXAM_CONFIG[selectedExamType]?.titleHi || "प्रीमियम टेस्ट सीरीज़";
       document.getElementById('payment-modal-course-title').textContent = `अनलॉक: ${courseTitle}`;
+      // Reset checkbox state
+      document.getElementById('payment-consent-check').checked = false;
+      document.getElementById('btn-proceed-pay').classList.add('pointer-events-none', 'opacity-50');
       document.getElementById('payment-modal').classList.remove('hidden');
     }
 
     function closePaymentModal() {
       document.getElementById('payment-modal').classList.add('hidden');
+    }
+
+    // Enable/disable payment button based on checkbox agreement
+    function togglePaymentButtonState() {
+      const isChecked = document.getElementById('payment-consent-check').checked;
+      const payBtn = document.getElementById('btn-proceed-pay');
+      if (isChecked) {
+        payBtn.classList.remove('pointer-events-none', 'opacity-50');
+      } else {
+        payBtn.classList.add('pointer-events-none', 'opacity-50');
+      }
     }
 
     /* FOOTER INFO MODALS CONTROLLER */
@@ -1028,7 +1047,7 @@
             <li><b>25 Full Length Mock Sets:</b> प्रत्येक परीक्षा में 25 व्यापक सेट।</li>
             <li><b>100 Questions & 60 Mins:</b> बिल्कुल वास्तविक परीक्षा पैटर्न पर आधारित टाइमर और नेगेटिव मार्किंग (-0.20)।</li>
             <li><b>Set 01 Free Demo:</b> बिना किसी शुल्क के पहला सेट सभी छात्रों के लिए हमेशा खुला रहता है।</li>
-            <li><b>Secure Mobile Unlocking:</b> मात्र ₹1 के भुगतान पर आपके मोबाइल नंबर के लिए सभी 25 सेट हमेशा के लिए अनलॉक।</li>
+            <li><b>Secure Mobile Unlocking:</b> मात्र ₹2 के भुगतान पर आपके मोबाइल नंबर के लिए सभी 25 सेट हमेशा के लिए अनलॉक।</li>
             <li><b>Detailed Solutions:</b> प्रत्येक प्रश्न के अंत में विस्तृत उत्तर और स्पष्टीकरण।</li>
           </ul>
         `;
@@ -1047,13 +1066,16 @@
         contentEl.innerHTML = `
           <p>1. अमृत एकेडमी पोर्टल का उपयोग केवल शैक्षणिक और प्रतियोगी परीक्षा की तैयारी के लिए किया जा सकता है।</p>
           <p>2. पोर्टल पर दिए गए सभी प्रश्न और मॉक टेस्ट अमृत एकेडमी की बौद्धिक संपदा हैं। इनका अनधिकृत वितरण वर्जित है।</p>
-          <p>3. परीक्षा शुल्क (₹1) या अन्य डिजिटल लेनदेन Razorpay सुरक्षित गेटवे के माध्यम से संचालित होते हैं।</p>
+          <p>3. परीक्षा शुल्क (₹2) या अन्य डिजिटल लेनदेन Razorpay सुरक्षित गेटवे के माध्यम से संचालित होते हैं।</p>
         `;
       } else if (type === 'privacy') {
         titleEl.textContent = "Privacy Policy - गोपनीयता नीति";
         contentEl.innerHTML = `
           <p><b>अमृत एकेडमी</b> आपकी गोपनीयता का पूरा सम्मान करती है।</p>
           <p>हम केवल आपका नाम और मोबाइल नंबर (जो आप लॉगिन या पंजीकरण के समय दर्ज करते हैं) आपके परीक्षा रिकॉर्ड और कोर्स एक्सेस को सुरक्षित रखने के लिए सहेजते हैं। हम आपकी कोई भी व्यक्तिगत जानकारी किसी तीसरे पक्ष के साथ साझा नहीं करते हैं।</p>
+          <p class="text-amber-800 font-semibold bg-amber-50 p-2.5 rounded-xl border border-amber-200 mt-2">
+            <b>महत्वपूर्ण भुगतान नियम:</b> जितने रुपये का कोर्स है (₹2), उतना ही टाइप करके Pay करें। कम रुपये pay करने पर आपका टेस्ट चालू नहीं होगा।
+          </p>
         `;
       } else if (type === 'delete') {
         titleEl.textContent = "Delete Account - खाता हटाएं";
@@ -1307,7 +1329,7 @@
               </span>
               <span class="text-[10px] font-bold flex items-center gap-1 ${canAccess ? 'text-emerald-600' : 'text-amber-600'}">
                 <i class="fa-solid ${canAccess ? 'fa-lock-open' : 'fa-lock'}"></i>
-                <span>${isFreeDemo ? 'FREE DEMO' : (isUnlocked ? 'UNLOCKED' : 'LOCKED - ₹1')}</span>
+                <span>${isFreeDemo ? 'FREE DEMO' : (isUnlocked ? 'UNLOCKED' : 'LOCKED - ₹2')}</span>
               </span>
             </div>
             <h4 class="text-sm font-bold text-slate-900 group-hover:text-emerald-700 transition">Full Mock Test ${setNumFormatted}</h4>
@@ -1322,7 +1344,7 @@
                     canAccess ? 'bg-slate-900 group-hover:bg-emerald-600' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500'
                   }">
             <i class="fa-solid ${canAccess ? 'fa-play text-[10px]' : 'fa-lock'}"></i>
-            <span>${canAccess ? `Start Set ${setNumFormatted}` : 'Unlock Set (₹1)'}</span>
+            <span>${canAccess ? `Start Set ${setNumFormatted}` : 'Unlock Set (₹2)'}</span>
           </button>
         `;
         container.appendChild(card);
