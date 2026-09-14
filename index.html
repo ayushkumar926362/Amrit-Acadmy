@@ -728,7 +728,7 @@
     </div>
   </footer>
 
-  <!-- RAZORPAY PAYMENT & UNLOCK MODAL -->
+  <!-- CLEAN DIRECT RAZORPAY PAYMENT MODAL (NO CODE ENTRY) -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -743,41 +743,36 @@
         <p class="text-xs text-slate-500">मात्र ₹1 का भुगतान करें और Set 02 से 25 तक के 2500+ प्रश्न अनलॉक करें</p>
       </div>
 
-      <!-- Razorpay Payment Direct Link Box -->
-      <div class="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 space-y-3 text-center">
+      <!-- Razorpay Payment Direct Action -->
+      <div class="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 space-y-4 text-center">
         <div class="flex items-center justify-center gap-2 text-blue-900 font-bold text-sm">
-          <i class="fa-solid fa-credit-card text-blue-600"></i>
+          <i class="fa-solid fa-shield-halved text-blue-600"></i>
           <span>Razorpay Official Payment</span>
         </div>
-        <p class="text-xs text-slate-600">नीचे दिए गए बटन पर क्लिक करके सीधे Razorpay द्वारा ₹1 का सुरक्षित भुगतान करें:</p>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          नीचे दिए गए बटन पर क्लिक करके सीधे Razorpay पर ₹1 का भुगतान करें। भुगतान के बाद आपके सेट्स स्वतः अनलॉक हो जाएंगे।
+        </p>
         
-        <!-- Clean Direct Razorpay Link: razorpay.me/@acharyaamrit -->
-        <a id="btn-razorpay-pay" href="https://razorpay.me/@acharyaamrit" target="_blank" rel="noopener noreferrer" 
+        <!-- Clean Direct Razorpay Link: Triggers Instant Auto-Unlock on Return -->
+        <a id="btn-razorpay-pay" 
+           href="https://razorpay.me/@acharyaamrit" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           onclick="handlePaymentLinkClick()"
            class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition">
           <i class="fa-solid fa-arrow-up-right-from-square"></i>
           <span>Pay ₹1 via Razorpay (razorpay.me/@acharyaamrit)</span>
         </a>
       </div>
 
-      <!-- Verification & Access Key -->
-      <div class="space-y-3 pt-2 border-t border-slate-100 text-xs">
-        <a id="link-whatsapp-proof" href="https://wa.me/916207662510" 
+      <!-- WhatsApp Helpdesk -->
+      <div class="pt-2 border-t border-slate-100 text-xs">
+        <a href="https://wa.me/916207662510" 
            target="_blank" 
            class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold flex items-center justify-center gap-1.5 transition">
           <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
           <span>WhatsApp सहायता केंद्र (6207662510)</span>
         </a>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">अनलॉक कोड दर्ज करें (Access Key)</label>
-          <div class="flex gap-2">
-            <input type="text" id="input-access-key" placeholder="उदा. AMRIT2026" 
-                   class="flex-1 px-3 py-2 border border-slate-300 rounded-xl text-xs font-mono uppercase focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="verifyAccessKey()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition">
-              सत्यापित करें
-            </button>
-          </div>
-        </div>
       </div>
 
     </div>
@@ -834,7 +829,6 @@
     let examTimerInterval = null;
     let timeRemainingSeconds = 3600;
 
-    // JSON Data Store
     let MASTER_JSON_DATA = {};
 
     const I18N = {
@@ -896,6 +890,23 @@
 
       applyTranslations();
       loadExternalJSON();
+
+      // Listen for window focus to auto-unlock after student returns from Razorpay
+      window.addEventListener('focus', () => {
+        const pendingExam = localStorage.getItem('pending_payment_exam');
+        const pendingMobile = localStorage.getItem('pending_payment_mobile');
+        if (pendingExam && pendingMobile && currentUser?.phone === pendingMobile) {
+          const unlockKey = `unlocked_${pendingExam}_${pendingMobile}`;
+          localStorage.setItem(unlockKey, 'true');
+          localStorage.removeItem('pending_payment_exam');
+          localStorage.removeItem('pending_payment_mobile');
+          closePaymentModal();
+          showToast('success', 'Unlocked!', 'भुगतान सफल! आपकी टेस्ट सीरीज़ पूरी तरह अनलॉक हो चुकी है।');
+          if (selectedExamType) {
+            render25SetsGrid(selectedExamType);
+          }
+        }
+      });
     });
 
     // Auto-fetch questions.json / question.json without crashing
@@ -964,13 +975,6 @@
     }
 
     function openPaymentModal() {
-      const mobile = currentUser?.phone || "";
-      const waLink = document.getElementById('link-whatsapp-proof');
-
-      if (waLink) {
-        waLink.href = `https://wa.me/916207662510?text=नमस्ते%20अमृत%20एकेडमी,%20मैंने%20मोबाइल%20नंबर%20${mobile}%20से%20₹1%20का%20भुगतान%20Razorpay%20द्वारा%20कर%20दिया%20है।%20कृपया%20मेरी%20Unlock%20Key%20भेजें।`;
-      }
-
       document.getElementById('payment-modal').classList.remove('hidden');
     }
 
@@ -978,22 +982,11 @@
       document.getElementById('payment-modal').classList.add('hidden');
     }
 
-    // Verify Access Key for candidate's mobile number
-    function verifyAccessKey() {
-      const code = document.getElementById('input-access-key').value.trim().toUpperCase();
-      const mobile = currentUser?.phone || "";
-
-      if (code === 'AMRIT2026') {
-        const unlockKey = `unlocked_${selectedExamType}_${mobile}`;
-        localStorage.setItem(unlockKey, 'true');
-
-        showToast('success', 'Unlocked!', `मोबाइल नंबर ${mobile} के लिए सभी 25 सेट्स सफलतापूर्वक अनलॉक हो गए हैं।`);
-        closePaymentModal();
-        if (selectedExamType) {
-          render25SetsGrid(selectedExamType);
-        }
-      } else {
-        showToast('error', 'गलत कोड', 'अमान्य कोड! कृपया WhatsApp (6207662510) पर संपर्क करें।');
+    // Mark pending payment so that returning to the window triggers auto-unlock
+    function handlePaymentLinkClick() {
+      if (currentUser && currentUser.phone && selectedExamType) {
+        localStorage.setItem('pending_payment_exam', selectedExamType);
+        localStorage.setItem('pending_payment_mobile', currentUser.phone);
       }
     }
 
