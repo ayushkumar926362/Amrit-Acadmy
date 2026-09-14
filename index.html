@@ -16,9 +16,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Razorpay Official Checkout SDK -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -500,7 +497,7 @@
       </div>
     </section>
 
-    <!-- SCREEN 3: SET SELECTION (Set 1 Free, Set 2-25 ₹1 Locked) -->
+    <!-- SCREEN 3: SET SELECTION (Set 1 Free, Set 2-25 ₹1 Razorpay Locked) -->
     <section id="set-selection-screen" class="hidden space-y-6 py-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center gap-3">
@@ -731,7 +728,7 @@
     </div>
   </footer>
 
-  <!-- SMART PAYMENT MODAL: DIRECT PRESET ₹1 CHECKOUT -->
+  <!-- CLEAN DIRECT RAZORPAY PAYMENT MODAL (NO CODE ENTRY) -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -740,37 +737,41 @@
 
       <div class="text-center space-y-1">
         <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
-          Special Offer Fee: ₹1 Only
+          Special Fee: ₹1 Only
         </span>
-        <h4 id="payment-modal-course-title" class="text-lg sm:text-xl font-black text-slate-900 mt-1">अनलॉक प्रीमियम टेस्ट सीरीज़</h4>
-        <p class="text-xs text-slate-500">बैच शुल्क ₹1 अपने-आप लागू हो चुका है (No manual entry required)</p>
+        <h4 class="text-lg sm:text-xl font-black text-slate-900 mt-1">अनलॉक प्रीमियम टेस्ट सीरीज़</h4>
+        <p class="text-xs text-slate-500">मात्र ₹1 का भुगतान करें और Set 02 से 25 तक के 2500+ प्रश्न अनलॉक करें</p>
       </div>
 
-      <!-- Preset Payment Trigger Box -->
-      <div class="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50 to-indigo-50 border border-emerald-200 space-y-4 text-center">
-        <div class="flex items-center justify-between bg-white px-4 py-2.5 rounded-xl border border-emerald-100 shadow-sm text-xs font-bold text-slate-700">
-          <span id="selected-batch-label">Selected Course:</span>
-          <span class="text-emerald-700 text-sm font-black">₹1.00</span>
+      <!-- Razorpay Payment Direct Action -->
+      <div class="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 space-y-4 text-center">
+        <div class="flex items-center justify-center gap-2 text-blue-900 font-bold text-sm">
+          <i class="fa-solid fa-shield-halved text-blue-600"></i>
+          <span>Razorpay Official Payment</span>
         </div>
-
-        <button onclick="launchPresetRazorpayCheckout()" 
-                class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition transform active:scale-95">
-          <i class="fa-solid fa-shield-halved"></i>
-          <span>Pay ₹1 Securely (Auto Amount Applied)</span>
-        </button>
-
-        <p class="text-[11px] text-slate-500">
-          भुगतान होते ही यह बैच आपके इसी मोबाइल नंबर के लिए स्वतः हमेशा के लिए अनलॉक हो जाएगा।
+        <p class="text-xs text-slate-600 leading-relaxed">
+          नीचे दिए गए बटन पर क्लिक करके सीधे Razorpay पर ₹1 का भुगतान करें। भुगतान के बाद आपके सेट्स स्वतः अनलॉक हो जाएंगे।
         </p>
+        
+        <!-- Clean Direct Razorpay Link: Triggers Instant Auto-Unlock on Return -->
+        <a id="btn-razorpay-pay" 
+           href="https://razorpay.me/@acharyaamrit" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           onclick="handlePaymentLinkClick()"
+           class="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm shadow-lg shadow-blue-600/30 transition">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span>Pay ₹1 via Razorpay (razorpay.me/@acharyaamrit)</span>
+        </a>
       </div>
 
       <!-- WhatsApp Helpdesk -->
-      <div class="pt-2 border-t border-slate-100 text-xs text-center">
+      <div class="pt-2 border-t border-slate-100 text-xs">
         <a href="https://wa.me/916207662510" 
            target="_blank" 
-           class="inline-flex items-center justify-center gap-1.5 text-emerald-800 hover:text-emerald-900 font-bold">
+           class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold flex items-center justify-center gap-1.5 transition">
           <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
-          <span>सहायता केंद्र: 6207662510</span>
+          <span>WhatsApp सहायता केंद्र (6207662510)</span>
         </a>
       </div>
 
@@ -890,7 +891,7 @@
       applyTranslations();
       loadExternalJSON();
 
-      // Listen for return from payment tab/app
+      // Listen for window focus to auto-unlock after student returns from Razorpay
       window.addEventListener('focus', () => {
         const pendingExam = localStorage.getItem('pending_payment_exam');
         const pendingMobile = localStorage.getItem('pending_payment_mobile');
@@ -900,7 +901,7 @@
           localStorage.removeItem('pending_payment_exam');
           localStorage.removeItem('pending_payment_mobile');
           closePaymentModal();
-          showToast('success', 'Unlocked!', 'भुगतान पूर्ण! टेस्ट सीरीज़ सफलतापूर्वक अनलॉक कर दी गई है।');
+          showToast('success', 'Unlocked!', 'भुगतान सफल! आपकी टेस्ट सीरीज़ पूरी तरह अनलॉक हो चुकी है।');
           if (selectedExamType) {
             render25SetsGrid(selectedExamType);
           }
@@ -974,9 +975,6 @@
     }
 
     function openPaymentModal() {
-      const courseTitle = EXAM_CONFIG[selectedExamType]?.titleHi || "प्रीमियम टेस्ट सीरीज़";
-      document.getElementById('payment-modal-course-title').textContent = `अनलॉक: ${courseTitle}`;
-      document.getElementById('selected-batch-label').textContent = `${courseTitle} (Set 02-25):`;
       document.getElementById('payment-modal').classList.remove('hidden');
     }
 
@@ -984,48 +982,11 @@
       document.getElementById('payment-modal').classList.add('hidden');
     }
 
-    // Automatic Preset Amount Payment Trigger
-    function launchPresetRazorpayCheckout() {
-      const mobile = currentUser?.phone || "";
-      const name = currentUser?.name || "Student";
-      const examName = EXAM_CONFIG[selectedExamType]?.titleEn || "Mock Test Series";
-
-      // 1. Try Razorpay Official In-Page Checkout (Fixed at ₹1 / 100 paise)
-      const options = {
-        "key": "rzp_test_placeholder", // Replace with your Live Key ID (e.g. rzp_live_xxxxxxxx)
-        "amount": "100", // Fixed ₹1 (100 Paise)
-        "currency": "INR",
-        "name": "Amrit Academy",
-        "description": `${examName} Full Batch - ₹1 Only`,
-        "handler": function (response) {
-          const unlockKey = `unlocked_${selectedExamType}_${mobile}`;
-          localStorage.setItem(unlockKey, 'true');
-
-          showToast('success', 'भुगतान सफल!', `सफलतापूर्वक ₹1 प्राप्त हुआ। बैच अनलॉक हो गया!`);
-          closePaymentModal();
-          if (selectedExamType) {
-            render25SetsGrid(selectedExamType);
-          }
-        },
-        "prefill": {
-          "name": name,
-          "contact": mobile
-        },
-        "theme": {
-          "color": "#059669"
-        }
-      };
-
-      try {
-        const rzp1 = new Razorpay(options);
-        rzp1.open();
-      } catch (err) {
-        // 2. Direct Redirect without manual code delay
-        if (mobile) {
-          localStorage.setItem('pending_payment_exam', selectedExamType);
-          localStorage.setItem('pending_payment_mobile', mobile);
-        }
-        window.open('https://razorpay.me/@acharyaamrit', '_blank');
+    // Mark pending payment so that returning to the window triggers auto-unlock
+    function handlePaymentLinkClick() {
+      if (currentUser && currentUser.phone && selectedExamType) {
+        localStorage.setItem('pending_payment_exam', selectedExamType);
+        localStorage.setItem('pending_payment_mobile', currentUser.phone);
       }
     }
 
@@ -1221,10 +1182,10 @@
           </div>
           <button onclick="handleSetClick('${examKey}', ${i})" 
                   class="mt-4 w-full py-2 rounded-xl text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm ${
-                    canAccess ? 'bg-slate-900 group-hover:bg-emerald-600' : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500'
+                    canAccess ? 'bg-slate-900 group-hover:bg-emerald-600' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500'
                   }">
             <i class="fa-solid ${canAccess ? 'fa-play text-[10px]' : 'fa-lock'}"></i>
-            <span>${canAccess ? `Start Set ${setNumFormatted}` : 'Unlock Batch (₹1)'}</span>
+            <span>${canAccess ? `Start Set ${setNumFormatted}` : 'Unlock Set (₹1)'}</span>
           </button>
         `;
         container.appendChild(card);
@@ -1242,7 +1203,7 @@
       }
     }
 
-    // Direct Slicing: Bihar Police (0-2500) and Bihar Daroga (0-2600 from "bihardaroga")
+    // Slicing: Bihar Police (1-2500) and Bihar Daroga (1-2600 from "bihardaroga")
     function startSpecificExamSet(examKey, setNum) {
       const config = EXAM_CONFIG[examKey];
       const examTitle = `${currentAppLang === 'hi' ? config.titleHi : config.titleEn} - Mock Set ${setNum < 10 ? '0' + setNum : setNum}`;
