@@ -176,7 +176,7 @@
   <!-- MAIN WRAPPER -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-start relative z-10">
 
-    <!-- SCREEN 1: AUTH SCREEN -->
+    <!-- SCREEN 1: AUTH SCREEN WITH FORGOT PASSWORD OPTION -->
     <section id="auth-screen" class="my-auto py-6 sm:py-10 max-w-md mx-auto w-full">
       <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl shadow-slate-300/40 border border-slate-200/90 overflow-hidden transition-all duration-300">
         
@@ -295,6 +295,13 @@
               </button>
             </div>
             <p id="error-password" class="hidden text-[11px] text-rose-500 font-medium"></p>
+          </div>
+
+          <!-- Forgot Password Link (Visible on Login Tab) -->
+          <div id="forgot-password-link-container" class="text-right">
+            <button type="button" onclick="openForgotPasswordModal()" class="text-xs text-blue-600 hover:text-blue-700 font-bold hover:underline">
+              पासवर्ड भूल गए? (Forgot Password?)
+            </button>
           </div>
 
           <button type="button" id="btn-auth-submit" onclick="handleAuthSubmit()"
@@ -722,6 +729,41 @@
     </div>
   </div>
 
+  <!-- FORGOT PASSWORD MODAL (NEW) -->
+  <div id="forgot-password-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-sm w-full shadow-2xl border border-slate-200 space-y-4 relative">
+      <button onclick="closeForgotPasswordModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      
+      <div class="text-center space-y-1">
+        <h4 class="text-lg font-black text-slate-900">Reset Password</h4>
+        <p class="text-xs text-slate-500">अपना रजिस्टर्ड मोबाइल नंबर दर्ज करें और नया पासवर्ड सेट करें</p>
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <div class="space-y-1">
+          <label class="block text-xs font-bold text-slate-700">Registered Mobile Number</label>
+          <input type="tel" id="forgot-phone" maxlength="10" placeholder="10-digit mobile number"
+                 class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                 oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-xs font-bold text-slate-700">New Password (Min 6 chars)</label>
+          <input type="password" id="forgot-new-password" placeholder="Enter new password"
+                 class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <p id="forgot-error" class="hidden text-[11px] text-rose-500 font-medium"></p>
+
+        <button onclick="executePasswordReset()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow transition">
+          Update Password & Login
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER WITH ALL LEGAL & SUPPORT LINKS -->
   <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 text-xs text-slate-600 font-medium relative z-10">
     <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
@@ -1023,6 +1065,56 @@
       }
     }
 
+    /* FORGOT PASSWORD MODAL CONTROLLER */
+    function openForgotPasswordModal() {
+      document.getElementById('forgot-phone').value = '';
+      document.getElementById('forgot-new-password').value = '';
+      document.getElementById('forgot-error').classList.add('hidden');
+      document.getElementById('forgot-password-modal').classList.remove('hidden');
+    }
+
+    function closeForgotPasswordModal() {
+      document.getElementById('forgot-password-modal').classList.add('hidden');
+    }
+
+    function executePasswordReset() {
+      const phone = document.getElementById('forgot-phone').value.trim();
+      const newPassword = document.getElementById('forgot-new-password').value.trim();
+      const errEl = document.getElementById('forgot-error');
+
+      errEl.classList.add('hidden');
+
+      if (!phone || phone.length !== 10) {
+        errEl.textContent = 'कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (!newPassword || newPassword.length <= 5) {
+        errEl.textContent = 'नया पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      let users = getRegisteredUsers();
+      const userIndex = users.findIndex(u => u.phone === phone);
+
+      if (userIndex === -1) {
+        errEl.textContent = 'यह मोबाइल नंबर हमारे डेटाबेस में पंजीकृत नहीं है!';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      // Update password
+      users[userIndex].password = newPassword;
+      saveRegisteredUsers(users);
+
+      showToast('success', 'पासवर्ड अपडेट हुआ!', 'नया पासवर्ड सफलतापूर्वक सेट हो गया है। अब लॉगिन करें।');
+      closeForgotPasswordModal();
+      switchAuthTab('login');
+      document.getElementById('input-phone').value = phone;
+    }
+
     /* FOOTER INFO MODALS CONTROLLER */
     function openInfoModal(type) {
       const modal = document.getElementById('info-modal');
@@ -1129,6 +1221,7 @@
       const tabRegister = document.getElementById('tab-register');
       const nameContainer = document.getElementById('field-name-container');
       const submitBtnText = document.getElementById('btn-auth-text');
+      const forgotLinkContainer = document.getElementById('forgot-password-link-container');
 
       clearAuthErrors();
 
@@ -1136,11 +1229,13 @@
         tabLogin.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-sm bg-white text-slate-900 border border-slate-200";
         tabRegister.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-slate-500 hover:text-slate-800";
         nameContainer.classList.add('hidden');
+        forgotLinkContainer.classList.remove('hidden');
         submitBtnText.textContent = I18N[currentAppLang].btnLogin;
       } else {
         tabRegister.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-sm bg-white text-slate-900 border border-slate-200";
         tabLogin.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-slate-500 hover:text-slate-800";
         nameContainer.classList.remove('hidden');
+        forgotLinkContainer.classList.add('hidden');
         submitBtnText.textContent = I18N[currentAppLang].btnRegister;
       }
     }
