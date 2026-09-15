@@ -729,7 +729,7 @@
     </div>
   </div>
 
-  <!-- FORGOT PASSWORD MODAL (NEW) -->
+  <!-- FORGOT PASSWORD MODAL -->
   <div id="forgot-password-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-sm w-full shadow-2xl border border-slate-200 space-y-4 relative">
       <button onclick="closeForgotPasswordModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -1105,7 +1105,7 @@
         return;
       }
 
-      // Update password
+      // Update password in database
       users[userIndex].password = newPassword;
       saveRegisteredUsers(users);
 
@@ -1229,13 +1229,13 @@
         tabLogin.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-sm bg-white text-slate-900 border border-slate-200";
         tabRegister.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-slate-500 hover:text-slate-800";
         nameContainer.classList.add('hidden');
-        forgotLinkContainer.classList.remove('hidden');
+        if (forgotLinkContainer) forgotLinkContainer.classList.remove('hidden');
         submitBtnText.textContent = I18N[currentAppLang].btnLogin;
       } else {
         tabRegister.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow-sm bg-white text-slate-900 border border-slate-200";
         tabLogin.className = "flex-1 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition text-slate-500 hover:text-slate-800";
         nameContainer.classList.remove('hidden');
-        forgotLinkContainer.classList.add('hidden');
+        if (forgotLinkContainer) forgotLinkContainer.classList.add('hidden');
         submitBtnText.textContent = I18N[currentAppLang].btnRegister;
       }
     }
