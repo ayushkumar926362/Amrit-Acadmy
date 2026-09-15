@@ -749,7 +749,7 @@
     </div>
   </footer>
 
-  <!-- PAYMENT PRIVACY WARNING MODAL (NEW) -->
+  <!-- PAYMENT PRIVACY WARNING MODAL -->
   <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-7 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -1004,7 +1004,6 @@
     function openPaymentModal() {
       const courseTitle = EXAM_CONFIG[selectedExamType]?.titleHi || "प्रीमियम टेस्ट सीरीज़";
       document.getElementById('payment-modal-course-title').textContent = `अनलॉक: ${courseTitle}`;
-      // Reset checkbox state
       document.getElementById('payment-consent-check').checked = false;
       document.getElementById('btn-proceed-pay').classList.add('pointer-events-none', 'opacity-50');
       document.getElementById('payment-modal').classList.remove('hidden');
@@ -1014,7 +1013,6 @@
       document.getElementById('payment-modal').classList.add('hidden');
     }
 
-    // Enable/disable payment button based on checkbox agreement
     function togglePaymentButtonState() {
       const isChecked = document.getElementById('payment-consent-check').checked;
       const payBtn = document.getElementById('btn-proceed-pay');
