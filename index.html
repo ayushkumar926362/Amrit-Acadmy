@@ -309,12 +309,12 @@
         </span>
         <h3 class="text-2xl font-black text-slate-900">All Courses in ₹99 Only!</h3>
         <p class="text-xs text-slate-600 leading-relaxed">
-          सिर्फ ₹99 के वन-टीमें पेमेंट में <span class="font-bold text-slate-900">बिहार पुलिस, बिहार दारोगा, मैथ्स और रीजनिंग</span> के सभी 25-25 सेट्स हमेशा के लिए अनलॉक करें।
+          सिर्फ ₹99 के वन-टाइम पेमेंट में <span class="font-bold text-slate-900">बिहार पुलिस, बिहार दारोगा, मैथ्स और रीजनिंग</span> के सभी 25-25 सेट्स हमेशा के लिए अनलॉक करें।
         </p>
       </div>
 
       <div class="space-y-3 pt-2">
-        <a href="https://razorpay.me/@acharyaamrit" target="_blank" onclick="handleMahaPaymentSuccess()"
+        <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank" onclick="handleMahaPaymentSuccess()"
            class="inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-xl shadow-blue-600/30 transition">
           <i class="fa-solid fa-bolt text-amber-300"></i>
           <span>Pay ₹99 via Razorpay & Unlock All</span>
@@ -333,7 +333,7 @@
       <h4 class="text-lg font-black text-slate-900">All Courses Maha Package - ₹99</h4>
       <p class="text-xs text-slate-500">₹99 का भुगतान करके सभी 4 कोर्सेज के 25-25 सेट्स तुरंत अनलॉक करें।</p>
       
-      <a href="https://razorpay.me/@acharyaamrit" target="_blank" onclick="handleMahaPaymentSuccess()"
+      <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank" onclick="handleMahaPaymentSuccess()"
          class="inline-block w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-lg transition">
         Pay ₹99 via Razorpay
       </a>
@@ -388,7 +388,6 @@
       return [];
     }
 
-    // Check if user has paid ₹99 for all courses
     function isAllCoursesUnlocked() {
       if (!currentUser || !currentUser.phone) return false;
       return localStorage.getItem(`unlocked_all_${currentUser.phone}`) === 'true';
