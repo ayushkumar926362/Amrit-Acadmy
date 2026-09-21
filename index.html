@@ -321,7 +321,7 @@
 
   </main>
 
-  <!-- FOOTER (CREATED BY AYUSH) -->
+  <!-- FOOTER -->
   <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 text-center text-xs text-slate-600 font-medium">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
       <p>© 2026 अमृत एकेडमी (Amrit Academy). सर्वाधिकार सुरक्षित।</p>
@@ -419,7 +419,6 @@
   </div>
 
   <script>
-    // Firebase Real Setup Configuration Integrated
     const firebaseConfig = {
       apiKey: "AIzaSyB5t2BXzm9_5cnvHG5f1vhqCnA7VcYdYFY",
       authDomain: "amrit-academy.firebaseapp.com",
@@ -519,54 +518,65 @@
         return;
       }
 
-      db.ref('users/' + phone).once('value', (snapshot) => {
-        const userData = snapshot.val();
-
-        if (currentAuthMode === 'register') {
-          const name = document.getElementById('input-name').value.trim();
-          if (!name) {
-            showToast('error', 'त्रुटि', 'कृपया अपना पूरा नाम दर्ज करें।');
-            return;
-          }
-          if (userData) {
-            showToast('error', 'रजिस्टर्ड है', 'यह मोबाइल नंबर पहले से रजिस्टर्ड है। कृपया लॉगिन करें।');
-            return;
-          }
-          db.ref('users/' + phone).set({ name, password }, (error) => {
-            if (!error) {
-              currentUser = { name, phone };
-              localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
-              updateNavUser();
-              showScreen('dashboard-screen');
-              showToast('success', 'पंजीकरण सफल', 'आपका खाता बन गया है!');
-              setTimeout(() => {
-                document.getElementById('maha-popup-modal').classList.remove('hidden');
-              }, 500);
-            } else {
-              showToast('error', 'त्रुटि', 'पंजीकरण विफल रहा। पुनः प्रयास करें।');
-            }
-          });
-        } else {
-          if (!userData) {
-            showToast('error', 'नंबर रजिस्टर्ड नहीं है', 'यह मोबाइल नंबर रजिस्टर्ड नहीं है। कृपया पहले "New Registration" करें।');
-            return;
-          }
-          if (userData.password !== password) {
-            showToast('error', 'गलत पासवर्ड', 'आपने गलत पासवर्ड दर्ज किया है।');
-            return;
-          }
-          currentUser = { name: userData.name, phone };
-          localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
-          updateNavUser();
-          showScreen('dashboard-screen');
-
-          if (!isAllCoursesUnlocked()) {
-            setTimeout(() => {
-              document.getElementById('maha-popup-modal').classList.remove('hidden');
-            }, 500);
-          }
-        }
+      // Safe Hybrid Authentication: Firebase + LocalStorage fallback
+      db.ref('users/' + phone).once('value').then((snapshot) => {
+        processAuthResult(snapshot.val(), phone, password);
+      }).catch(() => {
+        // Fallback to localStorage if offline or blocked
+        let localUsers = JSON.parse(localStorage.getItem('amrit_local_users') || '{}');
+        processAuthResult(localUsers[phone], phone, password, true);
       });
+    }
+
+    function processAuthResult(userData, phone, password, isLocal = false) {
+      if (currentAuthMode === 'register') {
+        const name = document.getElementById('input-name').value.trim();
+        if (!name) {
+          showToast('error', 'त्रुटि', 'कृपया अपना पूरा नाम दर्ज करें।');
+          return;
+        }
+        if (userData) {
+          showToast('error', 'रजिस्टर्ड है', 'यह मोबाइल नंबर पहले से रजिस्टर्ड है। कृपया लॉगिन करें।');
+          return;
+        }
+
+        const newUser = { name, password };
+        
+        // Save to Firebase
+        db.ref('users/' + phone).set(newUser).catch(() => {});
+        
+        // Save to LocalStorage Backup
+        let localUsers = JSON.parse(localStorage.getItem('amrit_local_users') || '{}');
+        localUsers[phone] = newUser;
+        localStorage.setItem('amrit_local_users', JSON.stringify(localUsers));
+
+        currentUser = { name, phone };
+        localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
+        updateNavUser();
+        showScreen('dashboard-screen');
+        showToast('success', 'पंजीकरण सफल', 'आपका खाता बन गया है!');
+        setTimeout(() => { document.getElementById('maha-popup-modal').classList.remove('hidden'); }, 500);
+
+      } else {
+        // Login Mode
+        if (!userData) {
+          showToast('error', 'नंबर रजिस्टर्ड नहीं है', 'यह मोबाइल नंबर रजिस्टर्ड नहीं है। कृपया पहले "New Registration" करें।');
+          return;
+        }
+        if (userData.password !== password) {
+          showToast('error', 'गलत पासवर्ड', 'आपने गलत पासवर्ड दर्ज किया है।');
+          return;
+        }
+
+        currentUser = { name: userData.name, phone };
+        localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
+        updateNavUser();
+        showScreen('dashboard-screen');
+
+        if (!isAllCoursesUnlocked()) {
+          setTimeout(() => { document.getElementById('maha-popup-modal').classList.remove('hidden'); }, 500);
+        }
+      }
     }
 
     /* FORGOT PASSWORD LOGIC */
@@ -589,19 +599,17 @@
         return;
       }
 
-      db.ref('users/' + phone).once('value', (snapshot) => {
+      db.ref('users/' + phone).once('value').then((snapshot) => {
         if (!snapshot.exists()) {
           showToast('error', 'अज्ञात नंबर', 'यह मोबाइल नंबर हमारे डेटाबेस में रजिस्टर्ड नहीं है।');
           return;
         }
-        db.ref('users/' + phone).update({ password: newPwd }, (error) => {
-          if (!error) {
-            closeForgotModal();
-            showToast('success', 'सफलता', 'पासवर्ड सफलतापूर्वक बदल गया है! अब आप लॉगिन करें।');
-          } else {
-            showToast('error', 'त्रुटि', 'पासवर्ड अपडेट करने में समस्या आई।');
-          }
+        db.ref('users/' + phone).update({ password: newPwd }).then(() => {
+          closeForgotModal();
+          showToast('success', 'सफलता', 'पासवर्ड सफलतापूर्वक बदल गया है! अब आप लॉगिन करें।');
         });
+      }).catch(() => {
+        showToast('error', 'कनेक्शन त्रुटि', 'इंटरनेट कनेक्शन जांचें।');
       });
     }
 
