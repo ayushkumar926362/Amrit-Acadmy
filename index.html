@@ -150,8 +150,7 @@
             Login to Dashboard
           </button>
 
-          <div class="flex items-center justify-between pt-2 text-xs">
-            <button onclick="fillDemoCredentials()" class="text-emerald-700 underline font-medium">Demo Login (Auto-fill)</button>
+          <div class="flex items-center justify-end pt-2 text-xs">
             <button onclick="openForgotPasswordModal()" id="link-forgot-pwd" class="text-slate-500 hover:text-slate-800 underline">Forgot Password?</button>
           </div>
         </div>
@@ -322,6 +321,17 @@
 
   </main>
 
+  <!-- FOOTER (CREATED BY AYUSH) -->
+  <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 text-center text-xs text-slate-600 font-medium">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 अमृत एकेडमी (Amrit Academy). सर्वाधिकार सुरक्षित।</p>
+      <p class="font-bold text-emerald-700 flex items-center justify-center gap-1.5">
+        <span>Created by Ayush</span>
+        <i class="fa-solid fa-code text-slate-400"></i>
+      </p>
+    </div>
+  </footer>
+
   <!-- AUTO-POPUP: ALL COURSES IN ₹99 -->
   <div id="maha-popup-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative text-center">
@@ -367,7 +377,7 @@
       <p class="text-xs text-slate-500">₹99 का भुगतान करके सभी 4 कोर्सेज के 25-25 सेट्स तुरंत अनलॉक करें।</p>
       
       <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank"
-         class="inline-block w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-lg transition">
+         class="inline-block w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-lg transition">
         Pay ₹99 via Razorpay
       </a>
 
@@ -420,7 +430,6 @@
       measurementId: "G-74SB5SER75"
     };
 
-    // Initialize Firebase
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
@@ -510,7 +519,6 @@
         return;
       }
 
-      // Sync with Firebase Realtime Database
       db.ref('users/' + phone).once('value', (snapshot) => {
         const userData = snapshot.val();
 
@@ -524,7 +532,6 @@
             showToast('error', 'रजिस्टर्ड है', 'यह मोबाइल नंबर पहले से रजिस्टर्ड है। कृपया लॉगिन करें।');
             return;
           }
-          // Save new user to Firebase DB
           db.ref('users/' + phone).set({ name, password }, (error) => {
             if (!error) {
               currentUser = { name, phone };
@@ -540,7 +547,6 @@
             }
           });
         } else {
-          // Login Mode
           if (!userData) {
             showToast('error', 'नंबर रजिस्टर्ड नहीं है', 'यह मोबाइल नंबर रजिस्टर्ड नहीं है। कृपया पहले "New Registration" करें।');
             return;
@@ -625,13 +631,6 @@
     function closeMahaPopup() { document.getElementById('maha-popup-modal').classList.add('hidden'); }
     function openPaymentModal() { document.getElementById('payment-modal').classList.remove('hidden'); }
     function closePaymentModal() { document.getElementById('payment-modal').classList.add('hidden'); }
-
-    function fillDemoCredentials() {
-      document.getElementById('input-phone').value = "6207662510";
-      document.getElementById('input-password').value = "amrit123";
-      if (currentAuthMode === 'register') document.getElementById('input-name').value = "Ayush Kumar";
-      showToast('info', 'डेमो भरा गया', 'क्रेडेंशियल्स भर दिए गए हैं, अब बटन दबाएं।');
-    }
 
     function updateNavUser() {
       if (currentUser) {
