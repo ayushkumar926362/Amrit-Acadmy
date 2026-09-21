@@ -1,123 +1,678 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amrit Academy - Admin Control Panel</title>
+  <title>Amrit Academy - Test Series & CBT Portal</title>
+  
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .bg-academic-mesh {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(at 12% 10%, rgba(16, 185, 129, 0.09) 0px, transparent 48%),
+        radial-gradient(at 88% 18%, rgba(99, 102, 241, 0.08) 0px, transparent 48%),
+        radial-gradient(at 50% 75%, rgba(20, 184, 166, 0.07) 0px, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(245, 158, 11, 0.05) 0px, transparent 40%),
+        radial-gradient(rgba(148, 163, 184, 0.18) 1.2px, transparent 1.2px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 26px 26px;
+      background-attachment: fixed;
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-16px) scale(1.05); }
+    }
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(18px) scale(0.96); }
+    }
+    .ambient-orb-1 { animation: floatSlow 12s ease-in-out infinite; }
+    .ambient-orb-2 { animation: floatReverse 15s ease-in-out infinite; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .palette-answered { background-color: #16a34a !important; color: white !important; }
+    .palette-not-answered { background-color: #e11d48 !important; color: white !important; }
+    .palette-marked { background-color: #8b5cf6 !important; color: white !important; }
+    .palette-marked-answered { background-color: #7c3aed !important; color: #fde047 !important; position: relative; }
+    .palette-not-visited { background-color: #f1f5f9 !important; color: #475569 !important; border: 1px solid #cbd5e1 !important; }
+    .palette-active { outline: 3px solid #3b82f6 !important; outline-offset: 1px; }
+  </style>
 </head>
-<body class="bg-slate-900 text-white font-sans min-h-screen p-4 sm:p-8">
+<body class="bg-academic-mesh text-slate-800 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
 
-  <div class="max-w-4xl mx-auto space-y-6">
-    
-    <!-- Admin Header -->
-    <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+  <!-- AMBIENT ORBS -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-emerald-400/25 via-teal-300/15 to-transparent rounded-full blur-3xl ambient-orb-1"></div>
+    <div class="absolute top-12 -right-28 w-[30rem] h-[30rem] bg-gradient-to-bl from-indigo-500/20 via-purple-400/10 to-transparent rounded-full blur-3xl ambient-orb-2"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="handleLogoClick()">
+        <svg class="w-11 h-11 drop-shadow-md shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="shieldBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#064e3b"/><stop offset="100%" stop-color="#1e1b4b"/></linearGradient>
+            <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fde047"/><stop offset="100%" stop-color="#b45309"/></linearGradient>
+            <linearGradient id="goldFill" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fef08a"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient>
+          </defs>
+          <path d="M50 6 L88 20 C88 56 68 82 50 94 C32 82 12 56 12 20 Z" fill="url(#shieldBg)" stroke="url(#goldStroke)" stroke-width="3"/>
+          <path d="M50 66 C42 61 32 62 26 65 L26 73 C32 70 42 69 50 74 C58 69 68 70 74 73 L74 65 C68 62 58 61 50 66 Z" fill="url(#goldFill)"/>
+          <path d="M50 24 L36 58 H43.5 L46.5 48 H53.5 L56.5 58 H64 L50 24 Z" fill="#ffffff"/>
+        </svg>
+        <div>
+          <span class="font-black text-base sm:text-lg tracking-tight text-slate-900 leading-none">AMRIT ACADEMY</span>
+          <p class="text-[11px] text-slate-500 font-medium">लक्ष्य आपकी, सफलता हमारी</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="https://www.youtube.com/@AmritAcademy6" target="_blank" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-xs font-bold transition hidden sm:flex items-center gap-1">
+          <i class="fa-brands fa-youtube"></i> YouTube
+        </a>
+        <div id="nav-user-profile" class="hidden items-center gap-2 pl-2 border-l border-slate-200">
+          <div class="text-right hidden sm:block">
+            <p id="nav-user-name" class="text-xs font-bold text-slate-900 leading-tight">Student</p>
+            <p id="nav-user-phone" class="text-[10px] text-slate-500 font-mono">9876543210</p>
+          </div>
+          <button onclick="logoutCandidate()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 flex items-center justify-center text-xs border border-slate-200" title="Logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-start relative z-10">
+
+    <!-- LOGIN & REGISTRATION SCREEN -->
+    <section id="auth-screen" class="my-auto py-6 max-w-md mx-auto w-full">
+      <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
+        
+        <div class="bg-gradient-to-br from-slate-900 to-indigo-950 p-6 text-white">
+          <h2 class="text-xl font-black">Welcome to Amrit Academy</h2>
+          <p class="text-xs text-slate-300 mt-1">All Courses Maha Package (Bihar Police, Daroga, Maths, Reasoning)</p>
+        </div>
+
+        <!-- Tabs for Login & Register -->
+        <div class="flex border-b border-slate-200 bg-slate-50 p-1.5 gap-1.5">
+          <button id="tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-xl font-bold text-xs transition bg-white text-slate-900 shadow-sm border border-slate-200">
+            Student Login
+          </button>
+          <button id="tab-register" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-xl font-bold text-xs transition text-slate-500 hover:text-slate-800">
+            New Registration
+          </button>
+        </div>
+
+        <div class="p-6 space-y-4">
+          <!-- Full Name Field (Only visible in Register mode) -->
+          <div id="field-name-container" class="hidden space-y-1">
+            <label class="block text-xs font-bold text-slate-700">Full Name *</label>
+            <input type="text" id="input-name" placeholder="Enter your full name"
+                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700">Mobile Number (10 Digits) *</label>
+            <input type="tel" id="input-phone" maxlength="10" placeholder="e.g. 6207662510"
+                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-emerald-500"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700">Password *</label>
+            <input type="password" id="input-password" placeholder="Min 6 characters"
+                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500">
+          </div>
+
+          <button onclick="handleAuthSubmit()" id="btn-auth-submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition">
+            Login to Dashboard
+          </button>
+
+          <div class="text-center pt-2">
+            <button onclick="fillDemoCredentials()" class="text-xs text-emerald-700 underline font-medium">Demo Login (Auto-fill)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD: 4 EXAMS GRID -->
+    <section id="dashboard-screen" class="hidden space-y-6 py-4">
+      <div class="bg-gradient-to-r from-emerald-600 via-teal-700 to-indigo-800 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <span class="px-3 py-1 rounded-full bg-white/10 text-emerald-200 text-xs font-semibold">Maha Offer Active</span>
+          <h2 id="dash-greeting" class="text-2xl font-black mt-1">Welcome, Aspirant!</h2>
+          <p class="text-xs text-emerald-100 mt-0.5">सभी 4 कोर्सेज (बिहार पुलिस, दारोगा, मैथ्स, रीजनिंग) मात्र ₹99 में अनलॉक करें।</p>
+        </div>
+        <button onclick="openPaymentModal()" class="px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-lg transition animate-pulse">
+          ⚡ Unlock All Courses in ₹99
+        </button>
+      </div>
+
       <div>
-        <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">Admin Control Hub</span>
-        <h2 class="text-xl font-black mt-2">Amrit Academy Management</h2>
-      </div>
-      <div class="text-xs text-slate-400 font-mono">Status: Connected & Secure</div>
-    </div>
-
-    <!-- Analytics Dashboard: Total Test Takers -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
-        <p class="text-xs text-slate-400 uppercase font-bold">Total Test Takers</p>
-        <h3 id="stat-total-takers" class="text-3xl font-black text-emerald-400 mt-1">1,248</h3>
-        <p class="text-[10px] text-slate-500 mt-1">Across all 4 targeted exams</p>
-      </div>
-      <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
-        <p class="text-xs text-slate-400 uppercase font-bold">Active Question Banks</p>
-        <h3 class="text-3xl font-black text-indigo-400 mt-1">4 Streams</h3>
-        <p class="text-[10px] text-slate-500 mt-1">Bihar Police, Daroga, Reasoning, Maths</p>
-      </div>
-      <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
-        <p class="text-xs text-slate-400 uppercase font-bold">System Mode</p>
-        <h3 class="text-3xl font-black text-amber-400 mt-1">Live Free</h3>
-        <p class="text-[10px] text-slate-500 mt-1">All 25 sets accessible</p>
-      </div>
-    </div>
-
-    <!-- Pricing Control Section -->
-    <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
-      <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
-        <i class="fa-solid fa-tags"></i> Exam Pricing & Access Control
-      </h3>
-      <p class="text-xs text-slate-400">Control whether sets are Free or require a pass for specific exams.</p>
-      
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
-          <div>
-            <p class="font-bold text-sm">Bihar Police</p>
-            <span class="text-[10px] text-slate-400">Current Access Mode</span>
+        <h3 class="text-lg font-black text-slate-900 mb-4">Targeted Examinations (25 Sets Each)</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          
+          <!-- Exam 1 -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl font-bold border border-indigo-100">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Bihar Police (Constable)</h4>
+                <p class="text-xs text-slate-500">25 Mock Sets • 1-2500 Questions</p>
+              </div>
+            </div>
+            <button onclick="openExamSetSelection('bihar_police')" class="mt-4 w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition">
+              View 25 Test Sets
+            </button>
           </div>
-          <select id="price-bihar_police" onchange="updatePricing('bihar_police')" class="bg-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-600 outline-none">
-            <option value="Free">Free Access</option>
-            <option value="Paid ₹99">Paid ₹99</option>
-          </select>
+
+          <!-- Exam 2 -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold border border-emerald-100">
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Bihar Daroga (SI)</h4>
+                <p class="text-xs text-slate-500">25 Mock Sets • 2500-5000 Questions</p>
+              </div>
+            </div>
+            <button onclick="openExamSetSelection('bihar_daroga')" class="mt-4 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition">
+              View 25 Test Sets
+            </button>
+          </div>
+
+          <!-- Exam 3 -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold border border-amber-100">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Reasoning</h4>
+                <p class="text-xs text-slate-500">25 Mock Sets • 100 Questions each</p>
+              </div>
+            </div>
+            <button onclick="openExamSetSelection('reasoning')" class="mt-4 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition">
+              View 25 Test Sets
+            </button>
+          </div>
+
+          <!-- Exam 4 -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl font-bold border border-rose-100">
+                <i class="fa-solid fa-calculator"></i>
+              </div>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Maths</h4>
+                <p class="text-xs text-slate-500">25 Mock Sets • 100 Questions each</p>
+              </div>
+            </div>
+            <button onclick="openExamSetSelection('maths')" class="mt-4 w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition">
+              View 25 Test Sets
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SET SELECTION SCREEN -->
+    <section id="set-selection-screen" class="hidden space-y-6 py-4">
+      <div class="flex items-center justify-between bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center gap-3">
+          <button onclick="showScreen('dashboard-screen')" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div>
+            <h3 id="set-selection-exam-title" class="text-lg font-black text-slate-900">Exam Sets</h3>
+            <p class="text-xs text-emerald-700 font-bold">Set 01 Free • Sets 02-25 Unlocked at ₹99 (All Courses)</p>
+          </div>
+        </div>
+        <button onclick="openPaymentModal()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow">
+          Unlock All in ₹99
+        </button>
+      </div>
+
+      <div id="sets-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+    </section>
+
+    <!-- CBT EXAM ENGINE -->
+    <section id="cbt-screen" class="hidden space-y-4 py-2 flex-1 flex-col">
+      <div class="bg-slate-900 text-white rounded-2xl p-4 shadow-lg flex items-center justify-between">
+        <div>
+          <h4 id="exam-header-title" class="text-sm sm:text-base font-bold">Mock Test</h4>
+          <p id="exam-user-tag" class="text-[11px] text-slate-300">Candidate</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="bg-slate-800 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-mono">
+            <i class="fa-regular fa-clock text-amber-400"></i>
+            <span id="exam-timer">60:00</span>
+          </div>
+          <button onclick="confirmSubmitExam()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-bold">Submit</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
+        <div class="lg:col-span-8 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm p-6 justify-between min-h-[420px]">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center text-xs font-bold text-slate-500">
+              <span id="current-q-index-badge">Question 1 / 100</span>
+              <span id="current-q-category" class="bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg">General</span>
+            </div>
+            <h3 id="question-text-hi" class="text-base font-bold text-slate-900">Loading...</h3>
+            <div id="options-container" class="space-y-3 pt-2"></div>
+          </div>
+          <div class="pt-4 border-t border-slate-100 flex justify-between">
+            <button onclick="navigateQuestion(-1)" class="px-3 py-2 bg-slate-100 text-xs font-bold rounded-xl">Previous</button>
+            <button onclick="saveAndNextQuestion()" class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl">Save & Next</button>
+          </div>
         </div>
 
-        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
-          <div>
-            <p class="font-bold text-sm">Bihar Daroga</p>
-            <span class="text-[10px] text-slate-400">Current Access Mode</span>
+        <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 p-4 space-y-4">
+          <h4 class="text-xs font-bold text-slate-800 uppercase">Question Palette</h4>
+          <div class="grid grid-cols-5 gap-2 max-h-[340px] overflow-y-auto custom-scrollbar p-1" id="palette-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCORECARD -->
+    <section id="result-screen" class="hidden space-y-6 py-4">
+      <div class="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-3xl p-6 text-white shadow-xl space-y-4">
+        <h3 id="result-exam-title" class="text-xl font-black">Scorecard</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div class="bg-slate-800/80 p-3 rounded-xl">Score: <span id="result-score" class="text-emerald-400 font-bold text-lg">0</span></div>
+          <div class="bg-slate-800/80 p-3 rounded-xl">Accuracy: <span id="result-accuracy" class="text-teal-400 font-bold text-lg">0%</span></div>
+          <div class="bg-slate-800/80 p-3 rounded-xl">Correct: <span id="result-correct" class="text-emerald-400 font-bold">0</span></div>
+          <div class="bg-slate-800/80 p-3 rounded-xl">Wrong: <span id="result-wrong" class="text-rose-400 font-bold">0</span></div>
+        </div>
+        <button onclick="showScreen('dashboard-screen')" class="px-4 py-2 bg-slate-700 text-xs font-bold rounded-xl">Back to Dashboard</button>
+      </div>
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 space-y-4">
+        <h4 class="font-bold text-sm">Detailed Solutions</h4>
+        <div id="solutions-list" class="space-y-4"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- AUTO-POPUP: ALL COURSES IN ₹99 -->
+  <div id="maha-popup-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-200 space-y-5 relative text-center">
+      <button onclick="closeMahaPopup()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      
+      <div class="w-16 h-16 rounded-3xl bg-amber-100 text-amber-600 flex items-center justify-center text-3xl mx-auto shadow-inner">
+        <i class="fa-solid fa-fire"></i>
+      </div>
+
+      <div class="space-y-2">
+        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
+          Maha Offer - Limited Time
+        </span>
+        <h3 class="text-2xl font-black text-slate-900">All Courses in ₹99 Only!</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          सिर्फ ₹99 के पेमेंट में <span class="font-bold text-slate-900">बिहार पुलिस, बिहार दारोगा, मैथ्स और रीजनिंग</span> के सभी 25-25 सेट्स हमेशा के लिए अनलॉक करें।
+        </p>
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank"
+           class="inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-xl shadow-blue-600/30 transition">
+          <i class="fa-solid fa-bolt text-amber-300"></i>
+          <span>Pay ₹99 via Razorpay</span>
+        </a>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 mb-1">भुगतान के बाद एक्सेस कोड दर्ज करें (Access Key)</label>
+          <div class="flex gap-2">
+            <input type="text" id="input-maha-key" placeholder="उदा. AMRIT99" class="flex-1 px-3 py-2 border rounded-xl text-xs uppercase font-mono">
+            <button onclick="verifyMahaKey()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl">सत्यापित करें</button>
           </div>
-          <select id="price-bihar_daroga" onchange="updatePricing('bihar_daroga')" class="bg-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-600 outline-none">
-            <option value="Free">Free Access</option>
-            <option value="Paid ₹99">Paid ₹99</option>
-          </select>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Question Bank JSON Uploader -->
-    <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
-      <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
-        <i class="fa-solid fa-file-code"></i> Upload / Update Question Bank (.JSON)
-      </h3>
-      <p class="text-xs text-slate-400">Paste or upload your JSON containing questions for all 4 categories (bihar police, bihar daroga, reasoning, maths).</p>
+  <!-- STANDARD PAYMENT MODAL -->
+  <div id="payment-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-200 space-y-4 relative text-center">
+      <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <h4 class="text-lg font-black text-slate-900">All Courses Maha Package - ₹99</h4>
+      <p class="text-xs text-slate-500">₹99 का भुगतान करके सभी 4 कोर्सेज के 25-25 सेट्स तुरंत अनलॉक करें।</p>
       
-      <textarea id="admin-json-input" rows="6" placeholder='{
-  "bihar police": [ { "question": "...", "options": [...], "answer": "..." } ],
-  "reasoning": [ { "question": "...", "options": [...], "answer": "..." } ]
-}' class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs font-mono text-emerald-300 outline-none"></textarea>
-      
-      <button onclick="saveAdminQBank()" class="py-2.5 px-5 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold text-xs transition">
-        Save Question Bank to Database
-      </button>
-      <span id="admin-msg" class="text-xs ml-3 text-emerald-400 font-semibold"></span>
+      <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank"
+         class="inline-block w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-lg transition">
+        Pay ₹99 via Razorpay
+      </a>
+
+      <div class="pt-2">
+        <label class="block text-[11px] font-bold text-slate-700 mb-1">एक्सेस कोड दर्ज करें</label>
+        <div class="flex gap-2">
+          <input type="text" id="input-std-key" placeholder="AMRIT99" class="flex-1 px-3 py-2 border rounded-xl text-xs uppercase font-mono">
+          <button onclick="verifyStdKey()" class="px-4 py-2 bg-slate-900 text-white font-bold text-xs rounded-xl">सत्यापित करें</button>
+        </div>
+      </div>
     </div>
+  </div>
 
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 max-w-xs bg-slate-900 text-white p-3 rounded-2xl shadow-xl translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-2 text-xs">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <div><h5 id="toast-title" class="font-bold">Notice</h5><p id="toast-msg" class="text-slate-300">Message</p></div>
   </div>
 
   <script>
-    // Load initial settings
+    let currentUser = null;
+    let currentAuthMode = 'login';
+    let selectedExamType = 'bihar_police';
+    let activeTestQuestions = [];
+    let currentQuestionIdx = 0;
+    let userAnswers = {};
+    let MASTER_JSON_DATA = {};
+
+    const EXAM_CONFIG = {
+      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", searchPattern: "biharpolice", baseOffset: 0 },
+      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", searchPattern: "bihardaroga", baseOffset: 2500 },
+      reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", searchPattern: "reason", baseOffset: 0 },
+      maths: { titleHi: "गणित (मैथ्स)", searchPattern: "math", baseOffset: 0 }
+    };
+
     window.addEventListener('DOMContentLoaded', () => {
-      ['bihar_police', 'bihar_daroga'].forEach(stream => {
-        const saved = localStorage.getItem(`price_${stream}`);
-        if(saved) document.getElementById(`price-${stream}`).value = saved;
-      });
+      const savedUser = localStorage.getItem('amrit_candidate');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        updateNavUser();
+        showScreen('dashboard-screen');
+      } else {
+        showScreen('auth-screen');
+      }
+      loadExternalJSON();
     });
 
-    function updatePricing(stream) {
-      const val = document.getElementById(`price-${stream}`).value;
-      localStorage.setItem(`price_${stream}`, val);
-      alert(`Pricing for ${stream} updated successfully to: ${val}`);
+    async function loadExternalJSON() {
+      try {
+        const res = await fetch('./questions.json?v=' + Date.now());
+        if (res.ok) MASTER_JSON_DATA = await res.json();
+      } catch (e) {}
     }
 
-    function saveAdminQBank() {
-      const raw = document.getElementById('admin-json-input').value.trim();
-      const msg = document.getElementById('admin-msg');
-      try {
-        const parsed = JSON.parse(raw);
-        localStorage.setItem('amrit_admin_qbanks', JSON.stringify(parsed));
-        msg.textContent = "Question bank updated successfully across all student devices!";
-      } catch(err) {
-        msg.textContent = "Error: Invalid JSON format.";
-        msg.className = "text-xs ml-3 text-rose-400 font-semibold";
+    function getQuestionsFromMaster(keyPattern) {
+      if (!MASTER_JSON_DATA) return [];
+      for (let k of Object.keys(MASTER_JSON_DATA)) {
+        if (k.toLowerCase().includes(keyPattern.toLowerCase())) return MASTER_JSON_DATA[k] || [];
       }
+      return [];
+    }
+
+    function isAllCoursesUnlocked() {
+      if (!currentUser || !currentUser.phone) return false;
+      return localStorage.getItem(`unlocked_all_${currentUser.phone}`) === 'true';
+    }
+
+    /* AUTH & TABS */
+    function switchAuthTab(mode) {
+      currentAuthMode = mode;
+      const tabLogin = document.getElementById('tab-login');
+      const tabRegister = document.getElementById('tab-register');
+      const nameContainer = document.getElementById('field-name-container');
+      const submitBtn = document.getElementById('btn-auth-submit');
+
+      if (mode === 'login') {
+        tabLogin.className = "flex-1 py-2 rounded-xl font-bold text-xs transition bg-white text-slate-900 shadow-sm border border-slate-200";
+        tabRegister.className = "flex-1 py-2 rounded-xl font-bold text-xs transition text-slate-500 hover:text-slate-800";
+        nameContainer.classList.add('hidden');
+        submitBtn.textContent = "Login to Dashboard";
+      } else {
+        tabRegister.className = "flex-1 py-2 rounded-xl font-bold text-xs transition bg-white text-slate-900 shadow-sm border border-slate-200";
+        tabLogin.className = "flex-1 py-2 rounded-xl font-bold text-xs transition text-slate-500 hover:text-slate-800";
+        nameContainer.classList.remove('hidden');
+        submitBtn.textContent = "Complete Registration";
+      }
+    }
+
+    function handleAuthSubmit() {
+      const phone = document.getElementById('input-phone').value.trim();
+      const password = document.getElementById('input-password').value.trim();
+      let name = "Student";
+
+      if (currentAuthMode === 'register') {
+        name = document.getElementById('input-name').value.trim();
+        if (!name) {
+          showToast('error', 'त्रुटि', 'कृपया अपना पूरा नाम दर्ज करें।');
+          return;
+        }
+      }
+
+      if (phone.length === 10 && password.length > 5) {
+        currentUser = { name, phone };
+        localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
+        updateNavUser();
+        showScreen('dashboard-screen');
+
+        // Login ke turant baad Maha Offer popup dikhana agar unlocked nahi hai
+        if (!isAllCoursesUnlocked()) {
+          setTimeout(() => {
+            document.getElementById('maha-popup-modal').classList.remove('hidden');
+          }, 500);
+        }
+      } else {
+        showToast('error', 'त्रुटि', 'मान्य 10 अंकों का मोबाइल नंबर और 6+ अंकों का पासवर्ड दर्ज करें।');
+      }
+    }
+
+    function verifyMahaKey() {
+      const code = document.getElementById('input-maha-key').value.trim().toUpperCase();
+      if (code === 'AMRIT99') {
+        localStorage.setItem(`unlocked_all_${currentUser.phone}`, 'true');
+        closeMahaPopup();
+        showToast('success', 'सफलता!', 'सभी कोर्सेज सफलतापूर्वक अनलॉक हो गए हैं।');
+      } else {
+        showToast('error', 'गलत कोड', 'अमान्य कोड! कृपया WhatsApp (6207662510) पर संपर्क करें।');
+      }
+    }
+
+    function verifyStdKey() {
+      const code = document.getElementById('input-std-key').value.trim().toUpperCase();
+      if (code === 'AMRIT99') {
+        localStorage.setItem(`unlocked_all_${currentUser.phone}`, 'true');
+        closePaymentModal();
+        showToast('success', 'सफलता!', 'सभी कोर्सेज सफलतापूर्वक अनलॉक हो गए हैं।');
+        if (selectedExamType) render25SetsGrid(selectedExamType);
+      } else {
+        showToast('error', 'गलत कोड', 'अमान्य कोड!');
+      }
+    }
+
+    function closeMahaPopup() { document.getElementById('maha-popup-modal').classList.add('hidden'); }
+    function openPaymentModal() { document.getElementById('payment-modal').classList.remove('hidden'); }
+    function closePaymentModal() { document.getElementById('payment-modal').classList.add('hidden'); }
+
+    function fillDemoCredentials() {
+      document.getElementById('input-phone').value = "6207662510";
+      document.getElementById('input-password').value = "amrit123";
+      if (currentAuthMode === 'register') document.getElementById('input-name').value = "Ayush Kumar";
+    }
+
+    function updateNavUser() {
+      if (currentUser) {
+        document.getElementById('nav-user-profile').classList.remove('hidden');
+        document.getElementById('nav-user-profile').classList.add('flex');
+        document.getElementById('nav-user-name').textContent = currentUser.name;
+        document.getElementById('nav-user-phone').textContent = currentUser.phone;
+      }
+    }
+
+    function logoutCandidate() {
+      localStorage.removeItem('amrit_candidate');
+      currentUser = null;
+      showScreen('auth-screen');
+    }
+
+    function openExamSetSelection(examKey) {
+      selectedExamType = examKey;
+      const config = EXAM_CONFIG[examKey];
+      document.getElementById('set-selection-exam-title').textContent = config.titleHi;
+      render25SetsGrid(examKey);
+      showScreen('set-selection-screen');
+    }
+
+    function render25SetsGrid(examKey) {
+      const container = document.getElementById('sets-container');
+      container.innerHTML = '';
+      const isUnlocked = isAllCoursesUnlocked();
+
+      for (let i = 1; i <= 25; i++) {
+        const isFreeDemo = (i === 1);
+        const canAccess = isFreeDemo || isUnlocked;
+        const setNum = i < 10 ? `0${i}` : `${i}`;
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl border p-4 shadow-sm flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border">SET ${setNum}</span>
+            <h4 class="text-sm font-bold text-slate-900 mt-2">Mock Test ${setNum}</h4>
+            <p class="text-[11px] text-slate-500 mt-1">100 Questions • 60 Min</p>
+          </div>
+          <button onclick="handleSetClick('${examKey}', ${i})" class="mt-4 w-full py-2 rounded-xl text-white text-xs font-bold ${canAccess ? 'bg-slate-900 hover:bg-emerald-600' : 'bg-amber-500 hover:bg-amber-600 text-slate-950'}">
+            ${canAccess ? `Start Set ${setNum}` : `Unlock All (₹99)`}
+          </button>
+        `;
+        container.appendChild(card);
+      }
+    }
+
+    function handleSetClick(examKey, setNum) {
+      if (setNum === 1 || isAllCoursesUnlocked()) {
+        startSpecificExamSet(examKey, setNum);
+      } else {
+        openPaymentModal();
+      }
+    }
+
+    function startSpecificExamSet(examKey, setNum) {
+      const config = EXAM_CONFIG[examKey];
+      let bank = getQuestionsFromMaster(config.searchPattern);
+      if (bank.length === 0) bank = getQuestionsFromMaster("police");
+
+      const baseOffset = config.baseOffset || 0;
+      let setQuestions = bank.slice(baseOffset + (setNum - 1) * 100, baseOffset + setNum * 100);
+      if (setQuestions.length === 0) setQuestions = bank.slice((setNum - 1) * 100, setNum * 100);
+
+      activeTestQuestions = setQuestions.map((item, idx) => ({
+        id: item.id || (idx + 1),
+        category: item.category || "General",
+        qHi: item.question || `Question ${idx + 1}`,
+        options: item.options || [],
+        correct: (item.options || []).findIndex(o => String(o).trim() === String(item.answer).trim())
+      }));
+
+      currentQuestionIdx = 0;
+      userAnswers = {};
+      document.getElementById('exam-header-title').textContent = `${config.titleHi} - Set ${setNum}`;
+      renderPalette();
+      renderQuestion(0);
+      showScreen('cbt-screen');
+    }
+
+    function renderPalette() {
+      const palette = document.getElementById('palette-grid');
+      palette.innerHTML = '';
+      activeTestQuestions.forEach((_, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `palette-btn-${idx}`;
+        btn.textContent = idx + 1;
+        btn.className = "w-full aspect-square rounded-lg text-xs font-bold palette-not-visited flex items-center justify-center";
+        btn.onclick = () => renderQuestion(idx);
+        palette.appendChild(btn);
+      });
+      updatePaletteButton(0);
+    }
+
+    function updatePaletteButton(idx) {
+      const btn = document.getElementById(`palette-btn-${idx}`);
+      if (!btn) return;
+      btn.className = `w-full aspect-square rounded-lg text-xs font-bold flex items-center justify-center ${userAnswers[idx] !== undefined ? 'palette-answered' : 'palette-not-answered'} palette-active`;
+    }
+
+    function renderQuestion(idx) {
+      currentQuestionIdx = idx;
+      const q = activeTestQuestions[idx];
+      document.getElementById('current-q-index-badge').textContent = `Question: ${idx + 1} / ${activeTestQuestions.length}`;
+      document.getElementById('question-text-hi').textContent = q.qHi;
+      
+      const opts = document.getElementById('options-container');
+      opts.innerHTML = '';
+      ['A', 'B', 'C', 'D'].forEach((letter, oIdx) => {
+        if (!q.options[oIdx]) return;
+        const isSel = userAnswers[idx] === oIdx;
+        const div = document.createElement('div');
+        div.onclick = () => { userAnswers[idx] = oIdx; updatePaletteButton(idx); renderQuestion(idx); };
+        div.className = `p-3 rounded-xl border cursor-pointer text-xs flex items-center gap-3 ${isSel ? 'bg-emerald-50 border-emerald-500 font-bold' : 'bg-white border-slate-200'}`;
+        div.innerHTML = `<span class="w-6 h-6 rounded bg-slate-100 flex items-center justify-center font-mono">${letter}</span><span>${q.options[oIdx]}</span>`;
+        opts.appendChild(div);
+      });
+    }
+
+    function saveAndNextQuestion() {
+      if (currentQuestionIdx < activeTestQuestions.length - 1) renderQuestion(currentQuestionIdx + 1);
+    }
+
+    function navigateQuestion(delta) {
+      if (activeTestQuestions[currentQuestionIdx + delta]) renderQuestion(currentQuestionIdx + delta);
+    }
+
+    function confirmSubmitExam() { executeExamSubmission(); }
+
+    function executeExamSubmission() {
+      let correct = 0, wrong = 0;
+      activeTestQuestions.forEach((q, idx) => {
+        if (userAnswers[idx] !== undefined) {
+          if (userAnswers[idx] === q.correct) correct++; else wrong++;
+        }
+      });
+      const score = Math.max(0, (correct * 1.0) - (wrong * 0.2)).toFixed(2);
+      document.getElementById('result-score').textContent = score;
+      document.getElementById('result-correct').textContent = correct;
+      document.getElementById('result-wrong').textContent = wrong;
+      document.getElementById('result-accuracy').textContent = `${Math.round((correct/(correct+wrong||1))*100)}%`;
+      showScreen('result-screen');
+    }
+
+    function showToast(type, title, msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-msg').textContent = msg;
+      t.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => t.classList.add('translate-y-24', 'opacity-0'), 3000);
+    }
+
+    function showScreen(screenId) {
+      ['auth-screen', 'dashboard-screen', 'set-selection-screen', 'cbt-screen', 'result-screen'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+      const target = document.getElementById(screenId);
+      if (target) target.classList.remove('hidden');
     }
   </script>
 </body>
