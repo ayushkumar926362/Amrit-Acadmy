@@ -18,6 +18,7 @@
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
   <style>
@@ -90,8 +91,11 @@
           <i class="fa-brands fa-youtube"></i> YouTube
         </a>
         <div id="nav-user-profile" class="hidden items-center gap-2 pl-2 border-l border-slate-200">
-          <span id="nav-user-name" class="text-xs font-bold text-slate-900">Student</span>
-          <button onclick="logoutCandidate()" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 flex items-center justify-center text-xs">
+          <div class="text-right hidden sm:block">
+            <p id="nav-user-name" class="text-xs font-bold text-slate-900 leading-tight">Student</p>
+            <p id="nav-user-phone" class="text-[10px] text-slate-500 font-mono">9876543210</p>
+          </div>
+          <button onclick="logoutCandidate()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 flex items-center justify-center text-xs border border-slate-200" title="Logout">
             <i class="fa-solid fa-right-from-bracket"></i>
           </button>
         </div>
@@ -102,29 +106,53 @@
   <!-- MAIN WRAPPER -->
   <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-start relative z-10">
 
-    <!-- LOGIN SCREEN -->
+    <!-- LOGIN & REGISTRATION SCREEN -->
     <section id="auth-screen" class="my-auto py-6 max-w-md mx-auto w-full">
       <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
+        
         <div class="bg-gradient-to-br from-slate-900 to-indigo-950 p-6 text-white">
           <h2 class="text-xl font-black">Welcome to Amrit Academy</h2>
           <p class="text-xs text-slate-300 mt-1">All Courses Maha Package (Bihar Police, Daroga, Maths, Reasoning)</p>
         </div>
+
+        <!-- Tabs -->
+        <div class="flex border-b border-slate-200 bg-slate-50 p-1.5 gap-1.5">
+          <button id="tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-xl font-bold text-xs transition bg-white text-slate-900 shadow-sm border border-slate-200">
+            Student Login
+          </button>
+          <button id="tab-register" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-xl font-bold text-xs transition text-slate-500 hover:text-slate-800">
+            New Registration
+          </button>
+        </div>
+
         <div class="p-6 space-y-4">
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700">Mobile Number (10 Digits)</label>
-            <input type="tel" id="input-phone" maxlength="10" placeholder="e.g. 6207662510"
-                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-emerald-500">
-          </div>
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700">Password</label>
-            <input type="password" id="input-password" placeholder="Password"
+          <!-- Full Name (Register Only) -->
+          <div id="field-name-container" class="hidden space-y-1">
+            <label class="block text-xs font-bold text-slate-700">Full Name *</label>
+            <input type="text" id="input-name" placeholder="Enter your full name"
                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500">
           </div>
-          <button onclick="handleAuthSubmit()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition">
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700">Mobile Number (10 Digits) *</label>
+            <input type="tel" id="input-phone" maxlength="10" placeholder="e.g. 6207662510"
+                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:ring-2 focus:ring-emerald-500"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700">Password (Min 6 chars) *</label>
+            <input type="password" id="input-password" placeholder="Enter password"
+                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500">
+          </div>
+
+          <button onclick="handleAuthSubmit()" id="btn-auth-submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition">
             Login to Dashboard
           </button>
-          <div class="text-center pt-2">
-            <button onclick="fillDemoCredentials()" class="text-xs text-emerald-700 underline font-medium">Demo Login (Auto-fill)</button>
+
+          <div class="flex items-center justify-between pt-2 text-xs">
+            <button onclick="fillDemoCredentials()" class="text-emerald-700 underline font-medium">Demo Login (Auto-fill)</button>
+            <button onclick="openForgotPasswordModal()" id="link-forgot-pwd" class="text-slate-500 hover:text-slate-800 underline">Forgot Password?</button>
           </div>
         </div>
       </div>
@@ -136,7 +164,7 @@
         <div>
           <span class="px-3 py-1 rounded-full bg-white/10 text-emerald-200 text-xs font-semibold">Maha Offer Active</span>
           <h2 id="dash-greeting" class="text-2xl font-black mt-1">Welcome, Aspirant!</h2>
-          <p class="text-xs text-emerald-100 mt-0.5">सभी कोर्स मात्र ₹99 में अनलॉक करें और अपनी तैयारी मजबूत करें।</p>
+          <p class="text-xs text-emerald-100 mt-0.5">सभी 4 कोर्सेज (बिहार पुलिस, दारोगा, मैथ्स, रीजनिंग) मात्र ₹99 में अनलॉक करें।</p>
         </div>
         <button onclick="openPaymentModal()" class="px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-lg transition animate-pulse">
           ⚡ Unlock All Courses in ₹99
@@ -224,7 +252,7 @@
           </button>
           <div>
             <h3 id="set-selection-exam-title" class="text-lg font-black text-slate-900">Exam Sets</h3>
-            <p class="text-xs text-emerald-700 font-bold">All Courses Maha Offer: ₹99 Only</p>
+            <p class="text-xs text-emerald-700 font-bold">Set 01 Free • Sets 02-25 Unlocked at ₹99 (All Courses)</p>
           </div>
         </div>
         <button onclick="openPaymentModal()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow">
@@ -309,19 +337,24 @@
         </span>
         <h3 class="text-2xl font-black text-slate-900">All Courses in ₹99 Only!</h3>
         <p class="text-xs text-slate-600 leading-relaxed">
-          सिर्फ ₹99 के वन-टाइम पेमेंट में <span class="font-bold text-slate-900">बिहार पुलिस, बिहार दारोगा, मैथ्स और रीजनिंग</span> के सभी 25-25 सेट्स हमेशा के लिए अनलॉक करें।
+          सिर्फ ₹99 के पेमेंट में <span class="font-bold text-slate-900">बिहार पुलिस, बिहार दारोगा, मैथ्स और रीजनिंग</span> के सभी 25-25 सेट्स हमेशा के लिए अनलॉक करें।
         </p>
       </div>
 
       <div class="space-y-3 pt-2">
-        <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank" onclick="handleMahaPaymentSuccess()"
+        <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank"
            class="inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-xl shadow-blue-600/30 transition">
           <i class="fa-solid fa-bolt text-amber-300"></i>
-          <span>Pay ₹99 via Razorpay & Unlock All</span>
+          <span>Pay ₹99 via Razorpay</span>
         </a>
-        <button onclick="closeMahaPopup()" class="text-xs text-slate-500 hover:text-slate-700 font-semibold underline">
-          बाद में भुगतान करें (Set 01 Free देखें)
-        </button>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 mb-1">भुगतान के बाद एक्सेस कोड दर्ज करें (Access Key)</label>
+          <div class="flex gap-2">
+            <input type="text" id="input-maha-key" placeholder="उदा. AMRIT99" class="flex-1 px-3 py-2 border rounded-xl text-xs uppercase font-mono">
+            <button onclick="verifyMahaKey()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl">सत्यापित करें</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -333,10 +366,39 @@
       <h4 class="text-lg font-black text-slate-900">All Courses Maha Package - ₹99</h4>
       <p class="text-xs text-slate-500">₹99 का भुगतान करके सभी 4 कोर्सेज के 25-25 सेट्स तुरंत अनलॉक करें।</p>
       
-      <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank" onclick="handleMahaPaymentSuccess()"
+      <a href="https://rzp.io/rzp/p7Gaytdq" target="_blank"
          class="inline-block w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-lg transition">
         Pay ₹99 via Razorpay
       </a>
+
+      <div class="pt-2">
+        <label class="block text-[11px] font-bold text-slate-700 mb-1">एक्सेस कोड दर्ज करें</label>
+        <div class="flex gap-2">
+          <input type="text" id="input-std-key" placeholder="AMRIT99" class="flex-1 px-3 py-2 border rounded-xl text-xs uppercase font-mono">
+          <button onclick="verifyStdKey()" class="px-4 py-2 bg-slate-900 text-white font-bold text-xs rounded-xl">सत्यापित करें</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD MODAL -->
+  <div id="forgot-modal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-200 space-y-4 relative">
+      <button onclick="closeForgotModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <h4 class="text-base font-black text-slate-900">Reset Password</h4>
+      <p class="text-xs text-slate-500">अपना रजिस्टर्ड मोबाइल नंबर और नया पासवर्ड दर्ज करें।</p>
+      
+      <div class="space-y-3 pt-2">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Registered Mobile Number</label>
+          <input type="tel" id="forgot-phone" maxlength="10" placeholder="10 digit number" class="w-full px-3 py-2 border rounded-xl text-xs font-mono">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">New Password (Min 6 chars)</label>
+          <input type="password" id="forgot-new-pwd" placeholder="New Password" class="w-full px-3 py-2 border rounded-xl text-xs">
+        </div>
+        <button onclick="executePasswordReset()" class="w-full py-2.5 bg-slate-900 text-white font-bold text-xs rounded-xl">पासवर्ड अपडेट करें</button>
+      </div>
     </div>
   </div>
 
@@ -347,7 +409,25 @@
   </div>
 
   <script>
+    // Firebase Real Setup Configuration Integrated
+    const firebaseConfig = {
+      apiKey: "AIzaSyB5t2BXzm9_5cnvHG5f1vhqCnA7VcYdYFY",
+      authDomain: "amrit-academy.firebaseapp.com",
+      projectId: "amrit-academy",
+      storageBucket: "amrit-academy.appspot.com",
+      messagingSenderId: "948995947252",
+      appId: "1:948995947252:web:7b863f05d368baecd2fca1",
+      measurementId: "G-74SB5SER75"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
+
     let currentUser = null;
+    let currentAuthMode = 'login';
     let selectedExamType = 'bihar_police';
     let activeTestQuestions = [];
     let currentQuestionIdx = 0;
@@ -355,10 +435,10 @@
     let MASTER_JSON_DATA = {};
 
     const EXAM_CONFIG = {
-      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", titleEn: "Bihar Police", searchPattern: "biharpolice", baseOffset: 0 },
-      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", titleEn: "Bihar Daroga", searchPattern: "bihardaroga", baseOffset: 2500 },
-      reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", titleEn: "Reasoning", searchPattern: "reason", baseOffset: 0 },
-      maths: { titleHi: "गणित (मैथ्स)", titleEn: "Maths", searchPattern: "math", baseOffset: 0 }
+      bihar_police: { titleHi: "बिहार पुलिस (कांस्टेबल)", searchPattern: "biharpolice", baseOffset: 0 },
+      bihar_daroga: { titleHi: "बिहार दारोगा (SI)", searchPattern: "bihardaroga", baseOffset: 2500 },
+      reasoning: { titleHi: "तर्कशक्ति (रीजनिंग)", searchPattern: "reason", baseOffset: 0 },
+      maths: { titleHi: "गणित (मैथ्स)", searchPattern: "math", baseOffset: 0 }
     };
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -393,42 +473,164 @@
       return localStorage.getItem(`unlocked_all_${currentUser.phone}`) === 'true';
     }
 
+    /* AUTH & TABS SYSTEM */
+    function switchAuthTab(mode) {
+      currentAuthMode = mode;
+      const tabLogin = document.getElementById('tab-login');
+      const tabRegister = document.getElementById('tab-register');
+      const nameContainer = document.getElementById('field-name-container');
+      const submitBtn = document.getElementById('btn-auth-submit');
+      const forgotLink = document.getElementById('link-forgot-pwd');
+
+      if (mode === 'login') {
+        tabLogin.className = "flex-1 py-2 rounded-xl font-bold text-xs transition bg-white text-slate-900 shadow-sm border border-slate-200";
+        tabRegister.className = "flex-1 py-2 rounded-xl font-bold text-xs transition text-slate-500 hover:text-slate-800";
+        nameContainer.classList.add('hidden');
+        submitBtn.textContent = "Login to Dashboard";
+        forgotLink.classList.remove('hidden');
+      } else {
+        tabRegister.className = "flex-1 py-2 rounded-xl font-bold text-xs transition bg-white text-slate-900 shadow-sm border border-slate-200";
+        tabLogin.className = "flex-1 py-2 rounded-xl font-bold text-xs transition text-slate-500 hover:text-slate-800";
+        nameContainer.classList.remove('hidden');
+        submitBtn.textContent = "Complete Registration";
+        forgotLink.classList.add('hidden');
+      }
+    }
+
     function handleAuthSubmit() {
       const phone = document.getElementById('input-phone').value.trim();
       const password = document.getElementById('input-password').value.trim();
-      if (phone.length === 10 && password.length > 5) {
-        currentUser = { name: "Student", phone };
-        localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
-        updateNavUser();
-        showScreen('dashboard-screen');
-
-        // LOGIN KE TURANT BAAD ₹99 MAHA OFFER POPUP SHOW KRNA
-        if (!isAllCoursesUnlocked()) {
-          setTimeout(() => {
-            document.getElementById('maha-popup-modal').classList.remove('hidden');
-          }, 500);
-        }
-      } else {
-        showToast('error', 'त्रुटि', 'मान्य 10 अंकों का नंबर और पासवर्ड दर्ज करें।');
+      
+      if (phone.length !== 10) {
+        showToast('error', 'त्रुटि', 'कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।');
+        return;
       }
+      if (password.length < 6) {
+        showToast('error', 'त्रुटि', 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।');
+        return;
+      }
+
+      // Sync with Firebase Realtime Database
+      db.ref('users/' + phone).once('value', (snapshot) => {
+        const userData = snapshot.val();
+
+        if (currentAuthMode === 'register') {
+          const name = document.getElementById('input-name').value.trim();
+          if (!name) {
+            showToast('error', 'त्रुटि', 'कृपया अपना पूरा नाम दर्ज करें।');
+            return;
+          }
+          if (userData) {
+            showToast('error', 'रजिस्टर्ड है', 'यह मोबाइल नंबर पहले से रजिस्टर्ड है। कृपया लॉगिन करें।');
+            return;
+          }
+          // Save new user to Firebase DB
+          db.ref('users/' + phone).set({ name, password }, (error) => {
+            if (!error) {
+              currentUser = { name, phone };
+              localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
+              updateNavUser();
+              showScreen('dashboard-screen');
+              showToast('success', 'पंजीकरण सफल', 'आपका खाता बन गया है!');
+              setTimeout(() => {
+                document.getElementById('maha-popup-modal').classList.remove('hidden');
+              }, 500);
+            } else {
+              showToast('error', 'त्रुटि', 'पंजीकरण विफल रहा। पुनः प्रयास करें।');
+            }
+          });
+        } else {
+          // Login Mode
+          if (!userData) {
+            showToast('error', 'नंबर रजिस्टर्ड नहीं है', 'यह मोबाइल नंबर रजिस्टर्ड नहीं है। कृपया पहले "New Registration" करें।');
+            return;
+          }
+          if (userData.password !== password) {
+            showToast('error', 'गलत पासवर्ड', 'आपने गलत पासवर्ड दर्ज किया है।');
+            return;
+          }
+          currentUser = { name: userData.name, phone };
+          localStorage.setItem('amrit_candidate', JSON.stringify(currentUser));
+          updateNavUser();
+          showScreen('dashboard-screen');
+
+          if (!isAllCoursesUnlocked()) {
+            setTimeout(() => {
+              document.getElementById('maha-popup-modal').classList.remove('hidden');
+            }, 500);
+          }
+        }
+      });
     }
 
-    function closeMahaPopup() {
-      document.getElementById('maha-popup-modal').classList.add('hidden');
+    /* FORGOT PASSWORD LOGIC */
+    function openForgotPasswordModal() {
+      document.getElementById('forgot-modal').classList.remove('hidden');
+    }
+    function closeForgotModal() {
+      document.getElementById('forgot-modal').classList.add('hidden');
+    }
+    function executePasswordReset() {
+      const phone = document.getElementById('forgot-phone').value.trim();
+      const newPwd = document.getElementById('forgot-new-pwd').value.trim();
+
+      if (phone.length !== 10) {
+        showToast('error', 'त्रुटि', 'मान्य 10 अंकों का नंबर दर्ज करें।');
+        return;
+      }
+      if (newPwd.length < 6) {
+        showToast('error', 'कमजोर पासवर्ड', 'नया पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।');
+        return;
+      }
+
+      db.ref('users/' + phone).once('value', (snapshot) => {
+        if (!snapshot.exists()) {
+          showToast('error', 'अज्ञात नंबर', 'यह मोबाइल नंबर हमारे डेटाबेस में रजिस्टर्ड नहीं है।');
+          return;
+        }
+        db.ref('users/' + phone).update({ password: newPwd }, (error) => {
+          if (!error) {
+            closeForgotModal();
+            showToast('success', 'सफलता', 'पासवर्ड सफलतापूर्वक बदल गया है! अब आप लॉगिन करें।');
+          } else {
+            showToast('error', 'त्रुटि', 'पासवर्ड अपडेट करने में समस्या आई।');
+          }
+        });
+      });
     }
 
-    function handleMahaPaymentSuccess() {
-      if (currentUser && currentUser.phone) {
+    function verifyMahaKey() {
+      const code = document.getElementById('input-maha-key').value.trim().toUpperCase();
+      if (code === 'AMRIT99') {
         localStorage.setItem(`unlocked_all_${currentUser.phone}`, 'true');
         closeMahaPopup();
-        closePaymentModal();
-        showToast('success', 'सफलता!', '₹99 भुगतान सफल! आपके सभी कोर्सेज हमेशा के लिए अनलॉक हो गए हैं।');
+        showToast('success', 'सफलता!', 'सभी कोर्सेज सफलतापूर्वक अनलॉक हो गए हैं।');
+      } else {
+        showToast('error', 'गलत कोड', 'अमान्य कोड! कृपया WhatsApp (6207662510) पर संपर्क करें।');
       }
     }
+
+    function verifyStdKey() {
+      const code = document.getElementById('input-std-key').value.trim().toUpperCase();
+      if (code === 'AMRIT99') {
+        localStorage.setItem(`unlocked_all_${currentUser.phone}`, 'true');
+        closePaymentModal();
+        showToast('success', 'सफलता!', 'सभी कोर्सेज सफलतापूर्वक अनलॉक हो गए हैं।');
+        if (selectedExamType) render25SetsGrid(selectedExamType);
+      } else {
+        showToast('error', 'गलत कोड', 'अमान्य कोड!');
+      }
+    }
+
+    function closeMahaPopup() { document.getElementById('maha-popup-modal').classList.add('hidden'); }
+    function openPaymentModal() { document.getElementById('payment-modal').classList.remove('hidden'); }
+    function closePaymentModal() { document.getElementById('payment-modal').classList.add('hidden'); }
 
     function fillDemoCredentials() {
       document.getElementById('input-phone').value = "6207662510";
       document.getElementById('input-password').value = "amrit123";
+      if (currentAuthMode === 'register') document.getElementById('input-name').value = "Ayush Kumar";
+      showToast('info', 'डेमो भरा गया', 'क्रेडेंशियल्स भर दिए गए हैं, अब बटन दबाएं।');
     }
 
     function updateNavUser() {
@@ -436,6 +638,7 @@
         document.getElementById('nav-user-profile').classList.remove('hidden');
         document.getElementById('nav-user-profile').classList.add('flex');
         document.getElementById('nav-user-name').textContent = currentUser.name;
+        document.getElementById('nav-user-phone').textContent = currentUser.phone;
       }
     }
 
@@ -484,13 +687,6 @@
       } else {
         openPaymentModal();
       }
-    }
-
-    function openPaymentModal() {
-      document.getElementById('payment-modal').classList.remove('hidden');
-    }
-    function closePaymentModal() {
-      document.getElementById('payment-modal').classList.add('hidden');
     }
 
     function startSpecificExamSet(examKey, setNum) {
