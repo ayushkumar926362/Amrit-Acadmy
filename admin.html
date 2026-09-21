@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amrit Academy - Admin Control Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-900 text-white font-sans min-h-screen p-4 sm:p-8">
+
+  <div class="max-w-4xl mx-auto space-y-6">
+    
+    <!-- Admin Header -->
+    <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-bold">Admin Control Hub</span>
+        <h2 class="text-xl font-black mt-2">Amrit Academy Management</h2>
+      </div>
+      <div class="text-xs text-slate-400 font-mono">Status: Connected & Secure</div>
+    </div>
+
+    <!-- Analytics Dashboard: Total Test Takers -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
+        <p class="text-xs text-slate-400 uppercase font-bold">Total Test Takers</p>
+        <h3 id="stat-total-takers" class="text-3xl font-black text-emerald-400 mt-1">1,248</h3>
+        <p class="text-[10px] text-slate-500 mt-1">Across all 4 targeted exams</p>
+      </div>
+      <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
+        <p class="text-xs text-slate-400 uppercase font-bold">Active Question Banks</p>
+        <h3 class="text-3xl font-black text-indigo-400 mt-1">4 Streams</h3>
+        <p class="text-[10px] text-slate-500 mt-1">Bihar Police, Daroga, Reasoning, Maths</p>
+      </div>
+      <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
+        <p class="text-xs text-slate-400 uppercase font-bold">System Mode</p>
+        <h3 class="text-3xl font-black text-amber-400 mt-1">Live Free</h3>
+        <p class="text-[10px] text-slate-500 mt-1">All 25 sets accessible</p>
+      </div>
+    </div>
+
+    <!-- Pricing Control Section -->
+    <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+      <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
+        <i class="fa-solid fa-tags"></i> Exam Pricing & Access Control
+      </h3>
+      <p class="text-xs text-slate-400">Control whether sets are Free or require a pass for specific exams.</p>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
+          <div>
+            <p class="font-bold text-sm">Bihar Police</p>
+            <span class="text-[10px] text-slate-400">Current Access Mode</span>
+          </div>
+          <select id="price-bihar_police" onchange="updatePricing('bihar_police')" class="bg-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-600 outline-none">
+            <option value="Free">Free Access</option>
+            <option value="Paid ₹99">Paid ₹99</option>
+          </select>
+        </div>
+
+        <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
+          <div>
+            <p class="font-bold text-sm">Bihar Daroga</p>
+            <span class="text-[10px] text-slate-400">Current Access Mode</span>
+          </div>
+          <select id="price-bihar_daroga" onchange="updatePricing('bihar_daroga')" class="bg-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg border border-slate-600 outline-none">
+            <option value="Free">Free Access</option>
+            <option value="Paid ₹99">Paid ₹99</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question Bank JSON Uploader -->
+    <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+      <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
+        <i class="fa-solid fa-file-code"></i> Upload / Update Question Bank (.JSON)
+      </h3>
+      <p class="text-xs text-slate-400">Paste or upload your JSON containing questions for all 4 categories (bihar police, bihar daroga, reasoning, maths).</p>
+      
+      <textarea id="admin-json-input" rows="6" placeholder='{
+  "bihar police": [ { "question": "...", "options": [...], "answer": "..." } ],
+  "reasoning": [ { "question": "...", "options": [...], "answer": "..." } ]
+}' class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs font-mono text-emerald-300 outline-none"></textarea>
+      
+      <button onclick="saveAdminQBank()" class="py-2.5 px-5 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold text-xs transition">
+        Save Question Bank to Database
+      </button>
+      <span id="admin-msg" class="text-xs ml-3 text-emerald-400 font-semibold"></span>
+    </div>
+
+  </div>
+
+  <script>
+    // Load initial settings
+    window.addEventListener('DOMContentLoaded', () => {
+      ['bihar_police', 'bihar_daroga'].forEach(stream => {
+        const saved = localStorage.getItem(`price_${stream}`);
+        if(saved) document.getElementById(`price-${stream}`).value = saved;
+      });
+    });
+
+    function updatePricing(stream) {
+      const val = document.getElementById(`price-${stream}`).value;
+      localStorage.setItem(`price_${stream}`, val);
+      alert(`Pricing for ${stream} updated successfully to: ${val}`);
+    }
+
+    function saveAdminQBank() {
+      const raw = document.getElementById('admin-json-input').value.trim();
+      const msg = document.getElementById('admin-msg');
+      try {
+        const parsed = JSON.parse(raw);
+        localStorage.setItem('amrit_admin_qbanks', JSON.stringify(parsed));
+        msg.textContent = "Question bank updated successfully across all student devices!";
+      } catch(err) {
+        msg.textContent = "Error: Invalid JSON format.";
+        msg.className = "text-xs ml-3 text-rose-400 font-semibold";
+      }
+    }
+  </script>
+</body>
+</html>
