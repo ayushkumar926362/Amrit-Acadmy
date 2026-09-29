@@ -268,9 +268,14 @@
     <!-- CBT EXAM ENGINE -->
     <section id="cbt-screen" class="hidden space-y-4 py-2 flex-1 flex-col">
       <div class="bg-slate-900 text-white rounded-2xl p-4 shadow-lg flex items-center justify-between">
-        <div>
-          <h4 id="exam-header-title" class="text-sm sm:text-base font-bold">Mock Test</h4>
-          <p id="exam-user-tag" class="text-[11px] text-slate-300">Candidate</p>
+        <div class="flex items-center gap-3">
+          <button onclick="confirmExitExam()" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-xs" title="Back to Sets">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div>
+            <h4 id="exam-header-title" class="text-sm sm:text-base font-bold">Mock Test</h4>
+            <p id="exam-user-tag" class="text-[11px] text-slate-300">Candidate</p>
+          </div>
         </div>
         <div class="flex items-center gap-3">
           <div class="bg-slate-800 px-3 py-1.5 rounded-xl flex items-center gap-2 text-xs font-mono">
@@ -435,6 +440,7 @@
     let currentQuestionIdx = 0;
     let userAnswers = {};
     let MASTER_JSON_DATA = {};
+    let examTimerInterval = null;
 
     const EXAM_CONFIG = {
       bihar_police: { titleHi: "Bihar Police (Constable)", searchPattern: "biharpolice", baseOffset: 0 },
@@ -487,7 +493,6 @@
       loadExternalJSON();
     });
 
-    // Updated to load 'question.json'
     async function loadExternalJSON() {
       const files = ['./question.json', 'question.json'];
       for (let f of files) {
@@ -734,7 +739,7 @@
             <p class="text-[11px] text-slate-500 mt-1">100 Questions • 60 Min</p>
           </div>
           <button onclick="handleSetClick('${examKey}', ${i})" class="mt-4 w-full py-2 rounded-xl text-white text-xs font-bold ${canAccess ? 'bg-slate-900 hover:bg-emerald-600' : 'bg-amber-500 hover:bg-amber-600 text-slate-950'}">
-            ${canAccess ? `Start Set ${setNum}` : `Unlock All in ₹99`}
+            ${canAccess ? `Start Set ${setNum}` : `<i class="fa-solid fa-lock mr-1"></i> Unlock All in ₹99`}
           </button>
         `;
         container.appendChild(card);
@@ -759,7 +764,7 @@
           bank.push({
             id: q,
             category: config.titleHi,
-            question: `Sample Question ${q} for ${config.titleHi} - Test Set ${setNum}?`,
+            question: `Sample Question ${q} for ${config.titleHi} Test Set ${setNum}?`,
             options: ["Option A (Correct)", "Option B", "Option C", "Option D"],
             answer: "Option A (Correct)"
           });
@@ -780,10 +785,37 @@
 
       currentQuestionIdx = 0;
       userAnswers = {};
-      document.getElementById('exam-header-title').textContent = `${config.titleHi} - Set ${setNum}`;
+      document.getElementById('exam-header-title').textContent = `${config.titleHi} Set ${setNum < 10 ? '0' + setNum : setNum}`;
+      document.getElementById('exam-user-tag').textContent = currentUser ? currentUser.name : 'Candidate';
+      
       renderPalette();
       renderQuestion(0);
+      startExamTimer(60 * 60); // 60 minutes timer
       showScreen('cbt-screen');
+    }
+
+    function startExamTimer(durationInSeconds) {
+      if (examTimerInterval) clearInterval(examTimerInterval);
+      let timer = durationInSeconds;
+      const timerDisplay = document.getElementById('exam-timer');
+
+      examTimerInterval = setInterval(() => {
+        let minutes = parseInt(timer / 60, 10);
+        let seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        if (timerDisplay) {
+          timerDisplay.textContent = `${minutes}:${seconds}`;
+        }
+
+        if (--timer < 0) {
+          clearInterval(examTimerInterval);
+          showToast('error', 'Time Up!', 'Pariksha ka samay samapt ho gaya hai.');
+          executeExamSubmission();
+        }
+      }, 1000);
     }
 
     function renderPalette() {
@@ -833,13 +865,22 @@
       if (activeTestQuestions[currentQuestionIdx + delta]) renderQuestion(currentQuestionIdx + delta);
     }
 
+    function confirmExitExam() {
+      if (confirm("Kya aap test se bahar aana chahte hain? Aapki progress submit nahi hogi.")) {
+        if (examTimerInterval) clearInterval(examTimerInterval);
+        showScreen('set-selection-screen');
+      }
+    }
+
     function confirmSubmitExam() { 
       if (confirm("Kya aap waqai test submit karna chahte hain?")) {
+        if (examTimerInterval) clearInterval(examTimerInterval);
         executeExamSubmission(); 
       }
     }
 
     function executeExamSubmission() {
+      if (examTimerInterval) clearInterval(examTimerInterval);
       let correct = 0, wrong = 0;
       activeTestQuestions.forEach((q, idx) => {
         if (userAnswers[idx] !== undefined) {
@@ -860,6 +901,7 @@
       if (cbtScreen && !cbtScreen.classList.contains('hidden')) {
         history.pushState(null, null, location.href);
         if (confirm("Kya aap test se bahar aana chahte hain? Aapki progress submit nahi hogi.")) {
+          if (examTimerInterval) clearInterval(examTimerInterval);
           showScreen('dashboard-screen');
         }
       }
